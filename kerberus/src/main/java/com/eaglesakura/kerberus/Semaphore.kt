@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.eaglesakura.ktx.cerberus
+package com.eaglesakura.kerberus
 
 import kotlinx.coroutines.experimental.CancellationException
 import kotlinx.coroutines.experimental.NonCancellable

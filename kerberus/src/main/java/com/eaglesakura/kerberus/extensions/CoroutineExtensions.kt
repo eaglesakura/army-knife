@@ -1,8 +1,8 @@
-package com.eaglesakura.ktx.cerberus.extensions
+package com.eaglesakura.kerberus.extensions
 
-import com.eaglesakura.ktx.cerberus.Deferrer
-import com.eaglesakura.ktx.cerberus.DelayToken
-import com.eaglesakura.ktx.cerberus.Monitor
+import com.eaglesakura.kerberus.Deferrer
+import com.eaglesakura.kerberus.DelayToken
+import com.eaglesakura.kerberus.Monitor
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlin.coroutines.experimental.CoroutineContext

@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.cerberus
+package com.eaglesakura.kerberus
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

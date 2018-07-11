@@ -1,2 +1,4 @@
+include ':kerberus'
+
 include ':army-knife-junit'
 include ':army-knife'

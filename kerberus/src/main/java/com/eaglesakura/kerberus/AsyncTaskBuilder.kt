@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.cerberus
+package com.eaglesakura.kerberus
 
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI

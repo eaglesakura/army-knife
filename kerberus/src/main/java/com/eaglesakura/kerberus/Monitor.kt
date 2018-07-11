@@ -1,7 +1,9 @@
-package com.eaglesakura.ktx.cerberus
+package com.eaglesakura.kerberus
 
 import androidx.lifecycle.Lifecycle
-import com.eaglesakura.ktx.android.extensions.subscribe
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.experimental.Job
 
 /**
@@ -70,3 +72,16 @@ class CancelOnDestroyMonitor(private val lifecycle: Lifecycle) : Monitor {
         }
     }
 }
+
+/**
+ * Subscribe lifecycle's event.
+ */
+private fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
+    this.addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+        fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
+            receiver.invoke(event)
+        }
+    })
+}
+

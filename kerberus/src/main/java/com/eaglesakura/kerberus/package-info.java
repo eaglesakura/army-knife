@@ -3,4 +3,4 @@
  * Kotlin experimental機能であるcoroutineベースで書き直されている.
  * また、DSLによる記述を前提としている.
  */
-package com.eaglesakura.ktx.cerberus;
+package com.eaglesakura.kerberus;
