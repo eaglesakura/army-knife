@@ -6,7 +6,7 @@ import com.eaglesakura.KtxTestCase
 import com.eaglesakura.ktx.junit.blockingTest
 import com.eaglesakura.ktx.runtime.extensions.withTimeout
 import com.eaglesakura.ktx.sloth.SlothLog
-import oneshotlivedata.newEventObserver
+import com.eaglesakura.oneshotlivedata.newEventObserver
 import kotlinx.coroutines.experimental.NonCancellable
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
