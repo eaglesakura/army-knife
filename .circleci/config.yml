@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "army-knife/build.gradle" }}-{{ checksum "army-knife-junit/build.gradle" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}-{{ checksum "army-knife/build.gradle" }}
       - run:
           name: setup
           command: |
@@ -33,7 +33,7 @@ jobs:
             - ~/.gradle
             - ~/.m2
             - ~/project/.configs
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "army-knife/build.gradle" }}-{{ checksum "army-knife-junit/build.gradle" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}-{{ checksum "army-knife/build.gradle" }}
       - store_artifacts:
           path: /tmp/artifacts
 workflows:
