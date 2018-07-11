@@ -10,8 +10,8 @@ val CoroutineContext.job: Job?
     get() = this[Job]
 
 /**
- * キャンセルチェック用のコールバックを生成する.
- * これはJava言語のライブラリとsuspend関数の処理をつなげるために利用する.
+ * Make a cancel-callback function from job.
+ * Use to non-coroutine functions or in the java world.
  */
 fun CoroutineContext.asCancelCallback(): () -> Boolean {
     val currentJob = this.job
