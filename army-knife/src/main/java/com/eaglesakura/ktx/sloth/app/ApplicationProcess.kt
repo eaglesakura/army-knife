@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.util.Log
 import com.eaglesakura.ktx.android.ApplicationRuntime
 import com.eaglesakura.ktx.android.hardware.DisplayInfo
-import com.eaglesakura.ktx.oneshotlivedata.EventId
-import com.eaglesakura.ktx.oneshotlivedata.EventStream
 import com.eaglesakura.ktx.runtime.Random
 import com.eaglesakura.ktx.sloth.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
 import com.eaglesakura.ktx.sloth.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
+import com.eaglesakura.oneshotlivedata.EventId
+import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.runBlocking
 import java.lang.ref.WeakReference
 

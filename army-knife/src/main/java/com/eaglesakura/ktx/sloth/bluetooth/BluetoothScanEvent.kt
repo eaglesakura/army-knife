@@ -1,8 +1,8 @@
 package com.eaglesakura.ktx.sloth.bluetooth
 
 import android.bluetooth.le.ScanResult
-import com.eaglesakura.ktx.oneshotlivedata.Event
-import com.eaglesakura.ktx.oneshotlivedata.EventId
+import com.eaglesakura.oneshotlivedata.Event
+import com.eaglesakura.oneshotlivedata.EventId
 
 class BluetoothScanEvent(override val id: EventId, val scanResult: ScanResult) : Event {
 

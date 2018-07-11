@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.oneshotlivedata
+package com.eaglesakura.oneshotlivedata
 
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread

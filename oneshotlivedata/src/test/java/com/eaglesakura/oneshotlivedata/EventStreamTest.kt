@@ -1,6 +1,6 @@
-package com.eaglesakura.ktx.oneshotlivedata
+package com.eaglesakura.oneshotlivedata
 
-import com.eaglesakura.ktx.BaseTestCase
+import com.eaglesakura.BaseTestCase
 import org.junit.Assert.*
 import org.junit.Test
 

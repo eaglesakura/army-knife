@@ -14,9 +14,6 @@ buildscript {
             exclude group: "com.google.guava", module: "guava-jdk5"
         }
         classpath 'com.google.guava:guava:22.0'
-        // for Google Play / Firebase
-        classpath 'com.google.gms:google-services:3.2.0'
-        classpath 'io.fabric.tools:gradle:1.25.4'
 
         // Build support plugins.
         classpath "com.eaglesakura:plugin-ci-support:1.3.1"

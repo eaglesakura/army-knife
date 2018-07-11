@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx
+package com.eaglesakura
 
 import android.app.Application
 import org.junit.Before

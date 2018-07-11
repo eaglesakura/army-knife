@@ -1,6 +1,6 @@
 package com.eaglesakura.ktx.android.db
 
-import com.eaglesakura.ktx.BaseTestCase
+import com.eaglesakura.BaseTestCase
 import com.eaglesakura.ktx.android.logger.Logger
 import org.junit.Assert.*
 import org.junit.Test

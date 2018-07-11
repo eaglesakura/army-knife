@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.oneshotlivedata
+package com.eaglesakura.oneshotlivedata
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.experimental.android.UI

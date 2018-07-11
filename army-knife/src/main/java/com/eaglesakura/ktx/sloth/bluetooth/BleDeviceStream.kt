@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.eaglesakura.ktx.android.RuntimePermissions
 import com.eaglesakura.ktx.sloth.SlothLog
-import com.eaglesakura.ktx.oneshotlivedata.EventStream
+import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async

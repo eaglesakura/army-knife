@@ -1,6 +1,6 @@
 package com.eaglesakura.ktx.runtime.io
 
-import com.eaglesakura.ktx.BaseTestCase
+import com.eaglesakura.BaseTestCase
 import kotlinx.coroutines.experimental.CancellationException
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.oneshotlivedata
+package com.eaglesakura.oneshotlivedata
 
 class EventId(private val name: String) : Event {
     override val id: Any

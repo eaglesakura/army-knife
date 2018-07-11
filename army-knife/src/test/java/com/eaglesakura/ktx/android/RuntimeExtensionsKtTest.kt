@@ -1,6 +1,6 @@
 package com.eaglesakura.ktx.android
 
-import com.eaglesakura.ktx.BaseTestCase
+import com.eaglesakura.BaseTestCase
 import com.eaglesakura.ktx.runtime.extensions.asCancelCallback
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel

@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.oneshotlivedata
+package com.eaglesakura.oneshotlivedata
 
 class DataState<T>(val raw: T) {
 

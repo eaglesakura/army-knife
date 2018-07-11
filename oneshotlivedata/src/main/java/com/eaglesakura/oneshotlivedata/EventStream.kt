@@ -1,4 +1,4 @@
-package com.eaglesakura.ktx.oneshotlivedata
+package com.eaglesakura.oneshotlivedata
 
 /**
  * Event data with subscribe.
