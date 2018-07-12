@@ -23,7 +23,7 @@ abstract class KtxTestCase {
     val textContext: Context
         get() = InstrumentationRegistry.getContext()
 
-    val LOG_TAG = javaClass.simpleName
+    val LOG_TAG = javaClass.simpleName!!
 
     @Before
     open fun setUp() {

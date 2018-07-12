@@ -1,0 +1,159 @@
+package com.eaglesakura.armyknife.sloth.app
+
+import android.app.Activity
+import android.app.Application
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import com.eaglesakura.armyknife.android.ApplicationRuntime
+import com.eaglesakura.armyknife.android.hardware.DisplayInfo
+import com.eaglesakura.armyknife.runtime.Random
+import com.eaglesakura.armyknife.sloth.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
+import com.eaglesakura.armyknife.sloth.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
+import com.eaglesakura.oneshotlivedata.EventId
+import com.eaglesakura.oneshotlivedata.EventStream
+import kotlinx.coroutines.experimental.runBlocking
+import java.lang.ref.WeakReference
+
+class ApplicationProcess(val application: Application) {
+
+    /**
+     * Logger function.
+     */
+    var log: (msg: String) -> Unit = { msg ->
+        Log.d(javaClass.simpleName, msg)
+    }
+
+    val processId: String = Random.smallString()
+
+    private val settings: SystemSettings
+
+    /**
+     * @see EVENT_APPLICATION_BACKGROUND
+     * @see EVENT_APPLICATION_FOREGROUND
+     */
+    val event: EventStream = EventStream(EVENT_APPLICATION_BACKGROUND, EVENT_APPLICATION_FOREGROUND)
+
+    private val activityCallback = ActivityCallbackImpl(event)
+
+    lateinit var versionContext: VersionContext
+
+    init {
+        application.registerActivityLifecycleCallbacks(activityCallback)
+        settings = SystemSettings(application)
+        refreshSettings()
+        printDeviceInfo()
+    }
+
+    private fun refreshSettings() {
+        if (settings.installUniqueId.isEmpty()) {
+            settings.installUniqueId = Random.string()
+        }
+
+        val oldVersionCode = settings.lastBootedAppVersionCode
+        val oldVersionName = settings.lastBootedAppVersionName
+        val oldSdkInt = settings.lastBootedApiLevel
+
+        val versionCode = ApplicationRuntime.getVersionCode(application)
+        val versionName = ApplicationRuntime.getVersionName(application)
+        val sdkInt = Build.VERSION.SDK_INT
+
+        log("Install Unique ID [${settings.installUniqueId}]")
+        log("Process Unique ID [$processId]")
+        log("VersionCode       [$oldVersionCode] -> [$versionCode]")
+        log("VersionName       [$oldVersionName] -> [$versionName]")
+        log("API Level         [$oldSdkInt] -> [$sdkInt]")
+
+        versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
+
+        runBlocking {
+            settings.transaction {
+                settings.lastBootedAppVersionCode = versionCode
+                settings.lastBootedAppVersionName = versionName
+                settings.lastBootedApiLevel = sdkInt
+            }
+        }
+    }
+
+    private fun printDeviceInfo() {
+        if (!ApplicationRuntime.isDebug(application)) {
+            return
+        }
+
+        log("========= Runtime Information =========")
+        log("== Device ${Build.MODEL}")
+        DisplayInfo.newInstance(application).also { displayInfo ->
+            log("== Display ${displayInfo.diagonalRoundInch.major}.${displayInfo.diagonalRoundInch.minor} inch = ${displayInfo.deviceType.name}")
+            log("==   Display [${displayInfo.widthPixel} x ${displayInfo.heightPixel}] pix")
+            log("==   Display [%.1f x %.1f] dp".format(displayInfo.widthDp, displayInfo.heightDp))
+            log("==   res/values-${displayInfo.dpi.name}")
+            log("==   res/values-sw${displayInfo.smallestWidthDp}dp")
+        }
+        log("========= Runtime Information =========")
+    }
+
+    companion object {
+        /**
+         * Application move to Foreground.
+         */
+        @JvmStatic
+        val EVENT_APPLICATION_FOREGROUND = EventId("EVENT_APPLICATION_FOREGROUND")
+
+        /**
+         * Application move to background.
+         */
+        @JvmStatic
+        val EVENT_APPLICATION_BACKGROUND = EventId("EVENT_APPLICATION_BACKGROUND")
+    }
+}
+
+internal class ActivityCallbackImpl(private val event: EventStream) : Application.ActivityLifecycleCallbacks {
+
+    /**
+     * Foregroundとして扱われているActivity
+     */
+    private var foregroundActivity: WeakReference<Activity>? = null
+
+    override fun onActivityStarted(activity: Activity?) {
+        var moveToForeground = false
+        if (foregroundActivity == null || foregroundActivity?.get() == null) {
+            // フォアグラウンドに移動した
+            moveToForeground = true
+        }
+
+        foregroundActivity = WeakReference<Activity>(activity)
+        if (moveToForeground) {
+            event.setOneshot(EVENT_APPLICATION_FOREGROUND)
+        }
+    }
+
+
+    override fun onActivityCreated(activity: Activity?, state: Bundle?) {
+    }
+
+    override fun onActivityResumed(activity: Activity?) {
+    }
+
+    override fun onActivityPaused(activity: Activity?) {
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity?, state: Bundle?) {
+    }
+
+    override fun onActivityStopped(activity: Activity?) {
+        // 自身がForegroundであったのなら、参照を排除する
+        if (foregroundActivity?.get() === activity) {
+            foregroundActivity = null
+        }
+
+        // Activityがなくなったら通知
+        if (foregroundActivity == null) {
+            event.setOneshot(EVENT_APPLICATION_BACKGROUND)
+        }
+    }
+
+    override fun onActivityDestroyed(activity: Activity?) {
+    }
+
+
+}
