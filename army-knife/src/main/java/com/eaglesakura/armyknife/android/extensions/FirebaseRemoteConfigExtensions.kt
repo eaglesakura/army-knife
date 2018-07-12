@@ -80,6 +80,12 @@ fun FirebaseRemoteConfig.fetch(cacheTime: Long, cacheTimeUnit: TimeUnit): Task<V
  *
  * Firebase has fatal issue, Firebase SDK(9.x) do not callback on task finished time.
  * Resolve it, by value-polling.
+ *
+ * @see FETCH_STATUS_FLAG_ACTIVATE
+ * @see FETCH_STATUS_FLAG_CACHED
+ * @see FETCH_STATUS_FLAG_COMPLETED
+ * @see FETCH_STATUS_FLAG_FAILED
+ * @see FETCH_STATUS_HAS_VALUES
  */
 suspend fun FirebaseRemoteConfig.fetchAndActivate(cacheTime: Long = 1, cacheTimeUnit: TimeUnit = TimeUnit.HOURS): Int {
     val task = async(coroutineContext + UI) { fetch(cacheTime, cacheTimeUnit) }.await()
