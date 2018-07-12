@@ -8,4 +8,4 @@ Source codes in this repository are all test(or playground) version.
 
 `Kerberus` is coroutine-base async tasks library with Kotlin.
 
-When java, use the [Cerberus](https://github.com/eaglesakura/cerberus) library.
+If you love java, use the [Cerberus](https://github.com/eaglesakura/cerberus) library.

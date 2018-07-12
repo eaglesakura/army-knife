@@ -20,10 +20,12 @@ class ApplicationProcess(val application: Application) {
     /**
      * Logger function.
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     var log: (msg: String) -> Unit = { msg ->
         Log.d(javaClass.simpleName, msg)
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     val processId: String = Random.smallString()
 
     private val settings: SystemSettings
@@ -36,7 +38,10 @@ class ApplicationProcess(val application: Application) {
 
     private val activityCallback = ActivityCallbackImpl(event)
 
-    lateinit var versionContext: VersionContext
+    private lateinit var _versionContext: VersionContext
+
+    val versionContext: VersionContext
+        get() = _versionContext
 
     init {
         application.registerActivityLifecycleCallbacks(activityCallback)
@@ -64,7 +69,7 @@ class ApplicationProcess(val application: Application) {
         log("VersionName       [$oldVersionName] -> [$versionName]")
         log("API Level         [$oldSdkInt] -> [$sdkInt]")
 
-        versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
+        _versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
 
         runBlocking {
             settings.transaction {

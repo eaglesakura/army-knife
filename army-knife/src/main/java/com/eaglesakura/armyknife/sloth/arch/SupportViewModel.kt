@@ -25,10 +25,6 @@ abstract class SupportViewModel : ViewModel(), StatefulViewModel {
      */
     var owner: ViewModelOwner? = null
 
-    /**
-     * 現在バインドされているContext.
-     * 所有者がいないならば、nullを返却する.
-     */
     val context: Context?
         get() = owner?.context
 
@@ -50,14 +46,8 @@ abstract class SupportViewModel : ViewModel(), StatefulViewModel {
     protected open fun onDetach() {
     }
 
-    /**
-     * 現在のステートを保存する.
-     */
     override fun save(): Bundle? = null
 
-    /**
-     * 保存されたステートを復元する
-     */
     override fun restore(bundle: Bundle) {}
 
     /**
