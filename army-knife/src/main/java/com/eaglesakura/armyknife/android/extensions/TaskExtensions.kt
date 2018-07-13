@@ -3,6 +3,7 @@ package com.eaglesakura.armyknife.android.extensions
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.common.api.Result
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.experimental.CancellationException
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
@@ -11,6 +12,9 @@ suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> {
     val channel = Channel<Unit>()
     addOnCompleteListener {
         launch(UI) { channel.send(Unit) }
+    }
+    addOnCanceledListener {
+        channel.close(CancellationException())
     }
     channel.receive()
     return this
