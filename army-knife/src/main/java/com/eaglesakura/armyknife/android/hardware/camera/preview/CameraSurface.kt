@@ -8,43 +8,43 @@ import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureSize
 
 
 class CameraSurface {
-    private var mNativeSurface: Surface? = null
+    private var nativeSurface: Surface? = null
 
-    private var mSurfaceTexture: SurfaceTexture? = null
+    private var surfaceTexture: SurfaceTexture? = null
 
     constructor(surfaceTexture: SurfaceTexture) {
-        mSurfaceTexture = surfaceTexture
+        this.surfaceTexture = surfaceTexture
     }
 
     constructor(nativeSurface: Surface) {
-        mNativeSurface = nativeSurface
+        this.nativeSurface = nativeSurface
     }
 
     fun getNativeSurface(previewSize: CaptureSize): Surface {
-        mSurfaceTexture?.also { surfaceTexture ->
+        surfaceTexture?.also { surfaceTexture ->
             if (Build.VERSION.SDK_INT >= 15) {
                 surfaceTexture.setDefaultBufferSize(previewSize.width, previewSize.height)
             }
 
-            if (mNativeSurface == null) {
-                mNativeSurface = Surface(mSurfaceTexture)
+            if (nativeSurface == null) {
+                nativeSurface = Surface(this.surfaceTexture)
             }
         }
 
-        if (mNativeSurface == null) {
-            throw NullPointerException("mNativeSurface == null")
+        if (nativeSurface == null) {
+            throw NullPointerException("nativeSurface == null")
         }
 
-        return mNativeSurface!!
+        return nativeSurface!!
     }
 
 
     fun getSurfaceTexture(previewSize: CaptureSize): SurfaceTexture {
-        mSurfaceTexture?.also { surfaceTexture ->
+        surfaceTexture?.also { surfaceTexture ->
             if (Build.VERSION.SDK_INT >= 15) {
                 surfaceTexture.setDefaultBufferSize(previewSize.width, previewSize.height)
             }
         }
-        return mSurfaceTexture!!
+        return surfaceTexture!!
     }
 }
