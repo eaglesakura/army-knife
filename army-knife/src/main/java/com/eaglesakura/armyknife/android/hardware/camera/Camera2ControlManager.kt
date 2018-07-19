@@ -13,11 +13,13 @@ import com.eaglesakura.armyknife.android.hardware.camera.error.CameraAccessFaile
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraSecurityException
 import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
+import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
 import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
+import okhttp3.internal.Util
 import java.util.ArrayList
 
 
@@ -145,7 +147,11 @@ class Camera2ControlManager(
 
     @Synchronized
     @Throws(CameraException::class)
-    private fun getSession(): CameraCaptureSession {
+    private suspend fun getSession(): CameraCaptureSession {
+        if (camera == null) {
+            throw CameraAccessFailedException("connect() not called")
+        }
+
         if (captureSession != null) {
             return captureSession!!
         }
@@ -159,44 +165,29 @@ class Camera2ControlManager(
         pictureShotRequest?.also { cameraPictureShotRequest ->
             imageReader = ImageReader.newInstance(
                     cameraPictureShotRequest.captureSize.width, cameraPictureShotRequest.captureSize.height,
-                    if (mPictureShotRequest.getCaptureFormat() === CaptureFormat.Raw) ImageFormat.RAW_SENSOR else ImageFormat.JPEG,
+                    if (cameraPictureShotRequest.format === CaptureFormat.Raw) ImageFormat.RAW_SENSOR else ImageFormat.JPEG,
                     2
             )
-            surfaces.add(mImageReader.getSurface())
-        }
-        if (pictureShotRequest != null) {
+            surfaces.add(imageReader!!.surface)
         }
 
-        val errorHolder = Holder<CameraException>()
-        val sessionHolder = Holder<CameraCaptureSession>()
-        if (mCamera == null) {
-            throw CameraAccessFailedException("connect() not called")
-        }
-
+        val channel = Channel<CameraCaptureSession>()
         try {
-            mCamera.createCaptureSession(surfaces, object : CameraCaptureSession.StateCallback() {
+            camera!!.createCaptureSession(surfaces, object : CameraCaptureSession.StateCallback() {
                 override fun onConfigured(session: CameraCaptureSession) {
-                    sessionHolder.set(session)
+                    launch(controlDispatcher) {
+                        channel.send(session)
+                    }
                 }
 
                 override fun onConfigureFailed(session: CameraCaptureSession) {
-                    errorHolder.set(CameraException("Session create failed"))
+                    channel.close(CameraException("Session create failed"))
                 }
-            }, mControlHandler)
+            }, conrolHandler)
+            return channel.receive()
         } catch (e: CameraAccessException) {
             throw CameraAccessFailedException(e)
         }
-
-        while (errorHolder.get() == null && sessionHolder.get() == null) {
-            Util.sleep(1)
-        }
-
-        if (errorHolder.get() != null) {
-            throw errorHolder.get()
-        }
-
-        mCaptureSession = sessionHolder.get()
-        return mCaptureSession
     }
 
     override suspend fun startPreview(env: CameraEnvironmentRequest?) {
@@ -206,7 +197,7 @@ class Camera2ControlManager(
             val previewSession = getSession()
 
             // プレビューを開始する
-            if (mPreviewCaptureRequest == null) {
+            if (previewCaptureRequest == null) {
                 val builder = newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW)
                 builder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
                 builder.addTarget(mPreviewSurface.getNativeSurface(mPreviewRequest.getPreviewSize()))
