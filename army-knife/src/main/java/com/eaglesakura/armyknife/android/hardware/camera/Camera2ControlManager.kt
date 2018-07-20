@@ -85,7 +85,7 @@ class Camera2ControlManager(
     override val connected: Boolean
         get() = camera != null
 
-    override suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?): Unit = withContext(controlDispatcher) {
+    override suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?): Unit = withContext(controlDispatcher!!) {
         val channel = Channel<CameraDevice>()
 
         try {
@@ -179,7 +179,7 @@ class Camera2ControlManager(
         try {
             camera!!.createCaptureSession(surfaces, object : CameraCaptureSession.StateCallback() {
                 override fun onConfigured(session: CameraCaptureSession) {
-                    launch(controlDispatcher) {
+                    launch(controlDispatcher!!) {
                         channel.send(session)
                     }
                 }
@@ -298,7 +298,6 @@ class Camera2ControlManager(
             throw IllegalStateException("Preview not started")
         }
 
-        val env = env!!
         val session = getSession()
         val imageReader = this.imageReader!!
         val pictureShotRequest = this.pictureShotRequest!!
@@ -309,13 +308,13 @@ class Camera2ControlManager(
             // 撮影コールバック
             val captureCallback = object : CameraCaptureSession.CaptureCallback() {
                 override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-                    launch(controlDispatcher) {
+                    launch(controlDispatcher!!) {
                         captureCompleted.send(true)
                     }
                 }
 
                 override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
-                    launch(controlDispatcher) {
+                    launch(controlDispatcher!!) {
                         captureCompleted.cancel(PictureFailedException("Fail reason[${failure.reason}]"))
                     }
                 }
@@ -327,7 +326,7 @@ class Camera2ControlManager(
                 val buffer = image.planes[0].buffer
                 val onMemoryFile = ByteArray(buffer.capacity())
                 buffer.get(onMemoryFile)
-                launch(controlDispatcher) {
+                launch(controlDispatcher!!) {
                     picture.send(PictureData(image.width, image.height, onMemoryFile))
                 }
                 image.close()
@@ -344,7 +343,7 @@ class Camera2ControlManager(
                 builder.set(CaptureRequest.JPEG_GPS_LOCATION, loc)
             }
 
-            if (FocusMode.SETTING_AUTO == env.focusMode) {
+            if (FocusMode.SETTING_AUTO == env?.focusMode) {
                 builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
                 builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
             }
