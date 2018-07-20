@@ -18,4 +18,5 @@ data class CameraPictureShotRequest(
 ) {
     val hasLocation: Boolean
         get() = latitude != null && longitude != null
+                && latitude != 0.0 && longitude != 0.0
 }

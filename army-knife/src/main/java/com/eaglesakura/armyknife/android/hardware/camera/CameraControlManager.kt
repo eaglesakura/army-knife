@@ -7,16 +7,18 @@ import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
 
 /**
- * 同期的なカメラ制御を提供する
+ * This class utilities for camera on android device.
  *
+ * When this class use in Android 5.0 or later,It use the camera2 api.
+ * Or else,It use the legacy camera api.
  *
- * 内部はAndroid 5.0以上であればCamera2 APIを、それ以外であればCamera1 APIを使用する
+ * Methods in this class are non-callback programming model.
+ * Should use "connect()", "startPreview()" and more in "kotlin-coroutines" function.
  *
- *
- * 互換性を保つため、撮影は必ずconnect > preview > takePicture の順で行わなければならない。
+ * Want to take a picture, Should call methods as follows.
  * - 1. connect
  * - 2. startPreview
- * - 3. takePicture
+ * - 3(optional). takePicture
  * - 4. stopPreview
  * - 5. disconnect
  */
@@ -29,7 +31,7 @@ abstract class CameraControlManager {
     /**
      * プレビュー中であればtrue
      */
-    abstract val isPreviewNow: Boolean
+    abstract val previewNow: Boolean
 
     abstract val connected: Boolean
 
@@ -67,10 +69,6 @@ abstract class CameraControlManager {
     abstract suspend fun takePicture(env: CameraEnvironmentRequest?): PictureData
 
     companion object {
-
-        /**
-         * カメラ制御クラスを生成する
-         */
         @Throws(CameraException::class)
         fun newInstance(context: Context, api: CameraApi, request: CameraConnectRequest): CameraControlManager {
             var api = api
@@ -82,6 +80,9 @@ abstract class CameraControlManager {
                 }
             }
 
+            if (api == CameraApi.Camera2) {
+                return Camera2ControlManager(context, request)
+            }
             TODO("impl")
             //        if (api == CameraApi.Camera2) {
             //            // Camera2
@@ -92,9 +93,6 @@ abstract class CameraControlManager {
             //        }
         }
 
-        /**
-         * デフォルトのAPIでカメラ制御クラスを生成する
-         */
         @Throws(CameraException::class)
         fun newInstance(context: Context, request: CameraConnectRequest): CameraControlManager {
             return newInstance(context, CameraApi.Default, request)
