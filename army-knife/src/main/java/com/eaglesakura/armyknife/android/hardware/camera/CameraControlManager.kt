@@ -23,14 +23,9 @@ import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
  * - 5. disconnect
  */
 abstract class CameraControlManager {
-    /**
-     * 利用しているAPIを取得する
-     */
+
     abstract val supportApi: CameraApi
 
-    /**
-     * プレビュー中であればtrue
-     */
     abstract val previewNow: Boolean
 
     abstract val connected: Boolean
@@ -38,9 +33,9 @@ abstract class CameraControlManager {
     /**
      * 撮影用の設定を指定して接続する
      *
-     * @param previewSurface プレビュー用のサーフェイス
-     * @param previewRequest プレビュー設定
-     * @param shotRequest    撮影設定
+     * @param previewSurface Preview target surface
+     * @param previewRequest Preview settings.
+     * @param shotRequest    Picture settings.
      */
     @Throws(CameraException::class)
     abstract suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?)
@@ -48,7 +43,10 @@ abstract class CameraControlManager {
     abstract suspend fun disconnect()
 
     /**
-     * カメラプレビューを開始する
+     * Start preview from initialized a camera to the render surface.
+     *
+     * If you should be use a camera in the background service,
+     * Should use the offscreen-surface.
      */
     @Throws(CameraException::class)
     abstract suspend fun startPreview(env: CameraEnvironmentRequest?)
@@ -63,7 +61,7 @@ abstract class CameraControlManager {
     abstract suspend fun stopPreview()
 
     /**
-     * 写真撮影を行わせる
+     * Take a picture with optional environments.
      */
     @Throws(CameraException::class)
     abstract suspend fun takePicture(env: CameraEnvironmentRequest?): PictureData
@@ -83,14 +81,7 @@ abstract class CameraControlManager {
             if (api == CameraApi.Camera2) {
                 return Camera2ControlManager(context, request)
             }
-            TODO("impl")
-            //        if (api == CameraApi.Camera2) {
-            //            // Camera2
-            //            return new Camera2ControlManager(context, request);
-            //        } else {
-            //            // Camera1
-            //            return new LegacyCameraControlManager(context, request);
-            //        }
+            TODO("should implements the legacy camera api in this version(or less) android.")
         }
 
         @Throws(CameraException::class)
