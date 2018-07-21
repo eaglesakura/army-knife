@@ -25,6 +25,7 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import java.util.*
+import kotlin.coroutines.experimental.coroutineContext
 
 
 @SuppressLint("MissingPermission")
@@ -85,53 +86,58 @@ class Camera2ControlManager(
     override val connected: Boolean
         get() = camera != null
 
-    override suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?): Unit = withContext(controlDispatcher!!) {
-        val channel = Channel<CameraDevice>()
+    override suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?) {
+        controlHandler = AsyncHandler.newInstance("camera-control-${hashCode()}")
+        controlDispatcher = HandlerContext(controlHandler!!, "camera-dispatcher-${hashCode()}")
+        processingHandler = AsyncHandler.newInstance("camera-processing-${hashCode()}")
 
-        try {
-            this.pictureShotRequest = shotRequest
-            this.previewRequest = previewRequest
-            this.previewSurface = previewSurface
+        withContext(coroutineContext + controlDispatcher!!) {
+            val channel = Channel<CameraDevice>()
 
-            controlHandler = AsyncHandler.newInstance("camera-control-${hashCode()}")
-            controlDispatcher = HandlerContext(controlHandler!!, "camera-dispatcher-${hashCode()}")
-            processingHandler = AsyncHandler.newInstance("camera-processing-${hashCode()}")
+            try {
+                this.pictureShotRequest = shotRequest
+                this.previewRequest = previewRequest
+                this.previewSurface = previewSurface
 
 
-            spec.cameraManager.openCamera(spec.cameraId, object : CameraDevice.StateCallback() {
-                override fun onOpened(cameraDevice: CameraDevice) {
-                    launch(controlDispatcher!!) {
-                        channel.send(cameraDevice)
-                    }
-                }
-
-                override fun onDisconnected(cameraDevice: CameraDevice) {
-                    cameraDevice.close()
-                    camera = null
-                }
-
-                override fun onError(cameraDevice: CameraDevice, error: Int) {
-                    launch(controlDispatcher!!) {
-                        if (error == CameraDevice.StateCallback.ERROR_CAMERA_IN_USE) {
-                            // すでに使われている
+                spec.cameraManager.openCamera(spec.cameraId, object : CameraDevice.StateCallback() {
+                    override fun onOpened(cameraDevice: CameraDevice) {
+                        launch(controlDispatcher!!) {
                             channel.send(cameraDevice)
-                        } else {
-                            channel.cancel(CameraSecurityException("Error[$error]"))
-                            cameraDevice.close()
-                            camera = null
                         }
                     }
-                }
-            }, controlHandler)
 
-            camera = channel.receive()
-        } catch (err: CameraAccessException) {
-            throw CameraAccessFailedException(err)
+                    override fun onDisconnected(cameraDevice: CameraDevice) {
+                        cameraDevice.close()
+                        camera = null
+                    }
+
+                    override fun onError(cameraDevice: CameraDevice, error: Int) {
+                        launch(controlDispatcher!!) {
+                            if (error == CameraDevice.StateCallback.ERROR_CAMERA_IN_USE) {
+                                // すでに使われている
+                                channel.send(cameraDevice)
+                            } else {
+                                channel.cancel(CameraSecurityException("Error[$error]"))
+                                cameraDevice.close()
+                                camera = null
+                            }
+                        }
+                    }
+                }, controlHandler)
+
+                camera = channel.receive()
+            } catch (err: SecurityException) {
+                // haven't camera-permission
+                throw CameraAccessFailedException(err)
+            } catch (err: CameraAccessException) {
+                throw CameraAccessFailedException(err)
+            }
         }
     }
 
     override suspend fun disconnect() {
-        withContext(controlDispatcher!!) {
+        withContext(coroutineContext + controlDispatcher!!) {
             if (!connected) {
                 throw IllegalStateException("not connencted")
             }
@@ -146,6 +152,13 @@ class Camera2ControlManager(
             pictureShotRequest = null
             previewRequest = null
             previewSurface = null
+
+            controlHandler?.dispose()
+            processingHandler?.dispose()
+
+            controlHandler = null
+            controlDispatcher = null
+            processingHandler = null
         }
     }
 

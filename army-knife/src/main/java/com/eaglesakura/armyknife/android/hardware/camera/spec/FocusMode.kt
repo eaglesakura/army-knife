@@ -20,7 +20,7 @@ data class FocusMode internal constructor(
      * @return 日本語での設定名
      */
     fun name(context: Context): String {
-        val result = context.getStringFromIdName(String.format("Camera.FocusMode.%s", rawName!!.replace("-".toRegex(), "_")))
+        val result = context.getStringFromIdName(String.format("Camera.FocusMode.%s", rawName.replace("-".toRegex(), "_")))
         return result ?: rawName
     }
 

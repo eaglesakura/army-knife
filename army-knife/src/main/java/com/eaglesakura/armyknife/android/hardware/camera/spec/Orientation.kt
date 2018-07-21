@@ -21,33 +21,18 @@ data class Orientation internal constructor(
     val horizontal: Boolean
         get() = !vertical
 
+    @Suppress("MemberVisibilityCanBePrivate")
     companion object {
-
-        /**
-         * 回転0度
-         */
         val ROTATE_0 = Orientation(0)
 
-        /**
-         * 回転90度
-         */
         val ROTATE_90 = Orientation(90)
 
-        /**
-         * 回転180度
-         */
         val ROTATE_180 = Orientation(180)
 
-        /**
-         * 回転270度
-         */
         val ROTATE_270 = Orientation(270)
 
-        /**
-         * 回転角度から取得する
-         */
-        fun fromDegree(rotate: Int): Orientation {
-            var rotate = rotate
+        fun fromDegree(degree: Int): Orientation {
+            var rotate = degree
             rotate = normalizeDegree(rotate)
             rotate = rotate / 90 * 90    // 90度区切りに修正する
             return when (rotate) {
@@ -58,18 +43,18 @@ data class Orientation internal constructor(
                 else -> throw IllegalStateException("Rotate error($rotate)")
             }
         }
-    }
-}
 
-internal fun normalizeDegree(rotate: Int): Int {
-    var result = rotate
-    while (rotate < 0) {
-        result += 360
-    }
+        private fun normalizeDegree(rotate: Int): Int {
+            var result = rotate
+            while (rotate < 0) {
+                result += 360
+            }
 
-    while (rotate > 360) {
-        result -= 360
-    }
+            while (rotate > 360) {
+                result -= 360
+            }
 
-    return result
+            return result
+        }
+    }
 }
