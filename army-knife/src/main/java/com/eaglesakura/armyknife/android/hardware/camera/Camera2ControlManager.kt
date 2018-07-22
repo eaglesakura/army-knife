@@ -20,9 +20,7 @@ import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
-import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.NonCancellable
-import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
@@ -49,8 +47,6 @@ class Camera2ControlManager(
      * MEMO: 基本的に使いまわさなければ撮影とプレビューを両立できない
      */
     private var captureSession: CameraCaptureSession? = null
-
-    private var previewCaptureRequest: CaptureRequest.Builder? = null
 
     /**
      * プレビュー用バッファ
@@ -144,7 +140,6 @@ class Camera2ControlManager(
             captureSession = null
             camera = null
 
-            previewCaptureRequest = null
             pictureShotRequest = null
             previewRequest = null
             previewSurface = null
@@ -238,15 +233,12 @@ class Camera2ControlManager(
             val previewSession = getSession()
 
             // プレビューを開始する
-            if (previewCaptureRequest == null) {
-                val builder = newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW)
+            val previewCaptureRequest = newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW).also { builder ->
                 builder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
                 builder.addTarget(previewSurface!!.getSurface(previewRequest!!.previewSize))
-                previewCaptureRequest = builder
             }
-
             previewSession.stopRepeating()
-            previewSession.setRepeatingRequest(previewCaptureRequest!!.build(), object : CameraCaptureSession.CaptureCallback() {
+            previewSession.setRepeatingRequest(previewCaptureRequest.build(), object : CameraCaptureSession.CaptureCallback() {
                 private var mOldAfState: Int? = null
 
                 private var mOldAeState: Int? = null
