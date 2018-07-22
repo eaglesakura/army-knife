@@ -176,7 +176,7 @@ class Camera2ControlManager(
         val surfaces = ArrayList<Surface>()
 
         previewRequest?.also { cameraPreviewRequest ->
-            surfaces.add(previewSurface!!.getNativeSurface(cameraPreviewRequest.previewSize))
+            surfaces.add(previewSurface!!.getSurface(cameraPreviewRequest.previewSize))
         }
 
         pictureShotRequest?.also { cameraPictureShotRequest ->
@@ -249,7 +249,7 @@ class Camera2ControlManager(
             if (previewCaptureRequest == null) {
                 val builder = newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW)
                 builder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
-                builder.addTarget(previewSurface!!.getNativeSurface(previewRequest!!.previewSize))
+                builder.addTarget(previewSurface!!.getSurface(previewRequest!!.previewSize))
                 previewCaptureRequest = builder
             }
 

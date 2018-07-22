@@ -3,9 +3,19 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
 /**
  * 撮影・プレビュー用のサイズを返す
  */
-data class CaptureSize(val width: Int, val height: Int) {
+data class CaptureSize(
+        /**
+         * The number of pixels for horizontal.
+         */
+        val width: Int,
+
+        /**
+         * The number of pixels for vertical.
+         */
+        val height: Int) {
+
     /**
-     * アスペクト比のIDを取得する
+     * the "Aspect ID" near by aspect ratio.
      */
     val aspectType: Aspect = Aspect.getNearAspect(aspect)
 

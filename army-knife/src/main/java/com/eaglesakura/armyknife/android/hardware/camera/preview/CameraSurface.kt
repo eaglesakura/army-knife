@@ -20,19 +20,15 @@ class CameraSurface {
         this.nativeSurface = nativeSurface
     }
 
-    fun getNativeSurface(previewSize: CaptureSize): Surface {
+    fun getSurface(previewSize: CaptureSize): Surface {
         surfaceTexture?.also { surfaceTexture ->
             if (Build.VERSION.SDK_INT >= 15) {
                 surfaceTexture.setDefaultBufferSize(previewSize.width, previewSize.height)
             }
 
             if (nativeSurface == null) {
-                nativeSurface = Surface(this.surfaceTexture)
+                nativeSurface = Surface(surfaceTexture)
             }
-        }
-
-        if (nativeSurface == null) {
-            throw NullPointerException("nativeSurface == null")
         }
 
         return nativeSurface!!
@@ -40,11 +36,10 @@ class CameraSurface {
 
 
     fun getSurfaceTexture(previewSize: CaptureSize): SurfaceTexture {
-        surfaceTexture?.also { surfaceTexture ->
+        return surfaceTexture!!.also { surfaceTexture ->
             if (Build.VERSION.SDK_INT >= 15) {
                 surfaceTexture.setDefaultBufferSize(previewSize.width, previewSize.height)
             }
         }
-        return surfaceTexture!!
     }
 }

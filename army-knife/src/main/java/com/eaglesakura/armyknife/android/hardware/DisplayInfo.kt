@@ -158,34 +158,36 @@ data class DisplayInfo(
                     diagonalRoundInch = diagonalRoundInch
             )
         }
+
+
+        private fun toDpi(xdpi: Float, ydpi: Float): DisplayInfo.Dpi {
+            val dpi = Math.min(xdpi, ydpi)
+
+            if (dpi > 480) {
+                return DisplayInfo.Dpi.xxxhdpi
+            }
+
+            if (dpi > 320) {
+                return DisplayInfo.Dpi.xxhdpi
+            }
+
+            if (dpi > 240) {
+                return DisplayInfo.Dpi.xhdpi
+            }
+
+            if (dpi > 210) {
+                return DisplayInfo.Dpi.tvdpi
+            }
+
+            if (dpi > 160) {
+                return DisplayInfo.Dpi.hdpi
+            }
+
+            return if (dpi > 120) {
+                DisplayInfo.Dpi.mdpi
+            } else DisplayInfo.Dpi.ldpi
+
+        }
     }
-}
-
-private fun toDpi(xdpi: Float, ydpi: Float): DisplayInfo.Dpi {
-    val dpi = Math.min(xdpi, ydpi)
-
-    if (dpi > 480) {
-        return DisplayInfo.Dpi.xxxhdpi
-    }
-
-    if (dpi > 320) {
-        return DisplayInfo.Dpi.xxhdpi
-    }
-
-    if (dpi > 240) {
-        return DisplayInfo.Dpi.xhdpi
-    }
-
-    if (dpi > 210) {
-        return DisplayInfo.Dpi.tvdpi
-    }
-
-    if (dpi > 160) {
-        return DisplayInfo.Dpi.hdpi
-    }
-
-    return if (dpi > 120) {
-        DisplayInfo.Dpi.mdpi
-    } else DisplayInfo.Dpi.ldpi
 
 }
