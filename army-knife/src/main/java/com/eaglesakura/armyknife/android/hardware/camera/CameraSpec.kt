@@ -61,6 +61,9 @@ class CameraSpec internal constructor(
     val minimumPreviewSize: CaptureSize
         get() = previewSizes[previewSizes.size - 1]
 
+    val maximumPreviewSize: CaptureSize
+        get() = previewSizes[0]
+
     val fullJpegPictureSize: CaptureSize
         get() = jpegPictureSizes[0]
 
