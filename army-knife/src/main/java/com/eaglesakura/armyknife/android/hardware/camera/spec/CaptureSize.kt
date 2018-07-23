@@ -51,7 +51,8 @@ data class CaptureSize(
         get() = aspectType.aspectText
 
     /**
-     * アスペクト比(width / height)を取得する
+     * This value is aspect ratio.
+     * example) When aspect is "16:9" returns 1.7777
      */
     val aspect: Double
         get() = width.toDouble() / height.toDouble()
@@ -61,6 +62,31 @@ data class CaptureSize(
      */
     val id: String
         get() = "pic(${width}x$height)"
+
+    /**
+     * This method returns preview window size.
+     * The area of returns value less than area of window.
+     */
+    fun getPreviewSizeInWindow(windowWidth: Int, windowHeight: Int): Array<Int> {
+        val width = (windowHeight.toDouble() * aspect + ROUND_UP).toInt()
+        if (width <= windowWidth) {
+            return arrayOf(width, windowHeight)
+        }
+
+        return arrayOf(windowWidth, (windowHeight.toDouble() / aspect + ROUND_UP).toInt())
+    }
+
+    /**
+     * This method returns preview window size.
+     * The area of returns value greater than area of window.
+     */
+    fun getPreviewSizeWrapWindow(windowWidth: Int, windowHeight: Int): Array<Int> {
+        TODO("impl")
+    }
+
+    companion object {
+        private const val ROUND_UP = 0.999999999
+    }
 
     enum class Aspect(
             /**
