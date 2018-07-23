@@ -215,18 +215,18 @@ class CameraSpec internal constructor(
 
         @Throws(CameraException::class)
         fun getSpecs(context: Context, api: CameraApi, type: CameraType): CameraSpec {
-            var api = api
-            if (api == CameraApi.Default) {
-                api = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            var targetApi = api
+            if (targetApi == CameraApi.Default) {
+                targetApi = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     CameraApi.Camera2
                 } else {
                     CameraApi.Legacy
                 }
             }
 
-            if (api == CameraApi.Camera2) {
+            if (targetApi == CameraApi.Camera2) {
                 // Camera2
-                return Camera2SpecImpl.getSpecs(context, type);
+                return Camera2SpecImpl.getSpecs(context, type)
             } else {
                 TODO("LegacyCameraSpecImpl()")
             }
