@@ -73,7 +73,7 @@ data class CaptureSize(
             return arrayOf(width, windowHeight)
         }
 
-        return arrayOf(windowWidth, (windowHeight.toDouble() / aspect + ROUND_UP).toInt())
+        return arrayOf(windowWidth, (windowWidth.toDouble() / aspect + ROUND_UP).toInt())
     }
 
     /**
@@ -81,7 +81,17 @@ data class CaptureSize(
      * The area of returns value greater than area of window.
      */
     fun getPreviewSizeWrapWindow(windowWidth: Int, windowHeight: Int): Array<Int> {
-        TODO("impl")
+        val sizeInWindow = getPreviewSizeInWindow(windowWidth, windowHeight)
+        if (sizeInWindow[0] < windowWidth) {
+            val scale = windowWidth.toDouble() / sizeInWindow[0].toDouble()
+            sizeInWindow[0] = windowWidth
+            sizeInWindow[1] = (sizeInWindow[1] * scale + ROUND_UP).toInt()
+        } else {
+            val scale = windowHeight.toDouble() / sizeInWindow[1].toDouble()
+            sizeInWindow[0] = (sizeInWindow[0] * scale + ROUND_UP).toInt()
+            sizeInWindow[1] = windowHeight
+        }
+        return sizeInWindow
     }
 
     companion object {
