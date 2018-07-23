@@ -72,14 +72,14 @@ dependencies {
     testImplementation project(':army-knife-junit')
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'androidx.test:monitor:1.1.0-alpha3'
+    testImplementation 'androidx.test:monitor:1.1.0-alpha4'
 
     /**
      * for Android Tests
      */
     androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 }
 
 kotlin {
