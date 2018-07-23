@@ -325,8 +325,8 @@ class Camera2ControlManager(
                 buffer.get(onMemoryFile)
                 launch(UI) {
                     picture.send(PictureData(image.width, image.height, onMemoryFile))
+                    image.close()
                 }
-                image.close()
             }, processingHandler)
 
             val builder = newCaptureRequest(env, CameraDevice.TEMPLATE_STILL_CAPTURE)

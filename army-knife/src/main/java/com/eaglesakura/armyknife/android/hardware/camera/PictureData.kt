@@ -1,21 +1,22 @@
 package com.eaglesakura.armyknife.android.hardware.camera
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import java.util.*
 
-class PictureData(
-        /**
-         * 画像幅
-         */
+data class PictureData(
         val width: Int,
-        /**
-         * 画像高さ
-         */
         val height: Int,
         /**
-         * 撮影されたJPEGやRAWバッファ
+         * This buffer was generated from Camera API.
+         * The Buffer formats are "Jpeg" or "DNG".
          */
         @Suppress("MemberVisibilityCanBePrivate")
         val buffer: ByteArray) {
+
+    fun decodeImage(): Bitmap {
+        return BitmapFactory.decodeByteArray(buffer, 0, buffer.size)!!
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
