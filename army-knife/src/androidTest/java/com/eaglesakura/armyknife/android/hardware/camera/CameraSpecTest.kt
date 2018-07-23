@@ -1,6 +1,5 @@
 package com.eaglesakura.armyknife.android.hardware.camera
 
-import android.graphics.BitmapFactory
 import android.os.Build
 import com.eaglesakura.KtxTestCase
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType

@@ -17,7 +17,7 @@ import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
  *
  * Want to take a picture, Should call methods as follows.
  * - 1. connect
- * - 2. startPreview
+ * - 2(Can skip on Android 5.0 or later). startPreview
  * - 3(optional). takePicture
  * - 4. stopPreview
  * - 5. disconnect
