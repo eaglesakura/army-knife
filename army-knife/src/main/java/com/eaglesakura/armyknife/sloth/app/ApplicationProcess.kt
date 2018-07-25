@@ -28,6 +28,9 @@ class ApplicationProcess(val application: Application) {
     @Suppress("MemberVisibilityCanBePrivate")
     val processId: String = Random.smallString()
 
+    val installId: String
+        get() = settings.installUniqueId
+
     private val settings: SystemSettings
 
     /**
@@ -52,7 +55,11 @@ class ApplicationProcess(val application: Application) {
 
     private fun refreshSettings() {
         if (settings.installUniqueId.isEmpty()) {
-            settings.installUniqueId = Random.string()
+            runBlocking {
+                settings.transaction {
+                    settings.installUniqueId = Random.string()
+                }
+            }
         }
 
         val oldVersionCode = settings.lastBootedAppVersionCode
