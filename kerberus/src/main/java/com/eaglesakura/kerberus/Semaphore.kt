@@ -3,9 +3,11 @@
 package com.eaglesakura.kerberus
 
 import kotlinx.coroutines.experimental.CancellationException
+import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.NonCancellable
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.withContext
+import kotlin.coroutines.experimental.CoroutineContext
 
 /**
  * TaskQueueの制御等に用いるセマフォ.
@@ -68,5 +70,11 @@ interface Semaphore {
                 }
             }
         }
+    }
+}
+
+fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit) {
+    kotlinx.coroutines.experimental.launch(context) {
+        block()
     }
 }
