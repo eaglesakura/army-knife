@@ -164,7 +164,7 @@ class CameraSpec internal constructor(
             val captureLong = Math.max(size.width, size.height)
             val captureShort = Math.min(size.width, size.height)
             if (captureLong >= requestLong && captureShort >= requestShort) {
-                Logger.debug("Camera", "Choose PreviewSize [$captureLong x $captureShort] Req[$requestLong x $requestShort]")
+                Logger.debug("Camera", "Choose [$captureLong x $captureShort] Req[$requestLong x $requestShort]")
                 return size
             }
         }
