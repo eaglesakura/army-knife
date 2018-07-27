@@ -4,6 +4,7 @@ package com.eaglesakura.armyknife.android
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
+import android.app.Service
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
@@ -153,6 +154,27 @@ object ApplicationRuntime {
             }
         }
         return context.packageName
+    }
+
+    /**
+     * This method returns true when a "clazz" service is running on this device.
+     */
+    fun <T : Service> isServiceRunning(context: Context, clazz: Class<T>): Boolean {
+        try {
+            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val services = activityManager.getRunningServices(Integer.MAX_VALUE)
+            for (info in services) {
+                if (clazz.name == info.service.className) {
+                    // 一致するクラスが見つかった
+                    return true
+                }
+            }
+            return false
+        } catch (e: Exception) {
+
+        }
+
+        return false
     }
 
 }
