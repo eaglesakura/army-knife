@@ -6,7 +6,7 @@ package com.eaglesakura.oneshotlivedata
  * @see newEventObserver
  * @see newEventObserverWithForeground
  */
-class EventStream : OneshotLiveData<Event> {
+open class EventStream : OneshotLiveData<Event> {
     private val validateData: (id: Event) -> Boolean
 
     constructor(validId: (id: Event) -> Boolean) : super() {
