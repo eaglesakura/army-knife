@@ -1,3 +1,21 @@
+/**
+ * 0.1.x  : playground-version.
+ */
+def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
+        "0.1" : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
+def BINTRAY_LABELS = ["android", "kotlin"]
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -40,4 +58,48 @@ dependencies {
      */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+}
+
+static def getArtifactVersionSuffix() {
+    String CIRCLE_TAG = System.env.CIRCLE_TAG
+
+    if (CIRCLE_TAG != null) {
+        // have CIRCLE_TAG(build on CircleCI)
+        return ""
+    }
+
+    if (System.env.CIRCLE_BUILD_NUM != null) {
+        return ".build-${System.env.CIRCLE_BUILD_NUM}"
+    } else {
+        return ".snapshot"
+    }
+}
+
+group = "com.eaglesakura"
+version = ARTIFACT_VERSION + getArtifactVersionSuffix()
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+bintray {
+    user = 'eaglesakura'
+    key = System.env.BINTRAY_API_KEY
+    publish = true
+    override = true
+    pkg {
+        repo = "maven"
+        name = file(".").absoluteFile.name
+        vcsUrl = System.env.CIRCLE_REPOSITORY_URL
+        licenses = ["MIT"]
+        labels = BINTRAY_LABELS
+        version {
+            name = project.version
+            released = new Date()
+            gpg {
+                sign = true
+                passphrase = System.env.BINTRAY_GPG_PASS
+            }
+        }
+    }
+    configurations = ['archives']
 }
