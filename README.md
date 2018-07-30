@@ -6,10 +6,21 @@
 
 `army-knife` is Library for android applications with Kotlin.
 
-Source codes in this repository are all test(or playground) version.
+Source codes are all test(or playground) version in this repository.
 
 # Kerberus
 
 `Kerberus` is coroutine-base async tasks library with Kotlin.
 
 If you love java, use the [Cerberus](https://github.com/eaglesakura/cerberus) library.
+
+# OneshotLiveData(include EventStream classes)
+
+`OneshotLiveData` is LiveData for Event, SnackBar, Toast, and more.
+
+LiveData's observer is subscribe to new-data and not-modified data.
+
+But, SnackBar will require one-shot data, not required not-modified data.
+
+e.g. e.g. LiveData's Observer will subscribe not-modified data on "onResume" function. OneshotLiveData's Observer will `not` subscribe it.
+
