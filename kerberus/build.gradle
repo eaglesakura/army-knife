@@ -115,6 +115,8 @@ static def getArtifactVersionSuffix() {
 }
 
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
 bintray {
     user = 'eaglesakura'
     key = System.env.BINTRAY_API_KEY
