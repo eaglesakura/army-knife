@@ -14,6 +14,6 @@ report_cp() {
     cp -r ./${MODULE}/build/test-results "${CIRCLE_ARTIFACTS}/junit-reports/${MODULE}"
 }
 
-./gradlew --parallel :kerberus:testDebugUnitTest        || report_cp "kerberus"
-./gradlew --parallel :oneshotlivedata:testDebugUnitTest || report_cp "oneshotlivedata"
-./gradlew --parallel :army-knife:testDebugUnitTest      || report_cp "army-knife"
+./gradlew :kerberus:testDebugUnitTest        || report_cp "kerberus"
+./gradlew :oneshotlivedata:testDebugUnitTest || report_cp "oneshotlivedata"
+./gradlew :army-knife:testDebugUnitTest      || report_cp "army-knife"
