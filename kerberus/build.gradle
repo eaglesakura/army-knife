@@ -123,6 +123,7 @@ bintray {
     pkg {
         repo = "maven"
         name = file(".").absoluteFile.name
+        vcsUrl = System.env.CIRCLE_REPOSITORY_URL
         licenses = ["MIT"]
         labels = BINTRAY_LABELS
         version {
