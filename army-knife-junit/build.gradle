@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-    api 'com.eaglesakura:junit-support:1.2.0'
+    implementation 'junit:junit:4.12'
+
     /**
      * Kotlin support
      */

@@ -1,43 +1,36 @@
 package com.eaglesakura.armyknife.junit
 
-import com.eaglesakura.junit.*
-
 inline fun Float.validate(action: DoubleValidator.() -> Unit) = DoubleValidator(toDouble()).let {
     action(it)
-    it.get()!!.toFloat()
+    it.actual.toFloat()
 }
 
 inline fun Double.validate(action: DoubleValidator.() -> Unit) = DoubleValidator(this).let {
     action(it)
-    it.get()!!
+    it.actual
 }
 
 inline fun Byte.validate(action: LongValidator.() -> Unit) = LongValidator(toLong()).let {
     action(it)
-    it.get()!!.toByte()
+    it.actual.toByte()
 }
 
 inline fun Short.validate(action: LongValidator.() -> Unit) = LongValidator(toLong()).let {
     action(it)
-    it.get()!!.toShort()
+    it.actual.toShort()
 }
 
 inline fun Int.validate(action: LongValidator.() -> Unit) = LongValidator(toLong()).let {
     action(it)
-    it.get()!!.toInt()
+    it.actual.toInt()
 }
 
 inline fun Long.validate(action: LongValidator.() -> Unit) = LongValidator(toLong()).let {
     action(it)
-    it.get()!!
+    it.actual
 }
 
 fun String.validate(action: StringValidator.() -> Unit) = StringValidator(this).let {
     action(it)
-    it.get()!!
-}
-
-fun <E, T : Collection<E>> T.validate(action: CollectionValidator<E>.() -> Unit) = CollectionValidator(this).let {
-    action(it)
-    it.get()!!
+    it.actual
 }
