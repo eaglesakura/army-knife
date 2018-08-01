@@ -3,9 +3,11 @@ package com.eaglesakura.armyknife.sloth.bluetooth
 import androidx.lifecycle.Observer
 import android.bluetooth.le.ScanResult
 import com.eaglesakura.KtxTestCase
+import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
 import com.eaglesakura.armyknife.runtime.extensions.withTimeout
-import com.eaglesakura.armyknife.sloth.SlothLog
+import com.eaglesakura.firearm.bluetooth.BleDeviceStream
+import com.eaglesakura.firearm.bluetooth.BluetoothScanEvent
 import com.eaglesakura.oneshotlivedata.newEventObserver
 import kotlinx.coroutines.experimental.NonCancellable
 import kotlinx.coroutines.experimental.android.UI
@@ -24,9 +26,9 @@ class BleDeviceStreamTest : KtxTestCase() {
         Assert.assertTrue(scanner.hasPermissions)
 
         val dataObserver = Observer<List<ScanResult>> {
-            SlothLog.bluetooth("Device num[${it!!.size}]")
+            Logger.debug("BLE", "Device num[${it!!.size}]")
             it.forEach {
-                SlothLog.bluetooth("  - Device name[${it.device.name}] addr[${it.device.address}]")
+                Logger.debug("BLE", "  - Device name[${it.device.name}] addr[${it.device.address}]")
             }
         }
 
@@ -35,7 +37,7 @@ class BleDeviceStreamTest : KtxTestCase() {
             scanner.event.observeForever(newEventObserver { event ->
                 when (event) {
                     is BluetoothScanEvent -> {
-                        SlothLog.bluetooth("OneshotData [${event.id}] Device[${event.scanResult.device.name}]")
+                        Logger.debug("BLE", "OneshotData [${event.id}] Device[${event.scanResult.device.name}]")
                     }
                 }
             })
@@ -46,7 +48,7 @@ class BleDeviceStreamTest : KtxTestCase() {
                     delay(1000)
                     scanner.value?.size?.also { size ->
                         if (size > 0) {
-                            SlothLog.bluetooth("Test completed.")
+                            Logger.debug("BLE", "Test completed.")
                             return@withTimeout
                         }
                     }

@@ -6,9 +6,15 @@ If You will go to battlefield of development then choose weapons from this repos
 |----|----|
 |v0.1.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x)|
 
+
+# Army-Knife
+
 `army-knife` is Library for android applications with Kotlin.
 
 Source codes are all test(or playground) version in this repository.
+
+army-knife is small library, but it can be more small.
+If you have to shrink to application, then proguard-options set to enable.
 
 # Kerberus
 

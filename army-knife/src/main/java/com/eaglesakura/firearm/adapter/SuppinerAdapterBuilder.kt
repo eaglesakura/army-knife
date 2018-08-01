@@ -1,5 +1,6 @@
-package com.eaglesakura.armyknife.sloth.view.adapter
+package com.eaglesakura.firearm.adapter
 
+import android.R
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
@@ -47,7 +48,7 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
      * Adapterのみを生成する
      */
     private fun buildAdapter(): SupportArrayAdapter<T> {
-        val adapter = SupportArrayAdapter<T>(context, android.R.layout.simple_spinner_item, android.R.layout.simple_spinner_dropdown_item)
+        val adapter = SupportArrayAdapter<T>(context, R.layout.simple_spinner_item, R.layout.simple_spinner_dropdown_item)
         dropdownViewMap?.let { adapter.dropdownViewMap = it }
         selectionViewMap?.let { adapter.selectionViewMap = it }
         titleMap?.let { adapter.titleMap = it }

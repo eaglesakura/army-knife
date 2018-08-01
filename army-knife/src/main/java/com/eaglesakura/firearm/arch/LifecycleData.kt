@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.arch
+package com.eaglesakura.firearm.arch
 
 import androidx.lifecycle.Lifecycle
 

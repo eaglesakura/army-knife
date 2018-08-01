@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.bluetooth
+package com.eaglesakura.firearm.bluetooth
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,7 +11,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.RuntimePermissions
-import com.eaglesakura.armyknife.sloth.SlothLog
+import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
@@ -119,7 +119,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                     async(UI) { cleanUp() }.await()
                 }
             } finally {
-                SlothLog.bluetooth("Scan clean up abort.")
+                Logger.debug("BLE", "Scan clean up abort.")
             }
         }
     }
@@ -129,7 +129,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
             try {
                 caches.forEach {
                     if (it.scanResult.device.address == result.device.address) {
-                        SlothLog.bluetooth("Ble update device name[${result.device.name}]")
+                        Logger.debug("BLE", "Ble update device name[${result.device.name}]")
                         it.scanResult = result
                         event.setOneshot(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_UPDATED, scanResult = result))
                         return
@@ -137,7 +137,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                 }
 
                 // new data
-                SlothLog.bluetooth("Ble new device found name[${result.device.name}]")
+                Logger.debug("BLE", "Ble new device found name[${result.device.name}]")
                 event.setOneshot(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_FOUND, scanResult = result))
                 caches.add(ScanResultCache(result))
             } finally {
@@ -147,7 +147,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
         }
 
         override fun onScanFailed(errorCode: Int) {
-            SlothLog.bluetooth("Ble scan failed[$errorCode]")
+            Logger.debug("BLE", "Ble scan failed[$errorCode]")
         }
     }
 

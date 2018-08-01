@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.view.adapter
+package com.eaglesakura.firearm.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

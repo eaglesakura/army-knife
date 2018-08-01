@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.app
+package com.eaglesakura.firearm.app
 
 import android.content.Context
 import android.os.Build

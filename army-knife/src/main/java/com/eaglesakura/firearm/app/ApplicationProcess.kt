@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.app
+package com.eaglesakura.firearm.app
 
 import android.app.Activity
 import android.app.Application
@@ -8,8 +8,8 @@ import android.util.Log
 import com.eaglesakura.armyknife.android.ApplicationRuntime
 import com.eaglesakura.armyknife.android.hardware.DisplayInfo
 import com.eaglesakura.armyknife.runtime.Random
-import com.eaglesakura.armyknife.sloth.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
-import com.eaglesakura.armyknife.sloth.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
+import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
+import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
 import com.eaglesakura.oneshotlivedata.EventId
 import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.runBlocking

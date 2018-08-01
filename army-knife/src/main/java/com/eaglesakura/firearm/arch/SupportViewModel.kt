@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.arch
+package com.eaglesakura.firearm.arch
 
 import android.content.Context
 import android.os.Bundle
@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.eaglesakura.android.garnet.Garnet
 import com.eaglesakura.android.garnet.Provider
 import com.eaglesakura.armyknife.android.extensions.subscribe
-import com.eaglesakura.armyknife.sloth.viewmodel.StatefulViewModel
-import com.eaglesakura.armyknife.sloth.viewmodel.ViewModelOwner
+import com.eaglesakura.firearm.viewmodel.StatefulViewModel
+import com.eaglesakura.firearm.viewmodel.ViewModelOwner
 import kotlin.reflect.KClass
 
 

@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.viewmodel
+package com.eaglesakura.firearm.viewmodel
 
 import android.content.Context
 import androidx.fragment.app.Fragment

@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.eaglesakura.armyknife.sloth.app
+package com.eaglesakura.firearm.app
 
 import android.os.Build
 

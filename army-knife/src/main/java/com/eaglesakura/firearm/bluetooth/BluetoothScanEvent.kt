@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.sloth.bluetooth
+package com.eaglesakura.firearm.bluetooth
 
 import android.bluetooth.le.ScanResult
 import com.eaglesakura.oneshotlivedata.Event

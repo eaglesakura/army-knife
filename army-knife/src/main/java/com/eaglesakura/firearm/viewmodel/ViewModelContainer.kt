@@ -1,10 +1,10 @@
-package com.eaglesakura.armyknife.sloth.viewmodel
+package com.eaglesakura.firearm.viewmodel
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
-import com.eaglesakura.armyknife.sloth.arch.LifecycleDataStore
+import com.eaglesakura.firearm.arch.LifecycleDataStore
 import kotlin.reflect.KClass
 
 /**
