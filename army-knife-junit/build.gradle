@@ -60,7 +60,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
 }
 
-static def getArtifactVersionSuffix() {
+group = "com.eaglesakura"
+version = ARTIFACT_VERSION + {
     String CIRCLE_TAG = System.env.CIRCLE_TAG
 
     if (CIRCLE_TAG != null) {
@@ -73,10 +74,7 @@ static def getArtifactVersionSuffix() {
     } else {
         return ".snapshot"
     }
-}
-
-group = "com.eaglesakura"
-version = ARTIFACT_VERSION + getArtifactVersionSuffix()
+}()
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'

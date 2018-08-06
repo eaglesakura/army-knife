@@ -20,18 +20,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.eaglesakura.ci-support'
-
-if (project.hasProperty("devBuild")) {
-    ext.ANDROID_STUDIO = true
-    ext.ANDROID_BUILD_NUMBER = 1
-    ext.ANDROID_AAPT_CRUNCHER = false
-} else {
-    ext.ANDROID_STUDIO = false
-    ext.ANDROID_BUILD_DATE = "\"${eglibrary.ci.buildDate}\""
-    ext.ANDROID_BUILD_NUMBER = eglibrary.ci.buildVersionCode as int
-    ext.ANDROID_AAPT_CRUNCHER = true
-}
 
 dependencies {
     /**
@@ -75,7 +63,6 @@ kotlin {
 
 android {
     compileSdkVersion 28
-    aaptOptions.cruncherEnabled = ANDROID_AAPT_CRUNCHER
 
     // for *.java options
     compileOptions {
@@ -97,7 +84,8 @@ android {
     }
 }
 
-static def getArtifactVersionSuffix() {
+group = "com.eaglesakura"
+version = ARTIFACT_VERSION + {
     String CIRCLE_TAG = System.env.CIRCLE_TAG
 
     if (CIRCLE_TAG != null) {
@@ -110,10 +98,7 @@ static def getArtifactVersionSuffix() {
     } else {
         return ".snapshot"
     }
-}
-
-group = "com.eaglesakura"
-version = ARTIFACT_VERSION + getArtifactVersionSuffix()
+}()
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
