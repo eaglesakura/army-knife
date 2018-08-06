@@ -1,21 +1,13 @@
 buildscript {
-    ext.kotlin_version = '1.2.50'
+    ext.kotlin_version = '1.2.60'
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0-alpha04'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath('android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha01') {
-            exclude group: "com.google.guava", module: "guava"
-            exclude group: "com.google.guava", module: "guava-jdk5"
-        }
-        classpath 'com.google.guava:guava:22.0'
-
-        // Build support plugins.
-        classpath 'com.deploygate:gradle:1.1.5'
     }
 }
 
@@ -23,6 +15,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 }
