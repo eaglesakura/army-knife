@@ -1,10 +1,10 @@
 package com.eaglesakura.armyknife.android.hardware
 
-import com.eaglesakura.KtxTestCase
+import com.eaglesakura.AndroidTestCase
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
-class DisplayInfoTest : KtxTestCase() {
+class DisplayInfoTest : AndroidTestCase() {
 
     @Test
     fun displayInfoRead() {

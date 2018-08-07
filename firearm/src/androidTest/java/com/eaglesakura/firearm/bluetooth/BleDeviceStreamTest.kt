@@ -1,13 +1,11 @@
-package com.eaglesakura.armyknife.sloth.bluetooth
+package com.eaglesakura.firearm.bluetooth
 
-import androidx.lifecycle.Observer
 import android.bluetooth.le.ScanResult
-import com.eaglesakura.KtxTestCase
+import androidx.lifecycle.Observer
+import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
 import com.eaglesakura.armyknife.runtime.extensions.withTimeout
-import com.eaglesakura.firearm.bluetooth.BleDeviceStream
-import com.eaglesakura.firearm.bluetooth.BluetoothScanEvent
 import com.eaglesakura.oneshotlivedata.newEventObserver
 import kotlinx.coroutines.experimental.NonCancellable
 import kotlinx.coroutines.experimental.android.UI
@@ -18,7 +16,7 @@ import org.junit.Test
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.coroutineContext
 
-class BleDeviceStreamTest : KtxTestCase() {
+class BleDeviceStreamTest : AndroidTestCase() {
 
     @Test
     fun testBleScan() = blockingTest(UI) {

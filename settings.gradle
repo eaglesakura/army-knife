@@ -3,3 +3,5 @@ include ':oneshotlivedata'
 
 include ':army-knife-junit'
 include ':army-knife'
+
+include ':firearm'

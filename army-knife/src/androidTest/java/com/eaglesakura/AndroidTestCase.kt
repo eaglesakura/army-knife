@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-abstract class KtxTestCase {
+abstract class AndroidTestCase {
     val application: Application
         get() = InstrumentationRegistry.getTargetContext().applicationContext as Application
 

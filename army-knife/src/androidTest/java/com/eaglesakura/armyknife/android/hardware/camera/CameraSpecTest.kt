@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.android.hardware.camera
 
 import android.os.Build
-import com.eaglesakura.KtxTestCase
+import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
 import com.eaglesakura.armyknife.android.hardware.camera.spec.Scene
@@ -11,7 +11,7 @@ import com.eaglesakura.armyknife.junit.validate
 import org.junit.Assert.*
 import org.junit.Test
 
-class CameraSpecTest : KtxTestCase() {
+class CameraSpecTest : AndroidTestCase() {
 
     @Test
     fun getSpecs() = blockingTest {
