@@ -6,3 +6,4 @@ echo "#######################################"
 ./gradlew assembleAndroidTest
 ./gradlew assembleDebug
 ./gradlew assembleRelease
+

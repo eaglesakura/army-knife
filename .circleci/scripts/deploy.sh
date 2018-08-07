@@ -3,5 +3,6 @@
 echo "#######################################"
 echo "# upload artifacts"
 echo "#######################################"
-# TODO upload archives
+./gradlew sourcesJar
+./gradlew javadocJar
 ./gradlew bintrayUpload

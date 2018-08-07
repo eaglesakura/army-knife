@@ -136,6 +136,20 @@ version = ARTIFACT_VERSION + getArtifactVersionSuffix()
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    outputFormat = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: dokka) {
+    from "$buildDir/dokka"
+    classifier = 'javadoc'
+}
 
 bintray {
     user = 'eaglesakura'
