@@ -14,19 +14,38 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    /**
-     * java libraries
-     */
-    implementation project(':army-knife')
-    implementation project(':oneshotlivedata')
+    final def implementationProjectOrMaven = { path, module ->
+        try {
+            implementation project(path)
+            println "implementation project(${path})"
+        } catch (ignored) {
+            implementation module
+        }
+    }
+
+    final def testImplementationProjectOrMaven = { path, module ->
+        try {
+            testImplementation project(path)
+            androidTestImplementation project(path)
+            println "testImplementation project(${path})"
+        } catch (ignored) {
+            testImplementation module
+            androidTestImplementation module
+        }
+    }
+
+    implementationProjectOrMaven(':oneshotlivedata', 'com.eaglesakura:oneshotlivedata:+')
+    implementationProjectOrMaven(':kerberus', 'com.eaglesakura:kerberus:+')
+    implementationProjectOrMaven(':army-knife', 'com.eaglesakura:army-knife:+')
+    testImplementationProjectOrMaven(':army-knife-junit', 'com.eaglesakura:army-knife-junit:+')
 
     /**
      * Kotlin support
      */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
 
     /**
      * Support Libraries
@@ -46,26 +65,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0-rc01' // Material components
 
     /**
-     * Google Play Services
-     */
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
-
-    /**
-     * Firebase
-     */
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-auth:16.0.2'
-    implementation 'com.google.firebase:firebase-config:16.0.0'
-
-    /**
-     * http
-     */
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-
-    /**
      * for Tests
      */
-    testImplementation project(':army-knife-junit')
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'androidx.test:monitor:1.1.0-alpha4'
@@ -73,7 +74,6 @@ dependencies {
     /**
      * for Android Tests
      */
-    androidTestImplementation project(':army-knife-junit')
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 }

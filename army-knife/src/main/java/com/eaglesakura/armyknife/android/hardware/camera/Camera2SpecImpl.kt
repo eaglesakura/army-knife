@@ -87,7 +87,7 @@ class Camera2SpecImpl internal constructor(context: Context) {
 
     @Throws(CameraException::class)
     internal fun getFlashModes(characteristics: CameraCharacteristics): List<FlashMode> {
-        if (!characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)) {
+        if (!characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)!!) {
             return emptyList()
         }
 

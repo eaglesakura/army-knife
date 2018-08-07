@@ -25,7 +25,8 @@ object ApplicationRuntime {
      * Robolectric runtime is true.
      */
     val ROBOLECTRIC: Boolean = try {
-        Class.forName("org.robolectric.Robolectric") != null
+        Class.forName("org.robolectric.Robolectric")
+        true
     } catch (err: ClassNotFoundException) {
         false
     }

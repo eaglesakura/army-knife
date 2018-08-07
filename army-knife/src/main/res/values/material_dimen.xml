@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingDefaultResource">
-    <dimen name="Material.Font.SmallSmall">12sp</dimen>
-    <dimen name="Material.Font.Small">14sp</dimen>
-    <dimen name="Material.Font.Medium">16sp</dimen>
-    <dimen name="Material.Font.Large">20sp</dimen>
-    <dimen name="Material.Font.Title">28sp</dimen>
-    <dimen name="Material.Font.LargeLarge">34sp</dimen>
-</resources>

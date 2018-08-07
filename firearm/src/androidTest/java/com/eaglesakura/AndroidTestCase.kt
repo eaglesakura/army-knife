@@ -7,6 +7,7 @@ import android.content.Context
 import android.util.Log
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -27,10 +28,10 @@ abstract class AndroidTestCase {
     val console = fun(message: String) { Log.d(javaClass.simpleName, message) }
 
     @Before
-    fun onSetUp() = runBlocking { setUp() }
+    fun onSetUp() = runBlocking(CommonPool) { setUp() }
 
     @After
-    fun onTearDown() = runBlocking { tearDown() }
+    fun onTearDown() = runBlocking(CommonPool) { tearDown() }
 
     open suspend fun setUp() {
     }

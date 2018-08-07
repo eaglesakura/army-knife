@@ -5,7 +5,6 @@ import org.junit.Test
 
 
 class ExampleTest : BaseTestCase() {
-
     @Test
     fun helloTest() {
     }
