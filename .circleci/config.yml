@@ -10,6 +10,7 @@ jobs:
           CIRCLE_ARTIFACTS: /tmp/artifacts
           _JAVA_OPTIONS: -Dfile.encoding=UTF-8
           GRADLE_OPTS: "-Xmx3500m"
+          CACHE_VERSION: "1.0"
     steps:
       - checkout
       - restore_cache:

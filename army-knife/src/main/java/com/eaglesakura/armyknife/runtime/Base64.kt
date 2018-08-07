@@ -21,7 +21,14 @@ internal object Base64Impl {
     private const val ANDROID_FLAG = ANDROID_NO_CLOSE or ANDROID_NO_PADDING or ANDROID_NO_WRAP or ANDROID_URL_SAFE
 
     init {
-        if (Class.forName("android.util.Base64") != null) {
+        val runOnAndroid = try {
+            Class.forName("android.util.Base64")
+            true
+        } catch (err: ClassNotFoundException) {
+            false
+        }
+
+        if (runOnAndroid) {
             // for Android
             byteArrayToString = { bytArray -> Base64.encodeToString(bytArray, ANDROID_FLAG) }
             stringToByteArray = { str -> Base64.decode(str, ANDROID_FLAG) }

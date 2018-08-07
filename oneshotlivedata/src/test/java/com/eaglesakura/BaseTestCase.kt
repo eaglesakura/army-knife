@@ -1,6 +1,8 @@
 package com.eaglesakura
 
 import android.app.Application
+import kotlinx.coroutines.experimental.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,6 +18,14 @@ abstract class BaseTestCase {
         get() = RuntimeEnvironment.application
 
     @Before
-    open fun setUp() {
+    fun onSetUp() = runBlocking { setUp() }
+
+    @After
+    fun onTearDown() = runBlocking { tearDown() }
+
+    open suspend fun setUp() {
+    }
+
+    open suspend fun tearDown() {
     }
 }
