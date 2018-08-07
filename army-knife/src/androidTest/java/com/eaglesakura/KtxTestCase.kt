@@ -4,6 +4,7 @@ package com.eaglesakura
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import kotlinx.coroutines.experimental.runBlocking
@@ -23,7 +24,7 @@ abstract class KtxTestCase {
     val textContext: Context
         get() = InstrumentationRegistry.getContext()
 
-    val LOG_TAG = javaClass.simpleName!!
+    val console = fun(message: String) { Log.d(javaClass.simpleName, message) }
 
     @Before
     fun onSetUp() = runBlocking { setUp() }

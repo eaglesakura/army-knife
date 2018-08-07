@@ -1,8 +1,7 @@
 package com.eaglesakura.armyknife.android.hardware
 
-import android.util.Log
 import com.eaglesakura.KtxTestCase
-import org.junit.Assert.*
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 class DisplayInfoTest : KtxTestCase() {
@@ -10,7 +9,7 @@ class DisplayInfoTest : KtxTestCase() {
     @Test
     fun displayInfoRead() {
         val displayInfo = DisplayInfo.newInstance(application)
-        Log.d(LOG_TAG, "$displayInfo")
+        console("$displayInfo")
 
         assertNotEquals(0, displayInfo.widthPixel)
         assertNotEquals(0, displayInfo.heightPixel)
