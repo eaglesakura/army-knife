@@ -3,18 +3,10 @@
  */
 def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
         "0.1" : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
-def BINTRAY_LABELS = ["android", "kotlin"]
 
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    }
-}
+def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
+def BINTRAY_LABELS = ["android", "kotlin"]
+def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -102,6 +94,30 @@ version = ARTIFACT_VERSION + {
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    outputFormat = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: dokka) {
+    from "$buildDir/dokka"
+    classifier = 'javadoc'
+}
+android.libraryVariants.all { variant ->
+    if ("release" != variant.name || "" == ARTIFACT_VERSION) {
+        return
+    }
+
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+}
 
 bintray {
     user = 'eaglesakura'
@@ -110,8 +126,9 @@ bintray {
     override = true
     pkg {
         repo = "maven"
-        name = file(".").absoluteFile.name
-        vcsUrl = System.env.CIRCLE_REPOSITORY_URL
+        name = BINTRAY_PACKAGE_NAME
+        vcsUrl = BINTRAY_VCS_URL
+        issueTrackerUrl = "${BINTRAY_VCS_URL}/issues"
         licenses = ["MIT"]
         labels = BINTRAY_LABELS
         version {
