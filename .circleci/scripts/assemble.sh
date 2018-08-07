@@ -3,7 +3,7 @@
 echo "#######################################"
 echo "# assemble"
 echo "#######################################"
-./gradlew assembleAndroidTest
-./gradlew assembleDebug
-./gradlew assembleRelease
+./gradlew --parallel assembleAndroidTest
+./gradlew --parallel assembleDebug
+./gradlew --parallel assembleRelease
 
