@@ -5,16 +5,15 @@ import androidx.lifecycle.Observer
 import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
-import com.eaglesakura.armyknife.runtime.extensions.withTimeout
 import com.eaglesakura.oneshotlivedata.newEventObserver
 import kotlinx.coroutines.experimental.NonCancellable
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.experimental.withTimeout
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.experimental.coroutineContext
 
 class BleDeviceStreamTest : AndroidTestCase() {
 
@@ -41,7 +40,7 @@ class BleDeviceStreamTest : AndroidTestCase() {
             })
 
             // check device
-            withTimeout(coroutineContext, 60, TimeUnit.SECONDS) {
+            withTimeout(60, TimeUnit.SECONDS) {
                 while (isActive) {
                     delay(1000)
                     scanner.value?.size?.also { size ->
