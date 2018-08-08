@@ -4,6 +4,18 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.runBlocking
 
-fun blockingTest(dispatcher: CoroutineDispatcher = CommonPool, action: suspend () -> Unit): Unit = runBlocking(dispatcher) {
-    action()
+/**
+ * Robolectric runtime is true.
+ */
+val ROBOLECTRIC: Boolean = try {
+    Class.forName("org.robolectric.Robolectric")
+    true
+} catch (err: ClassNotFoundException) {
+    false
+}
+
+fun blockingTest(dispatcher: CoroutineDispatcher = CommonPool, action: suspend () -> Unit) {
+    runBlocking(dispatcher) {
+        action()
+    }
 }
