@@ -6,6 +6,7 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel
 import org.junit.Assert.*
 import org.junit.Test
+import kotlin.coroutines.experimental.coroutineContext
 
 @Suppress("TestFunctionName")
 class RuntimeExtensionsKtTest : BaseTestCase() {

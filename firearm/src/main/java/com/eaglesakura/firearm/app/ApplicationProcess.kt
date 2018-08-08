@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.eaglesakura.armyknife.android.ApplicationRuntime
+import com.eaglesakura.armyknife.android.extensions.runBlockingInUI
 import com.eaglesakura.armyknife.android.hardware.DisplayInfo
 import com.eaglesakura.armyknife.runtime.Random
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
@@ -15,6 +16,11 @@ import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.runBlocking
 import java.lang.ref.WeakReference
 
+/**
+ * ApplicationProcess has system and process data.
+ *
+ * Caution, This constructor should be calls in UI Thread.
+ */
 class ApplicationProcess(val application: Application) {
 
     /**
@@ -28,6 +34,12 @@ class ApplicationProcess(val application: Application) {
     @Suppress("MemberVisibilityCanBePrivate")
     val processId: String = Random.smallString()
 
+    /**
+     * Install-level unique id.
+     *
+     * This value has been generated on first boot.
+     * It is not refreshable, Length of string is 32, Characters of string are [a-z,A-Z,0-9].
+     */
     val installId: String
         get() = settings.installUniqueId
 
@@ -55,7 +67,7 @@ class ApplicationProcess(val application: Application) {
 
     private fun refreshSettings() {
         if (settings.installUniqueId.isEmpty()) {
-            runBlocking {
+            runBlockingInUI {
                 settings.transaction {
                     settings.installUniqueId = Random.string()
                 }
@@ -78,7 +90,7 @@ class ApplicationProcess(val application: Application) {
 
         _versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
 
-        runBlocking {
+        runBlockingInUI {
             settings.transaction {
                 settings.lastBootedAppVersionCode = versionCode
                 settings.lastBootedAppVersionName = versionName

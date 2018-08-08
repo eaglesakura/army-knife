@@ -53,21 +53,27 @@ suspend fun GoogleApiClient.Builder.connect(): GoogleApiClient {
 private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiClient {
     val channel = Channel<Pair<Bundle?, Exception?>>(1)
     val connectionCallbacks = object : GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-        override fun onConnected(connectionHint: Bundle?) = runBlocking {
-            channel.send(connectionHint to null)
+        override fun onConnected(connectionHint: Bundle?) {
+            launch(UI) {
+                channel.send(connectionHint to null)
+            }
         }
 
-        override fun onConnectionSuspended(cause: Int) = runBlocking {
-            channel.send(null to RequireRetryConnectException(cause))
+        override fun onConnectionSuspended(cause: Int) {
+            launch(UI) {
+                channel.send(null to RequireRetryConnectException(cause))
+            }
         }
 
-        override fun onConnectionFailed(result: ConnectionResult) = runBlocking {
-            channel.send(when (result.errorCode) {
-                ConnectionResult.DEVELOPER_ERROR -> null to DeveloperImplementFailedException(result)
-                ConnectionResult.SIGN_IN_REQUIRED -> null to SignInRequiredException(result)
-                ConnectionResult.SIGN_IN_FAILED -> null to SignInFailedException(result)
-                else -> null to PlayServiceConnectException(result)
-            })
+        override fun onConnectionFailed(result: ConnectionResult) {
+            launch(UI) {
+                channel.send(when (result.errorCode) {
+                    ConnectionResult.DEVELOPER_ERROR -> null to DeveloperImplementFailedException(result)
+                    ConnectionResult.SIGN_IN_REQUIRED -> null to SignInRequiredException(result)
+                    ConnectionResult.SIGN_IN_FAILED -> null to SignInFailedException(result)
+                    else -> null to PlayServiceConnectException(result)
+                })
+            }
         }
     }
 
@@ -75,12 +81,12 @@ private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiCli
     client.registerConnectionCallbacks(connectionCallbacks)
     client.registerConnectionFailedListener(connectionCallbacks)
     try {
-        async(UI) {
+        withContext(UI) {
             when (mode) {
                 GoogleApiClient.SIGN_IN_MODE_REQUIRED, GoogleApiClient.SIGN_IN_MODE_OPTIONAL -> client.connect(mode)
                 else -> client.connect()
             }
-        }.await()
+        }
 
         val result = channel.receive()
         if (result.second != null) {
