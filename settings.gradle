@@ -1,7 +1,7 @@
-include ':kerberus'
-include ':oneshotlivedata'
+include ':kerberus'             // alone
+include ':oneshotlivedata'      // alone
 
+// Below are group
 include ':army-knife-junit'
 include ':army-knife'
-
 include ':firearm'
