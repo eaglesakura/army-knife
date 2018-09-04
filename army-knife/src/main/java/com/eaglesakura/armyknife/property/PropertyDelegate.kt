@@ -79,7 +79,7 @@ class PropertyDelegate {
             Float::class -> FloatProperty(getKey(name), defValueObj as Float)
             Double::class -> DoubleProperty(getKey(name), defValueObj as Double)
             String::class -> StringProperty(getKey(name), defValueObj as String)
-            else -> IllegalArgumentException("Class<${defValue.javaClass}> not supported")
+            else -> throw IllegalArgumentException("Class<${defValue.javaClass}> not supported")
         }
 
         @Suppress("UNCHECKED_CAST")
