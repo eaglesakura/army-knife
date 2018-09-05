@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.property
+package com.eaglesakura.firearm.property
 
 import android.database.AbstractCursor
 import android.database.Cursor

@@ -47,6 +47,7 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
 
     /**
      * Get current time function.
+     * Returns the current time in milliseconds.
      */
     var getTime: () -> Long = { System.currentTimeMillis() }
 
@@ -93,6 +94,12 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
         }
     }
 
+    /**
+     * Open this database.
+     *
+     * @see OPEN_READ_ONLY
+     * @see OPEN_WRITABLE
+     */
     fun open(function: DatabaseOpenFunction): TextKeyValueStore {
         if (refs.incrementAndGet() != 1) {
             return this

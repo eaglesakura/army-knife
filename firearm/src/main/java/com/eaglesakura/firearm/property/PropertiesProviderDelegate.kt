@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.property
+package com.eaglesakura.firearm.property
 
 import android.annotation.SuppressLint
 import android.content.ContentValues

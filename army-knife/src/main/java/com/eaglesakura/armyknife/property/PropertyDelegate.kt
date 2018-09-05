@@ -9,13 +9,9 @@ import kotlin.reflect.KProperty
  * 継承したクラスは `by getRemoteProperty()` 等のDelegateを生成することで、DatabaseやContentProviderに保存可能なプロパティを生成できる.
  */
 @Suppress("unused")
-class PropertyDelegate {
+class PropertyDelegate(private val context: Context, store: PropertyStore, private val group: String) {
 
-    private val context: Context
-
-    private val properties: Properties
-
-    private val group: String
+    private val properties: Properties = Properties(store)
 
     /**
      * Make key-value store's key.
@@ -23,13 +19,7 @@ class PropertyDelegate {
     @Suppress("MemberVisibilityCanBePrivate")
     var getKey: (name: String) -> String
 
-    constructor(context: Context, group: String = "") : this(context, RemotePropertyStore(context), group)
-
-    constructor(context: Context, store: PropertyStore, group: String) {
-        this.context = context
-        this.group = group
-        this.properties = Properties(store)
-
+    init {
         this.getKey = fun(name: String): String {
             if (group.isEmpty()) {
                 return name

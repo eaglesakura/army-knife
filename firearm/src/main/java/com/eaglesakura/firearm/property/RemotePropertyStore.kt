@@ -1,8 +1,9 @@
-package com.eaglesakura.armyknife.property
+package com.eaglesakura.firearm.property
 
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import com.eaglesakura.armyknife.property.PropertyStore
 
 /**
  * ContentProviderと通信してプロパティを管理する

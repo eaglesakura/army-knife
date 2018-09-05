@@ -1,13 +1,9 @@
 package com.eaglesakura.armyknife.runtime.io
 
+import com.eaglesakura.armyknife.runtime.extensions.CancelCallback
 import kotlinx.coroutines.experimental.CancellationException
 import java.io.IOException
 import java.io.InputStream
-
-/**
- * If this function returns true, Input stream read cancel and throw CancellationException.
- */
-typealias CancelCallback = () -> Boolean
 
 @Suppress("MemberVisibilityCanBePrivate")
 class CancelableInputStream(private val stream: InputStream, private val cancelCallback: CancelCallback, bufferSize: Int = 1024 * 2) : InputStream() {

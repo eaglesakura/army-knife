@@ -1,8 +1,9 @@
 /**
  * 0.1.x  : playground-version.
+ * 0.2.x  : playground-version.
  */
 def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
-        "0.1" : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
+        "0.2" : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
 
 def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
 def BINTRAY_LABELS = ["android", "kotlin"]
