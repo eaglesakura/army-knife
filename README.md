@@ -17,6 +17,12 @@ Source codes are all test(or playground) version in this repository.
 army-knife is small library, but it can be more small.
 If you have to shrink to application, then proguard-options set to enable.
 
+# Firearm
+
+`firearm` includes convenient classes.
+
+however, It restrict the application architecture.
+
 # Kerberus
 
 `Kerberus` is coroutine-base async tasks library with Kotlin.
@@ -31,5 +37,4 @@ LiveData's observer is subscribe to new-data and not-modified data.
 
 But, SnackBar will require one-shot data, not required not-modified data.
 
-e.g. e.g. LiveData's Observer will subscribe not-modified data on "onResume" function. OneshotLiveData's Observer will `not` subscribe it.
-
+e.g. LiveData's Observer will subscribe not-modified data on "onResume" function. OneshotLiveData's Observer will `not` subscribe it.
