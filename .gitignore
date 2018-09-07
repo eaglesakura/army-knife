@@ -18,3 +18,4 @@ dependencies.txt
 /private
 .externalNativeBuild/
 google-services.json
+fastlane/report.xml

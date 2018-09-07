@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: $DOCKER_IMAGE_NAME
+      - image: gcr.io/eaglesakura-container/github/army-knife:1.0.0
         auth:
             username: _json_key
             password: $SERVICE_ACCOUNT_JSON
@@ -14,27 +14,25 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}-{{ checksum "army-knife/build.gradle" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}
       - run:
           name: setup
-          command: |
-            chmod +x -R .circleci/scripts/
-            .circleci/scripts/setup.sh
+          command: fastlane ci setup
       - run:
           name: test
-          command: .circleci/scripts/test.sh
+          command: fastlane android test
       - run:
           name: assemble
-          command: .circleci/scripts/assemble.sh
+          command: fastlane android assemble
       - run:
           name: deploy
-          command: .circleci/scripts/deploy.sh
+          command: fastlane ci deploy
       - save_cache:
           paths:
             - ~/.gradle
             - ~/.m2
             - ~/project/.configs
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}-{{ checksum "army-knife/build.gradle" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}
       - store_artifacts:
           path: /tmp/artifacts
 workflows:

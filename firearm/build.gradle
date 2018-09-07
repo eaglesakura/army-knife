@@ -14,6 +14,57 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
+android {
+    compileSdkVersion 28
+
+    // for *.java options
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // for Kotlin-Android
+    androidExtensions {
+        experimental = true
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        multiDexEnabled true
+        aaptOptions.cruncherEnabled false
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/**.properties'
+        exclude 'META-INF/**.version'
+        exclude 'META-INF/**.kotlin_module'
+        exclude 'META-INF/**.pro'
+        exclude 'kotlin/**'
+        exclude "kotlinx/**"
+        exclude 'okhttp3/**'
+        exclude 'fabric/**'
+        exclude "**/**annotations.gwt.xml"
+        exclude "**/**-setter_store.bin"
+        exclude "**/**-layoutinfo.bin"
+        exclude "**/**-br.bin"
+        exclude "build-data.properties"
+        exclude "protobuf.meta"
+        exclude "/*.properties"
+        exclude "org/apache/http/version.properties"
+    }
+}
+
 dependencies {
     final def implementationProjectOrMaven = { path, module ->
         try {
@@ -45,8 +96,8 @@ dependencies {
      */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.25.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.25.3'
 
     /**
      * Support Libraries
@@ -77,35 +128,6 @@ dependencies {
      */
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
-android {
-    compileSdkVersion 28
-
-    // for *.java options
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    // for Kotlin-Android
-    androidExtensions {
-        experimental = true
-    }
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        multiDexEnabled true
-        aaptOptions.cruncherEnabled false
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 group = "com.eaglesakura"
