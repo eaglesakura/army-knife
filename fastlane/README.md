@@ -64,6 +64,11 @@ fastlane android assemble
 fastlane ci setup
 ```
 
+### ci deploy
+```
+fastlane ci deploy
+```
+
 
 ----
 
