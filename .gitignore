@@ -19,3 +19,5 @@ dependencies.txt
 .externalNativeBuild/
 google-services.json
 fastlane/report.xml
+*.hprof
+/artifacts

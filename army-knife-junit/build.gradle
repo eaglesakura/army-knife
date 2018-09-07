@@ -41,6 +41,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    packagingOptions {
+        exclude 'META-INF/**_debug.kotlin_module'
+    }
 }
 
 dependencies {
