@@ -7,7 +7,6 @@ jobs:
             username: _json_key
             password: $SERVICE_ACCOUNT_JSON
         environment:
-          CIRCLE_ARTIFACTS: /tmp/artifacts
           _JAVA_OPTIONS: -Dfile.encoding=UTF-8
           GRADLE_OPTS: "-Xmx3500m"
           CACHE_VERSION: "1.0"
@@ -34,7 +33,7 @@ jobs:
             - ~/project/.configs
           key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "settings.gradle" }}
       - store_artifacts:
-          path: /tmp/artifacts
+          path: artifacts
 workflows:
   version: 2
   build:
