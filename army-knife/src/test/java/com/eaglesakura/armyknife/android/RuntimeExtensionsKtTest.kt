@@ -15,6 +15,21 @@ import kotlin.coroutines.experimental.coroutineContext
 class RuntimeExtensionsKtTest : BaseTestCase() {
 
     @Test(expected = CancellationException::class)
+    fun Channel_cancel_in_poll() = blockingTest {
+        val chan = Channel<Unit>()
+        launch {
+            delay(500)
+            chan.cancel(CancellationException())
+        }
+
+        while (true) {
+            // throws in function.
+            assertNull(chan.poll())
+            yield()
+        }
+    }
+
+    @Test(expected = CancellationException::class)
     fun Channel_cancel_in_receive() = blockingTest {
         val chan = Channel<Unit>()
         launch { chan.close(CancellationException()) }
