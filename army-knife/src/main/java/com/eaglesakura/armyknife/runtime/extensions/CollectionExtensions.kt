@@ -1,10 +1,21 @@
 package com.eaglesakura.armyknife.runtime.extensions
 
 /**
+ * Returns true, if it was null or empty.
+ */
+fun <T> Collection<T>?.isNullOrEmpty(): Boolean {
+    if (this == null) {
+        return true
+    }
+
+    return isEmpty()
+}
+
+/**
  * An obj add to list when not overlaps.
  * This method returns added index or overlap object index.
  */
-fun <T> MutableList<T>.addUnique(obj: T): Int {
+fun <T> MutableCollection<T>.addUnique(obj: T): Int {
     forEachIndexed { index, value ->
         if (value == obj) {
             return index
@@ -18,7 +29,7 @@ fun <T> MutableList<T>.addUnique(obj: T): Int {
  * An obj in list add to list when not overlaps.
  * This method returns added index or overlap object index.
  */
-fun <T> MutableList<T>.addUniqueAll(list: Iterable<T>) {
+fun <T> MutableCollection<T>.addUniqueAll(list: Iterable<T>) {
     for (item in list) {
         addUnique(item)
     }
@@ -27,7 +38,7 @@ fun <T> MutableList<T>.addUniqueAll(list: Iterable<T>) {
 /**
  * Delete overlaps object in this list.
  */
-fun <T> MutableList<T>.shrink() {
+fun <T> MutableCollection<T>.shrink() {
     val temp = mutableSetOf<T>()
     this.iterator().also { iterator ->
         while (iterator.hasNext()) {

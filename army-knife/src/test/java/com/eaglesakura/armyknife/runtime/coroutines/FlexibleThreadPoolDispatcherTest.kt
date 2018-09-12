@@ -10,6 +10,7 @@ import kotlinx.coroutines.experimental.withContext
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.experimental.coroutineContext
 
 class FlexibleThreadPoolDispatcherTest {
 
@@ -19,6 +20,25 @@ class FlexibleThreadPoolDispatcherTest {
         assertEquals(0, dispatcher.aliveThreadNum)
 
         withContext(dispatcher) {
+            assertEquals(1, dispatcher.aliveThreadNum)
+            delay(10)
+            println("dispatch success")
+        }
+        dispatcher.aliveThreadNum.validate {
+            from(1)
+            to(5)
+        }
+
+        delay(30)
+        assertEquals(0, dispatcher.aliveThreadNum)
+    }
+
+    @Test
+    fun launch_success_with_current() = blockingTest {
+        val dispatcher = FlexibleThreadPoolDispatcher(5, 10, TimeUnit.MILLISECONDS, "test-dispatcher")
+        assertEquals(0, dispatcher.aliveThreadNum)
+
+        withContext(coroutineContext + dispatcher) {
             assertEquals(1, dispatcher.aliveThreadNum)
             delay(10)
             println("dispatch success")

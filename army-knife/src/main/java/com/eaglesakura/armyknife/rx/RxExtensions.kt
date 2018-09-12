@@ -5,7 +5,7 @@ import com.eaglesakura.armyknife.android.extensions.subscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
-fun Disposable.autoDispose(lifecycle: Lifecycle): Disposable {
+fun Disposable.with(lifecycle: Lifecycle): Disposable {
     var origin: Disposable? = this
 
 //    PublishSubject.create<Int>()
@@ -13,7 +13,7 @@ fun Disposable.autoDispose(lifecycle: Lifecycle): Disposable {
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe {
 //
-//            }.autoDispose(lifecycle)
+//            }.with(lifecycle)
 
     lifecycle.subscribe {
         if (it == Lifecycle.Event.ON_DESTROY) {
@@ -45,5 +45,5 @@ fun <T> Observable<T>.subscribe(lifecycle: Lifecycle,
             { next -> onNext?.invoke(next) },
             { err -> onError?.invoke(err) },
             { onComplete?.invoke() }
-    ).autoDispose(lifecycle)
+    ).with(lifecycle)
 }
