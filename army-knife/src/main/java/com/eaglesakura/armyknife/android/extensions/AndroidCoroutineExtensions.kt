@@ -1,11 +1,9 @@
 package com.eaglesakura.armyknife.android.extensions
 
+import androidx.lifecycle.Lifecycle
 import com.eaglesakura.armyknife.android.ApplicationRuntime
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.CoroutineContext
 
 
@@ -38,5 +36,24 @@ fun <T> runBlockingInUI(context: CoroutineContext = CommonPool, block: suspend C
     } else {
         @Suppress("UNCHECKED_CAST")
         return values!!.first as T
+    }
+}
+
+/**
+ * Link to lifecycle.
+ * When destroyed a lifecycle object then cancel coroutine.
+ */
+fun CoroutineContext.with(lifecycle: Lifecycle) {
+    var context: CoroutineContext? = this
+
+    lifecycle.subscribe { event ->
+        val ctx = context ?: return@subscribe
+
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            if (ctx.isActive) {
+                ctx.cancel(CancellationException("Lifecycle[$lifecycle] was destroyed."))
+            }
+            context = null
+        }
     }
 }
