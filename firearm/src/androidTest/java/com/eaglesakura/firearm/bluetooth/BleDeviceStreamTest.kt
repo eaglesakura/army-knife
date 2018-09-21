@@ -6,11 +6,8 @@ import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
 import com.eaglesakura.oneshotlivedata.newEventObserver
-import kotlinx.coroutines.experimental.NonCancellable
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.withContext
-import kotlinx.coroutines.experimental.withTimeout
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.TimeUnit

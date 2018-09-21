@@ -13,6 +13,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "com.github.ben-manes.versions"   // dependencies version check
 
 kotlin {
     experimental {
@@ -51,16 +52,16 @@ dependencies {
     /**
      * java libraries
      */
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'   // Reactive Extension
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'   // Reactive Extension
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'   // Reactive Extension
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
 
     /**
      * Kotlin support
      */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.25.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.25.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
 
     /**
      * Support Libraries

@@ -2,10 +2,11 @@
 
 If You will go to battlefield of development then choose weapons from this repository.
 
-|Version|Build Status|
+|Version|Build Status| Feature |
 |----|----|
-|v0.1.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x)|
-|v0.2.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.2.x.svg?style=svg)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.2.x)|
+|v0.1.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x)| 1st release |
+|v0.2.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.2.x.svg?style=svg)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.2.x)| renamed package |
+|v0.3.x|| changed coroutines 0.26.x |
 
 
 # Army-Knife

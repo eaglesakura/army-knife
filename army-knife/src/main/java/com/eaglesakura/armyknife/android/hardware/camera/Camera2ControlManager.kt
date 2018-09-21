@@ -88,9 +88,9 @@ class Camera2ControlManager(
             val channel = Channel<CameraDevice>()
 
             try {
-                this.pictureShotRequest = shotRequest
-                this.previewRequest = previewRequest
-                this.previewSurface = previewSurface
+                this@Camera2ControlManager.pictureShotRequest = shotRequest
+                this@Camera2ControlManager.previewRequest = previewRequest
+                this@Camera2ControlManager.previewSurface = previewSurface
 
 
                 spec.cameraManager.openCamera(spec.cameraId, object : CameraDevice.StateCallback() {

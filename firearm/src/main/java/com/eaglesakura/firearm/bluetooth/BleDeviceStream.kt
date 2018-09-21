@@ -13,11 +13,8 @@ import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.RuntimePermissions
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.oneshotlivedata.EventStream
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 
 @SuppressLint("MissingPermission")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
