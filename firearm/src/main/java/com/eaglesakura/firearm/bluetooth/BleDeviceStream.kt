@@ -23,7 +23,13 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
     /**
      * Device scan events.
      */
-    val event = EventStream(BluetoothScanEvent.EVENT_LOST, BluetoothScanEvent.EVENT_FOUND, BluetoothScanEvent.EVENT_UPDATED)
+    val event = EventStream { id ->
+        when (id) {
+            BluetoothScanEvent.EVENT_LOST, BluetoothScanEvent.EVENT_FOUND, BluetoothScanEvent.EVENT_UPDATED -> true
+            is BluetoothScanEvent -> true
+            else -> false
+        }
+    }
 
     /**
      * Ble device cache expired time.
