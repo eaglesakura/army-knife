@@ -110,4 +110,24 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
 
         channel.receive()
     }
+
+    @Test(expected = CancellationException::class)
+    fun withContext_cancel() = blockingTest {
+        val topLevel = coroutineContext
+        launch {
+            delay(1, TimeUnit.SECONDS)
+            topLevel.cancel()
+            yield()
+        }
+
+        yield()
+
+        // Blocking include top level.
+        withContext(CommonPool) {
+            delay(2, TimeUnit.SECONDS)
+            fail()
+        }
+        fail()
+    }
+
 }

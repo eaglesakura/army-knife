@@ -1,6 +1,7 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import android.os.Bundle
+import android.os.Parcelable
 import com.eaglesakura.BaseTestCase
 import org.junit.Assert.*
 import org.junit.Test
@@ -34,7 +35,7 @@ class ParcelableExtensionsKtTest : BaseTestCase() {
         val bundle = Bundle()
         bundle.putString("key", "value")
 
-        val unmarshal = bundle.deepCopy()
+        val unmarshal = (bundle as Parcelable).deepCopy<Bundle>()
         assertEquals("value", unmarshal.get("key"))
     }
 }
