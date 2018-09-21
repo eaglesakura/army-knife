@@ -3,7 +3,9 @@ package com.eaglesakura.oneshotlivedata
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 
 /**
@@ -39,7 +41,7 @@ open class OneshotLiveData<T> : LiveData<DataState<T>>() {
 
     @WorkerThread
     open fun postOneshot(data: T) {
-        launch(UI) { setOneshot(data) }
+        GlobalScope.launch(Dispatchers.Main) { setOneshot(data) }
     }
 
 }

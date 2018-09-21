@@ -5,7 +5,7 @@ import com.eaglesakura.armyknife.android.gms.error.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 
 /**
@@ -54,19 +54,19 @@ private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiCli
     val channel = Channel<Pair<Bundle?, Exception?>>(1)
     val connectionCallbacks = object : GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
         override fun onConnected(connectionHint: Bundle?) {
-            launch(UI) {
+            GlobalScope.launch(Dispatchers.Main) {
                 channel.send(connectionHint to null)
             }
         }
 
         override fun onConnectionSuspended(cause: Int) {
-            launch(UI) {
+            GlobalScope.launch(Dispatchers.Main) {
                 channel.send(null to RequireRetryConnectException(cause))
             }
         }
 
         override fun onConnectionFailed(result: ConnectionResult) {
-            launch(UI) {
+            GlobalScope.launch(Dispatchers.Main) {
                 channel.send(when (result.errorCode) {
                     ConnectionResult.DEVELOPER_ERROR -> null to DeveloperImplementFailedException(result)
                     ConnectionResult.SIGN_IN_REQUIRED -> null to SignInRequiredException(result)
@@ -81,7 +81,7 @@ private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiCli
     client.registerConnectionCallbacks(connectionCallbacks)
     client.registerConnectionFailedListener(connectionCallbacks)
     try {
-        withContext(UI) {
+        withContext(Dispatchers.Main) {
             when (mode) {
                 GoogleApiClient.SIGN_IN_MODE_REQUIRED, GoogleApiClient.SIGN_IN_MODE_OPTIONAL -> client.connect(mode)
                 else -> client.connect()
@@ -95,7 +95,7 @@ private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiCli
             return client
         }
     } catch (err: Exception) {
-        launch(UI + NonCancellable) {
+        GlobalScope.launch(Dispatchers.Main + NonCancellable) {
             try {
                 client.disconnect()
             } catch (err: Exception) {
@@ -115,11 +115,12 @@ suspend fun <T> GoogleApiClient.use(action: suspend (client: GoogleApiClient) ->
     return try {
         action(this)
     } finally {
-        async(UI) {
+        withContext(NonCancellable + Dispatchers.Main) {
             try {
                 disconnect()
             } catch (err: Exception) {
+                // drop error.
             }
-        }.await()
+        }
     }
 }

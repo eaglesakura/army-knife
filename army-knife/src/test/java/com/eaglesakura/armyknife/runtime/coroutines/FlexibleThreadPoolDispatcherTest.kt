@@ -3,6 +3,7 @@ package com.eaglesakura.armyknife.runtime.coroutines
 import com.eaglesakura.armyknife.junit.blockingTest
 import com.eaglesakura.armyknife.junit.validate
 import com.eaglesakura.armyknife.runtime.Random
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -59,7 +60,7 @@ class FlexibleThreadPoolDispatcherTest {
         val loop = 10000
         val channel = Channel<Int>(loop)
         for (i in 0..loop) {
-            launch(dispatcher) {
+            GlobalScope.launch(dispatcher) {
                 delay(Random.int32() % 10 + 1)
                 channel.send(i)
             }

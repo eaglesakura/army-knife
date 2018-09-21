@@ -7,7 +7,7 @@ import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
 import com.eaglesakura.oneshotlivedata.newEventObserver
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 class BleDeviceStreamTest : AndroidTestCase() {
 
     @Test
-    fun testBleScan() = blockingTest(UI) {
+    fun testBleScan() = blockingTest(Dispatchers.Main) {
         val scanner = BleDeviceStream(application)
         Assert.assertTrue(scanner.hasPermissions)
 

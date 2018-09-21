@@ -1,7 +1,9 @@
 package com.eaglesakura.oneshotlivedata
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 
 fun <T> newOneshotObserver(block: (data: T) -> Unit): Observer<DataState<T>> {
@@ -37,13 +39,13 @@ private fun runOnForeground(lifecycle: Lifecycle, action: () -> Unit) {
     }
 
     if (lifecycle.currentState == Lifecycle.State.RESUMED) {
-        launch(UI) { action() }
+        GlobalScope.launch(Dispatchers.Main) { action() }
         return
     } else {
         lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume() {
-                launch(UI) { action() }
+                GlobalScope.launch(Dispatchers.Main) { action() }
                 lifecycle.removeObserver(this)
             }
         })

@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.junit
 
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineDispatcher
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
 
 /**
@@ -14,7 +14,7 @@ val ROBOLECTRIC: Boolean = try {
     false
 }
 
-fun blockingTest(dispatcher: CoroutineDispatcher = CommonPool, action: suspend () -> Unit) {
+fun blockingTest(dispatcher: CoroutineDispatcher = Dispatchers.Default, action: suspend () -> Unit) {
     runBlocking(dispatcher) {
         action()
     }

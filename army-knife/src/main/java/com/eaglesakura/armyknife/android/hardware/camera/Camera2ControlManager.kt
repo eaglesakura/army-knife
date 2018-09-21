@@ -20,11 +20,9 @@ import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
-import kotlinx.coroutines.experimental.NonCancellable
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import java.util.*
 import kotlin.coroutines.experimental.coroutineContext
 
@@ -84,7 +82,7 @@ class Camera2ControlManager(
     override suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?) {
         processingHandler = AsyncHandler.newInstance("camera-processing-${hashCode()}")
 
-        withContext(coroutineContext + UI) {
+        withContext(coroutineContext + Dispatchers.Main) {
             val channel = Channel<CameraDevice>()
 
             try {
@@ -95,19 +93,19 @@ class Camera2ControlManager(
 
                 spec.cameraManager.openCamera(spec.cameraId, object : CameraDevice.StateCallback() {
                     override fun onOpened(cameraDevice: CameraDevice) {
-                        launch(UI) {
+                        launch(Dispatchers.Main) {
                             channel.send(cameraDevice)
                         }
                     }
 
                     override fun onDisconnected(cameraDevice: CameraDevice) {
-                        launch(UI) {
+                        launch(Dispatchers.Main) {
                             disconnect()
                         }
                     }
 
                     override fun onError(cameraDevice: CameraDevice, error: Int) {
-                        launch(UI) {
+                        launch(Dispatchers.Main) {
                             if (error == CameraDevice.StateCallback.ERROR_CAMERA_IN_USE) {
                                 // すでに使われている
                                 channel.send(cameraDevice)
@@ -179,7 +177,7 @@ class Camera2ControlManager(
         try {
             camera!!.createCaptureSession(surfaces, object : CameraCaptureSession.StateCallback() {
                 override fun onConfigured(session: CameraCaptureSession) {
-                    launch(UI) {
+                    GlobalScope.launch(Dispatchers.Main) {
                         channel.send(session)
                     }
                 }
@@ -305,13 +303,13 @@ class Camera2ControlManager(
             // 撮影コールバック
             val captureCallback = object : CameraCaptureSession.CaptureCallback() {
                 override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-                    launch(UI) {
+                    GlobalScope.launch(Dispatchers.Main) {
                         captureCompleted.send(true)
                     }
                 }
 
                 override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
-                    launch(UI) {
+                    GlobalScope.launch(Dispatchers.Main) {
                         captureCompleted.cancel(PictureFailedException("Fail reason[${failure.reason}]"))
                     }
                 }
@@ -323,7 +321,7 @@ class Camera2ControlManager(
                 val buffer = image.planes[0].buffer
                 val onMemoryFile = ByteArray(buffer.capacity())
                 buffer.get(onMemoryFile)
-                launch(UI) {
+                GlobalScope.launch(Dispatchers.Main) {
                     picture.send(PictureData(image.width, image.height, onMemoryFile))
                     image.close()
                 }

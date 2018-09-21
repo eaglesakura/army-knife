@@ -17,7 +17,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
     @Test(expected = CancellationException::class)
     fun Channel_cancel_in_poll() = blockingTest {
         val chan = Channel<Unit>()
-        launch {
+        GlobalScope.launch {
             delay(500)
             chan.cancel(CancellationException())
         }
@@ -32,7 +32,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
     @Test(expected = CancellationException::class)
     fun Channel_cancel_in_receive() = blockingTest {
         val chan = Channel<Unit>()
-        launch { chan.close(CancellationException()) }
+        GlobalScope.launch { chan.close(CancellationException()) }
         chan.receive()  // assert cancel in receive() function.
 
         // do not it.
@@ -43,7 +43,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
     fun coroutine_cancel() = blockingTest {
 
         val channel = Channel<Boolean>()
-        val job = async {
+        val job = GlobalScope.async {
             Thread.sleep(100)
             val callback = coroutineContext.asCancelCallback()
             withContext(NonCancellable) {
@@ -60,7 +60,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
     @Test
     fun coroutine_not_cancel() = blockingTest {
         val channel = Channel<Boolean>()
-        async {
+        GlobalScope.async {
             Thread.sleep(100)
             val callback = coroutineContext.asCancelCallback()
             withContext(NonCancellable) {
@@ -83,7 +83,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
     @Test(expected = IOException::class)
     fun coroutine_withTimeout_withContext() = blockingTest {
         val channel = Channel<Unit>()
-        launch {
+        GlobalScope.launch {
             val current = coroutineContext
             // Cancel this job.
             launch {
@@ -114,7 +114,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
     @Test(expected = CancellationException::class)
     fun withContext_cancel() = blockingTest {
         val topLevel = coroutineContext
-        launch {
+        GlobalScope.launch {
             delay(1, TimeUnit.SECONDS)
             topLevel.cancel()
             yield()
@@ -123,7 +123,7 @@ class RuntimeExtensionsKtTest : BaseTestCase() {
         yield()
 
         // Blocking include top level.
-        withContext(CommonPool) {
+        withContext(Dispatchers.Default) {
             delay(2, TimeUnit.SECONDS)
             fail()
         }

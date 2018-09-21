@@ -3,8 +3,10 @@ package com.eaglesakura.kerberus
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 
 interface DelayToken {
@@ -35,7 +37,7 @@ class DeferredOnForeground(private val lifecycle: Lifecycle) : Deferrer {
         }
 
         lifecycle.runOnForeground {
-            launch(UI) { token.resume() }
+            GlobalScope.launch(Dispatchers.Main) { token.resume() }
         }
     }
 }
@@ -50,14 +52,14 @@ internal fun Lifecycle.runOnForeground(action: () -> Unit) {
     }
 
     if (currentState == Lifecycle.State.RESUMED) {
-        launch(UI) { action() }
+        GlobalScope.launch(Dispatchers.Main) { action() }
         return
     } else {
         this.addObserver(object : LifecycleObserver {
             @Suppress("unused")
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume() {
-                launch(UI) { action() }
+                GlobalScope.launch(Dispatchers.Main) { action() }
                 removeObserver(this)
             }
         })

@@ -1,30 +1,30 @@
 package com.eaglesakura.kerberus
 
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 
 private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: CoroutineDispatcher): Job {
-    return launch(dispatcher) {
+    return GlobalScope.launch(dispatcher, CoroutineStart.DEFAULT, null, {
         try {
             task.semaphore.run {
                 val value = task.onBackground(this)
 
-                withContext(UI) { task.onSuccess?.invoke(value) }
+                withContext(Dispatchers.Main) { task.onSuccess?.invoke(value) }
             }
         } catch (err: Exception) {
             if (err is CancellationException) {
                 when (task.onCancel) {
                     null -> throw err
-                    else -> withContext(UI) { task.onCancel!!(err) }
+                    else -> withContext(Dispatchers.Main) { task.onCancel!!(err) }
                 }
             } else {
                 when (task.onError) {
                     null -> throw err
-                    else -> withContext(UI) { task.onError!!(err) }
+                    else -> withContext(Dispatchers.Main) { task.onError!!(err) }
                 }
             }
         }
-    }
+    })
 }
 
 class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var entryPoint: AsyncTaskBuilder<T>.() -> Job) {
@@ -52,7 +52,7 @@ class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var 
  * "onBackground" function execute from CoroutineDispatcher thread in arguments.
  * "onSuccess", "onError", and "onCancel" functions are execute from Main-Thread.
  */
-fun <T> asyncTask(semaphore: Semaphore = Semaphore.NonBlocking, dispatcher: CoroutineDispatcher = CommonPool, builder: (AsyncTaskBuilder<T>.() -> Unit)): Job {
+fun <T> asyncTask(semaphore: Semaphore = Semaphore.NonBlocking, dispatcher: CoroutineDispatcher = Dispatchers.Default, builder: (AsyncTaskBuilder<T>.() -> Unit)): Job {
     return asyncTask(semaphore, { dispatcherEntry(this, dispatcher) }, builder);
 }
 

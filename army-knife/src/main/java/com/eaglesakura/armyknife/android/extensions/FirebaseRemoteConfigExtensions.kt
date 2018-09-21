@@ -3,7 +3,9 @@ package com.eaglesakura.armyknife.android.extensions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import java.util.concurrent.TimeUnit
@@ -88,7 +90,7 @@ fun FirebaseRemoteConfig.fetch(cacheTime: Long, cacheTimeUnit: TimeUnit): Task<V
  * @see FETCH_STATUS_HAS_VALUES
  */
 suspend fun FirebaseRemoteConfig.fetchAndActivate(cacheTime: Long = 1, cacheTimeUnit: TimeUnit = TimeUnit.HOURS): Int {
-    val task = async(coroutineContext + UI) { fetch(cacheTime, cacheTimeUnit) }.await()
+    val task = GlobalScope.async(coroutineContext + Dispatchers.Main) { fetch(cacheTime, cacheTimeUnit) }.await()
 
     while (true) {
         if (task.isComplete) {

@@ -14,7 +14,7 @@ import com.eaglesakura.armyknife.android.RuntimePermissions
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 
 @SuppressLint("MissingPermission")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -109,11 +109,11 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
     }
 
     private fun startCacheCleanAsync() {
-        scanJob = launch {
+        scanJob = GlobalScope.launch {
             try {
                 while (isActive) {
                     delay(1000 * 5)
-                    async(UI) { cleanUp() }.await()
+                    async(Dispatchers.Main) { cleanUp() }.await()
                 }
             } finally {
                 Logger.debug("BLE", "Scan clean up abort.")
