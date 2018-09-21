@@ -32,7 +32,7 @@ suspend fun CoroutineContext.monitor(monitor: Monitor) {
     val job = current[Job]!!
 
     val channel = Channel<Unit>()
-    launch(current + monitorDispatcher) {
+    GlobalScope.launch(current + monitorDispatcher) {
         // initial interrupt
         monitor.interrupt(job)
         channel.send(Unit)
@@ -55,7 +55,7 @@ suspend fun CoroutineContext.pause(callback: Deferrer) {
     val current = this
     val job = current[Job]!!
     val token = DelayTokenImpl()
-    launch(current + monitorDispatcher) {
+    GlobalScope.launch(current + monitorDispatcher) {
         callback.onPause(job, token)
     }
     token.waitResume()

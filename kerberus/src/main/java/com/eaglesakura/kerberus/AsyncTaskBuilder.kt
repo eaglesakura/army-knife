@@ -4,7 +4,7 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 
 private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: CoroutineDispatcher): Job {
-    return GlobalScope.launch(dispatcher, CoroutineStart.DEFAULT, null, {
+    return GlobalScope.launch(dispatcher) {
         try {
             task.semaphore.run {
                 val value = task.onBackground(this)
@@ -24,7 +24,7 @@ private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: Coroutine
                 }
             }
         }
-    })
+    }
 }
 
 class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var entryPoint: AsyncTaskBuilder<T>.() -> Job) {
