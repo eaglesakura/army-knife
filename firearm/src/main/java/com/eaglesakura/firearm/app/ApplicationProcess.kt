@@ -6,14 +6,12 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.eaglesakura.armyknife.android.ApplicationRuntime
-import com.eaglesakura.armyknife.android.extensions.runBlockingInUI
 import com.eaglesakura.armyknife.android.hardware.DisplayInfo
 import com.eaglesakura.armyknife.runtime.Random
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
 import com.eaglesakura.oneshotlivedata.EventId
 import com.eaglesakura.oneshotlivedata.EventStream
-import kotlinx.coroutines.experimental.runBlocking
 import java.lang.ref.WeakReference
 
 /**
@@ -67,10 +65,8 @@ class ApplicationProcess(val application: Application) {
 
     private fun refreshSettings() {
         if (settings.installUniqueId.isEmpty()) {
-            runBlockingInUI {
-                settings.transaction {
-                    settings.installUniqueId = Random.string()
-                }
+            settings.transaction {
+                settings.installUniqueId = Random.string()
             }
         }
 
@@ -89,13 +85,10 @@ class ApplicationProcess(val application: Application) {
         log("API Level         [$oldSdkInt] -> [$sdkInt]")
 
         _versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
-
-        runBlockingInUI {
-            settings.transaction {
-                settings.lastBootedAppVersionCode = versionCode
-                settings.lastBootedAppVersionName = versionName
-                settings.lastBootedApiLevel = sdkInt
-            }
+        settings.transaction {
+            settings.lastBootedAppVersionCode = versionCode
+            settings.lastBootedAppVersionName = versionName
+            settings.lastBootedApiLevel = sdkInt
         }
     }
 

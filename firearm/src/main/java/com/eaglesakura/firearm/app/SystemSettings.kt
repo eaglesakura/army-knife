@@ -43,5 +43,5 @@ internal class SystemSettings(context: Context) {
         properties.load()
     }
 
-    suspend fun transaction(block: suspend () -> Unit) = properties.transaction(block)
+    fun transaction(block: () -> Unit) = properties.transaction(block)
 }

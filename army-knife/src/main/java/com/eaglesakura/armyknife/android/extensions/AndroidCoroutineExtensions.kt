@@ -12,6 +12,7 @@ import kotlin.coroutines.experimental.CoroutineContext
  * runBlocking of coroutine-runtime is not support in Android UI Thread.
  * When uses coroutines version 0.24.x then use this.
  */
+@Deprecated(message = "Revert specifications in 0.25.3, use runBlocking{}")
 fun <T> runBlockingInUI(context: CoroutineContext = Dispatchers.Default, block: suspend CoroutineScope.() -> T): T {
     ApplicationRuntime.assertUIThread()
     if (context == Dispatchers.Main) {

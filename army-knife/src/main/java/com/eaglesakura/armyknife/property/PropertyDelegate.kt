@@ -40,7 +40,7 @@ class PropertyDelegate(private val context: Context, store: PropertyStore, priva
         properties.load()
     }
 
-    suspend fun transaction(block: suspend () -> Unit) {
+    fun transaction(block: () -> Unit) {
         load()
         try {
             block()
