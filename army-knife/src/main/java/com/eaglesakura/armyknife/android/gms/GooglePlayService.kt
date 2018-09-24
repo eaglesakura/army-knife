@@ -80,13 +80,13 @@ object GooglePlayService {
      * Google Play ServiceのインストールIntentを生成する
      */
     fun getGooglePlayServiceInstallIntent(context: Context): Intent {
-        return getGooglePlayInstallIntent(context, "com.google.android.gms")
+        return newGooglePlayInstallIntent(context, "com.google.android.gms")
     }
 
     /**
      * GooglePlayでのインストールIntentを生成する
      */
-    fun getGooglePlayInstallIntent(@Suppress("UNUSED_PARAMETER") context: Context, packageName: String): Intent {
+    fun newGooglePlayInstallIntent(@Suppress("UNUSED_PARAMETER") context: Context, packageName: String): Intent {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse("market://details?id=$packageName")
         return intent
