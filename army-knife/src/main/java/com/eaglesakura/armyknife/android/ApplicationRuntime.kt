@@ -10,14 +10,8 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
-import android.net.ConnectivityManager
 import android.os.Build
-import android.provider.Settings
-import androidx.annotation.UiThread
-import androidx.annotation.WorkerThread
-import com.eaglesakura.armyknife.android.extensions.UIHandler
 
 object ApplicationRuntime {
 
@@ -29,66 +23,6 @@ object ApplicationRuntime {
         true
     } catch (err: ClassNotFoundException) {
         false
-    }
-
-    /**
-     * If this app debugging now,
-     * This property returns true,
-     */
-    fun isDebug(context: Context): Boolean {
-        return context.packageManager.getApplicationInfo(context.packageName, 0)?.let { appInfo ->
-            return appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == ApplicationInfo.FLAG_DEBUGGABLE
-        } ?: false
-    }
-
-    fun getVersionName(context: Context): String {
-        return context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_ACTIVITIES)?.versionName
-                ?: ""
-    }
-
-    fun getVersionCode(context: Context): Long {
-        return context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_ACTIVITIES)?.versionCode?.toLong()
-                ?: 0L
-    }
-
-    /**
-     * When developer mode enabled on this device, This property return true.
-     * But, API Level less than 17, This property always returns false.
-     */
-    fun isDeveloperModeDevice(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT < 17) {
-            false
-        } else {
-            Settings.Secure.getInt(context.contentResolver, Settings.Global.ADB_ENABLED, 0) != 0
-        }
-    }
-
-    fun nowOnUIThread(): Boolean {
-        return Thread.currentThread() == UIHandler.looper.thread
-    }
-
-    @UiThread
-    fun assertUIThread() {
-        if (!nowOnUIThread()) {
-            throw Error("Thread[${Thread.currentThread()}] is not UI")
-        }
-    }
-
-    @JvmStatic
-    @WorkerThread
-    fun assertWorkerThread() {
-        if (nowOnUIThread()) {
-            throw Error("Thread[${Thread.currentThread()}] is UI")
-        }
-    }
-
-    /**
-     * This method returns true when android-device connected to network.
-     */
-    @SuppressLint("MissingPermission")
-    fun isConnectedNetwork(context: Context): Boolean {
-        val service = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return service.activeNetworkInfo?.isConnected ?: false
     }
 
     /**

@@ -5,7 +5,7 @@ import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import com.eaglesakura.armyknife.android.ApplicationRuntime
+import com.eaglesakura.armyknife.android.extensions.debugMode
 import com.eaglesakura.armyknife.android.hardware.DisplayInfo
 import com.eaglesakura.armyknife.runtime.Random
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
@@ -73,9 +73,15 @@ class ApplicationProcess(val application: Application) {
         val oldVersionCode = settings.lastBootedAppVersionCode
         val oldVersionName = settings.lastBootedAppVersionName
         val oldSdkInt = settings.lastBootedApiLevel
-
-        val versionCode = ApplicationRuntime.getVersionCode(application)
-        val versionName = ApplicationRuntime.getVersionName(application)
+        val versionName = application.packageManager.getPackageInfo(application.packageName, 0x00).versionName!!
+        val versionCode = application.packageManager.getPackageInfo(application.packageName, 0x00).let { packageInfo ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toLong()
+            }
+        }
         val sdkInt = Build.VERSION.SDK_INT
 
         log("Install Unique ID [${settings.installUniqueId}]")
@@ -93,7 +99,7 @@ class ApplicationProcess(val application: Application) {
     }
 
     private fun printDeviceInfo() {
-        if (!ApplicationRuntime.isDebug(application)) {
+        if (!application.debugMode) {
             return
         }
 

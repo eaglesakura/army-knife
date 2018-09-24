@@ -34,6 +34,18 @@ class FlexibleThreadPoolDispatcher(
     }
 
     override fun toString(): String = "FlexibleThreadPoolDispatcher[$maxThreads, $name]"
+
+    companion object {
+        /**
+         * for Device input/output dispatcher.
+         */
+        val IO = FlexibleThreadPoolDispatcher(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS, "IO-Dispatcher")
+
+        /**
+         * for Network fetch dispatcher.
+         */
+        val Network = FlexibleThreadPoolDispatcher(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS, "network-Dispatcher")
+    }
 }
 
 private class FlexibleThreadPoolExecutor(

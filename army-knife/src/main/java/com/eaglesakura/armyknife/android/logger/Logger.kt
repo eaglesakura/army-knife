@@ -2,6 +2,7 @@ package com.eaglesakura.armyknife.android.logger
 
 import android.content.Context
 import com.eaglesakura.armyknife.android.ApplicationRuntime
+import com.eaglesakura.armyknife.android.extensions.debugMode
 
 /**
  * Print log to console.
@@ -37,7 +38,7 @@ object Logger {
      * Logging with FileName and line number to console.
      */
     fun init(context: Context) {
-        impl = newImpl(ApplicationRuntime.isDebug(context))
+        impl = newImpl(context.debugMode)
     }
 
     fun error(tag: String, msg: String): String {

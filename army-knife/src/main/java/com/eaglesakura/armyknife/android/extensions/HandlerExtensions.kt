@@ -3,6 +3,8 @@ package com.eaglesakura.armyknife.android.extensions
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
 
 /**
  * Handler for UI Thread.
@@ -13,15 +15,38 @@ val UIHandler = Handler(Looper.getMainLooper())
  * This property is true when access by Handler thread.
  * When others thread, This property is false.
  */
-val Handler.isCurrentThread: Boolean
+val Handler.currentThread: Boolean
     get() = Thread.currentThread() == looper.thread
+
+/**
+ * If Current thread is UI thread, then returns true.
+ */
+val onUiThread: Boolean
+    get() = Thread.currentThread() == UIHandler.looper.thread
+
+
+@UiThread
+fun assertUIThread() {
+    if (!onUiThread) {
+        throw Error("Thread[${Thread.currentThread()}] is not UI")
+    }
+}
+
+@WorkerThread
+fun assertWorkerThread() {
+    if (onUiThread) {
+        throw Error("Thread[${Thread.currentThread()}] is UI")
+    }
+}
+
 
 /**
  * When call this method in handler thread, Call "action()" soon.
  * Otherwise, post "action" object to handler thread.
  */
+@Deprecated("Use to coroutines", replaceWith = ReplaceWith("GlobalScope.launch {  }"))
 fun Handler.postOrRun(action: () -> Unit) {
-    if (isCurrentThread) {
+    if (currentThread) {
         action()
     } else {
         post(action)
@@ -34,7 +59,7 @@ fun Handler.postOrRun(action: () -> Unit) {
 class AsyncHandler(private val thread: HandlerThread) : Handler(thread.looper) {
     fun dispose() {
         try {
-            val handlerThread = isCurrentThread
+            val handlerThread = currentThread
             thread.quit()
             if (!handlerThread) {
                 thread.join()

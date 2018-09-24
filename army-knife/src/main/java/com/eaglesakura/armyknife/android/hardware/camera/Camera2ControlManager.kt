@@ -11,7 +11,7 @@ import android.os.Build
 import android.view.Surface
 import com.eaglesakura.armyknife.android.extensions.AsyncHandler
 import com.eaglesakura.armyknife.android.extensions.UIHandler
-import com.eaglesakura.armyknife.android.extensions.getDeviceRotateDegree
+import com.eaglesakura.armyknife.android.extensions.deviceRotateDegree
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraAccessFailedException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraSecurityException
@@ -274,7 +274,7 @@ class Camera2ControlManager(
 
     private fun getJpegOrientation(): Int {
         val sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)!!
-        val deviceRotateDegree = context.getDeviceRotateDegree()
+        val deviceRotateDegree = context.deviceRotateDegree
         val jpegOrientation: Int
 
         // (360 * 2)を加算しているのは、最大で-270-270の角度を正の値に補正するためである

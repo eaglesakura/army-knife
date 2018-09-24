@@ -6,11 +6,11 @@ import android.accounts.Account
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.eaglesakura.armyknife.android.gms.error.PlayServiceException
-import com.eaglesakura.armyknife.android.gms.error.PlayServiceNotAvailableException
 import com.eaglesakura.armyknife.android.extensions.awaitWithSuspend
 import com.eaglesakura.armyknife.android.extensions.connect
 import com.eaglesakura.armyknife.android.extensions.use
+import com.eaglesakura.armyknife.android.gms.error.PlayServiceException
+import com.eaglesakura.armyknife.android.gms.error.PlayServiceNotAvailableException
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult
@@ -44,9 +44,8 @@ object GooglePlayService {
     /**
      * @param email       UserEmail
      * @param scope       Access scope.
-     * @param extraScopes additional scopes.
      */
-    fun getOAuth2Token(context: Context, email: String, scope: String, @Suppress("UNUSED_PARAMETER") vararg extraScopes: String): String? {
+    fun getOAuth2Token(context: Context, email: String, scope: String): String? {
         return GoogleAuthUtil.getToken(
                 context,
                 Account(email, "com.google"),
@@ -80,14 +79,14 @@ object GooglePlayService {
     /**
      * Google Play ServiceのインストールIntentを生成する
      */
-    fun newGooglePlayServiceInstallIntent(context: Context): Intent {
-        return newGooglePlayInstallIntent(context, "com.google.android.gms")
+    fun getGooglePlayServiceInstallIntent(context: Context): Intent {
+        return getGooglePlayInstallIntent(context, "com.google.android.gms")
     }
 
     /**
      * GooglePlayでのインストールIntentを生成する
      */
-    fun newGooglePlayInstallIntent(@Suppress("UNUSED_PARAMETER") context: Context, packageName: String): Intent {
+    fun getGooglePlayInstallIntent(@Suppress("UNUSED_PARAMETER") context: Context, packageName: String): Intent {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse("market://details?id=$packageName")
         return intent

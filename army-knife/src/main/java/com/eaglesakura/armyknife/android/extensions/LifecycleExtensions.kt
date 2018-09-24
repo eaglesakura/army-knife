@@ -13,8 +13,22 @@ fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
     this.addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
-            receiver.invoke(event)
+            receiver(event)
         }
     })
 }
 
+/**
+ * Subscribe event with cancel callback.
+ * If you should be ignore receiver, call "cancel()" function.
+ */
+fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () -> Unit) -> Unit) {
+    val self = this
+    self.addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+        fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
+            @Suppress("MoveLambdaOutsideParentheses")
+            receiver(event, { self.removeObserver(this) })
+        }
+    })
+}

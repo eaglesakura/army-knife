@@ -14,7 +14,7 @@ import kotlin.coroutines.experimental.CoroutineContext
  */
 @Deprecated(message = "Revert specifications in 0.25.3, use runBlocking{}")
 fun <T> runBlockingInUI(context: CoroutineContext = Dispatchers.Default, block: suspend CoroutineScope.() -> T): T {
-    ApplicationRuntime.assertUIThread()
+    assertUIThread()
     if (context == Dispatchers.Main) {
         throw IllegalArgumentException("UI context has been NOT supported.")
     }
