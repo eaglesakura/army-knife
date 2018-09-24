@@ -90,8 +90,7 @@ class Camera2ControlManager(
                 this@Camera2ControlManager.previewRequest = previewRequest
                 this@Camera2ControlManager.previewSurface = previewSurface
 
-
-                spec.cameraManager.openCamera(spec.cameraId, object : CameraDevice.StateCallback() {
+                spec.cameraManager.openCamera(spec.cameraId!!, object : CameraDevice.StateCallback() {
                     override fun onOpened(cameraDevice: CameraDevice) {
                         launch(Dispatchers.Main) {
                             channel.send(cameraDevice)

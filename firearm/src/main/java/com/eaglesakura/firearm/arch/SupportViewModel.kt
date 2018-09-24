@@ -15,6 +15,7 @@ import com.eaglesakura.firearm.viewmodel.ViewModelOwner
  * このViewModelは特定のActivity/Fragmentインスタンスに紐づくのを避ける.
  * Activity/Fragmentとはライフサイクルが異なることに留意して設計する.
  */
+@Deprecated("This interface is not better, Do not use this.")
 abstract class SupportViewModel : ViewModel(), StatefulViewModel {
 
     /**

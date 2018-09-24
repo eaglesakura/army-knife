@@ -12,6 +12,7 @@ import kotlin.reflect.KClass
  * If stored data implements the LifecycleData interface,
  * Call "onDestroy()" method on destroy time.
  */
+@Deprecated("This interface is not better, Do not use this.")
 object LifecycleDataStore {
 
     private val containers: MutableMap<Lifecycle, LifecycleValue> = mutableMapOf()
