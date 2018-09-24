@@ -9,12 +9,12 @@ import kotlinx.coroutines.experimental.delay
 import java.util.concurrent.TimeUnit
 
 /**
- * ロード済み認証トークン
+ * Firebase auth token with Cached.
  */
 private var tokenCache: String? = null
 
 /**
- * トークンの有効期限
+ * Expire time, milli seconds.
  */
 private var tokenExpireTime: Long = 0
 
@@ -47,5 +47,8 @@ suspend fun FirebaseAuth.awaitLogin(): FirebaseUser {
     return currentUser!!
 }
 
+/**
+ * Syntax sugar to Sign-In with Google Account.
+ */
 fun FirebaseAuth.signIn(account: GoogleSignInAccount) = signInWithCredential(GoogleAuthProvider.getCredential(account.idToken, null))
 

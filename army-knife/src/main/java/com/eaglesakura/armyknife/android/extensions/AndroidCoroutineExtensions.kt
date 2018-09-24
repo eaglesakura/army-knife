@@ -1,7 +1,6 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.Lifecycle
-import com.eaglesakura.armyknife.android.ApplicationRuntime
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 import kotlin.coroutines.experimental.CoroutineContext
@@ -45,16 +44,15 @@ fun <T> runBlockingInUI(context: CoroutineContext = Dispatchers.Default, block: 
  * When destroyed a lifecycle object then cancel coroutine.
  */
 fun CoroutineContext.with(lifecycle: Lifecycle) {
-    var context: CoroutineContext? = this
-
-    lifecycle.subscribe { event ->
-        val ctx = context ?: return@subscribe
-
+    val context = this
+    lifecycle.subscribeWithCancel { event, cancel ->
+        if (!context.isActive) {
+            cancel()
+            return@subscribeWithCancel
+        }
         if (event == Lifecycle.Event.ON_DESTROY) {
-            if (ctx.isActive) {
-                ctx.cancel(CancellationException("Lifecycle[$lifecycle] was destroyed."))
-            }
-            context = null
+            context.cancel(CancellationException("Lifecycle[$lifecycle] was destroyed."))
+            cancel()
         }
     }
 }

@@ -4,6 +4,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.experimental.CancellationException
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 
 
 /**
@@ -31,4 +37,33 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
             receiver(event, { self.removeObserver(this) })
         }
     })
+}
+
+/**
+ * Suspend current coroutines context until receive lifecycle event.
+ */
+suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
+    withContext(Dispatchers.Main) {
+        if (lifecycle.currentState == targetEvent) {
+            return@withContext
+        }
+
+        val channel = Channel<Lifecycle.Event>()
+        lifecycle.subscribeWithCancel { event, cancel ->
+            if (event == targetEvent) {
+                // resume coroutine
+                launch(Dispatchers.Main) {
+                    channel.send(event)
+                }
+                cancel()
+                return@subscribeWithCancel
+            }
+
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                // do not receive!!
+                channel.cancel(CancellationException("Lifecycle was deleted, do not resume."))
+            }
+        }
+        channel.receive()
+    }
 }

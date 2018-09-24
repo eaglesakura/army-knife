@@ -68,17 +68,17 @@ dependencies {
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    implementation 'androidx.core:core-ktx:1.0.0-rc02'
+    implementation 'androidx.core:core-ktx:1.0.0'
     implementation 'androidx.sqlite:sqlite:2.0.0-rc01'
     implementation 'androidx.sqlite:sqlite-ktx:2.0.0-rc01'
-    implementation 'androidx.collection:collection-ktx:1.0.0-rc02'
-    implementation 'androidx.fragment:fragment-ktx:1.0.0-rc02'
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-rc01'
+    implementation 'androidx.collection:collection-ktx:1.0.0'
+    implementation 'androidx.fragment:fragment-ktx:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-    implementation 'com.google.android.material:material:1.0.0-rc02' // Material components
+    implementation 'com.google.android.material:material:1.0.0' // Material components
 
     /**
      * Google Play Services

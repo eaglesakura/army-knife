@@ -34,17 +34,17 @@ class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var 
      * This property is finalize-handler after than "onBackground".
      * "T" is set from "onBackground" result value.
      */
-    var onSuccess: (suspend (value: T) -> Unit)? = null
+    var onSuccess: ((value: T) -> Unit)? = null
 
     /**
      * This property is error-handler to exception throws from "onBackground" method.
      */
-    var onError: (suspend (err: Exception) -> Unit)? = null
+    var onError: ((err: Exception) -> Unit)? = null
 
     /**
      * This property is cancel-handler to "onBackground" method.
      */
-    var onCancel: (suspend (err: CancellationException) -> Unit)? = null
+    var onCancel: ((err: CancellationException) -> Unit)? = null
 }
 
 /**

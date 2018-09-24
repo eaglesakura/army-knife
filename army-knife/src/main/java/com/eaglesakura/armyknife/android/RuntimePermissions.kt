@@ -45,7 +45,7 @@ object RuntimePermissions {
      * This method returns Intent for Application settings.
      * User can change this application setting.
      */
-    fun getAppSettingIntent(context: Context): Intent {
+    fun newAppSettingIntent(context: Context): Intent {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         intent.data = Uri.parse("package:" + context.packageName)
         return intent
@@ -56,7 +56,7 @@ object RuntimePermissions {
      * User can change overlay settings.
      */
     @TargetApi(Build.VERSION_CODES.M)
-    fun getAppOverlaySettingIntent(context: Context): Intent {
+    fun newAppOverlaySettingIntent(context: Context): Intent {
         val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
         intent.data = Uri.parse("package:" + context.packageName)
         return intent
@@ -65,7 +65,7 @@ object RuntimePermissions {
     /**
      * This method returns Intent for "usage stats access permission".
      */
-    fun getUsageStatusSettingIntent(
+    fun newUsageStatusSettingIntent(
             @Suppress("UNUSED_PARAMETER") context: Context): Intent {
         return Intent("android.settings.USAGE_ACCESS_SETTINGS")
     }
