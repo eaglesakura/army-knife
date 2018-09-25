@@ -9,7 +9,10 @@ private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: Coroutine
             task.semaphore.run {
                 val value = task.onBackground(this)
 
-                withContext(Dispatchers.Main) { task.onSuccess?.invoke(value) }
+                withContext(Dispatchers.Main) {
+                    task.onSuccess?.invoke(value)
+                    task.onFinalize?.invoke()
+                }
             }
         } catch (err: Exception) {
             if (err is CancellationException) {
@@ -20,7 +23,10 @@ private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: Coroutine
             } else {
                 when (task.onError) {
                     null -> throw err
-                    else -> withContext(Dispatchers.Main) { task.onError!!(err) }
+                    else -> withContext(Dispatchers.Main) {
+                        task.onError!!(err)
+                        task.onFinalize?.invoke()
+                    }
                 }
             }
         }
@@ -45,6 +51,11 @@ class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var 
      * This property is cancel-handler to "onBackground" method.
      */
     var onCancel: ((err: CancellationException) -> Unit)? = null
+
+    /**
+     * This function will  always called.
+     */
+    var onFinalize: (() -> Unit)? = null
 }
 
 /**

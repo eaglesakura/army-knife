@@ -70,8 +70,8 @@ interface Semaphore {
     }
 }
 
-fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit) {
-    GlobalScope.launch(context) {
+fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit): Job {
+    return GlobalScope.launch(context) {
         block()
     }
 }
