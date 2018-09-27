@@ -18,6 +18,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 /**
  * Load drawable resource with set tint color to it.
  */
+@Deprecated("Replace to ApplicationResources.kt")
 fun Context.getDrawableCompat(@DrawableRes resId: Int, @ColorInt tint: Int = 0): Drawable {
     val result = ResourcesCompat.getDrawable(resources, resId, theme)!!
     if (tint != 0) {
@@ -29,6 +30,7 @@ fun Context.getDrawableCompat(@DrawableRes resId: Int, @ColorInt tint: Int = 0):
 /**
  * string xmlリソース名から文字列リソースを取得する
  */
+@Deprecated("Replace to ApplicationResources.kt")
 fun Context.getStringFromIdName(resName: String): String? {
     return try {
         val id = resources.getIdentifier(
@@ -47,6 +49,7 @@ fun Context.getStringFromIdName(resName: String): String? {
 /**
  * string xmlリソース名から文字列リソースを取得する
  */
+@Deprecated("Replace to ApplicationResources.kt")
 fun Context.getStringFromIdName(resName: String, vararg arg: Any): String? {
     return try {
         val id = resources.getIdentifier(
@@ -65,6 +68,7 @@ fun Context.getStringFromIdName(resName: String, vararg arg: Any): String? {
 /**
  * string xmlリソース名から文字列リソースを取得する
  */
+@Deprecated("Replace to ApplicationResources.kt")
 fun Context.getIntegerFromIdName(resName: String): Int? {
     return try {
         val id = resources.getIdentifier(

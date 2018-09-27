@@ -19,7 +19,6 @@ import kotlinx.coroutines.experimental.launch
  * @see newOneshotObserverWithForeground
  */
 open class OneshotLiveData<T> : LiveData<DataState<T>>() {
-
     final override fun setValue(value: DataState<T>?) {
         throw IllegalAccessError("Not supported!! Should use setValue(data:T) method")
     }

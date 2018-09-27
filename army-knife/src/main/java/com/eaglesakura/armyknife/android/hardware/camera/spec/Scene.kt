@@ -1,10 +1,8 @@
 package com.eaglesakura.armyknife.android.hardware.camera.spec
 
 import android.content.Context
-import com.eaglesakura.armyknife.android.extensions.getStringFromIdName
-
-import java.util.ArrayList
-import java.util.HashMap
+import com.eaglesakura.armyknife.android.ApplicationResources
+import java.util.*
 
 /**
  * シーン情報
@@ -21,7 +19,7 @@ data class Scene internal constructor(
      * @return 日本語での設定名
      */
     fun name(context: Context): String {
-        val result = context.getStringFromIdName(String.format("Camera.Scene.%s", rawName.replace("-".toRegex(), "_")))
+        val result = ApplicationResources.getStringFromIdName(context, String.format("Camera.Scene.%s", rawName.replace("-".toRegex(), "_")))
         return result ?: rawName
     }
 
