@@ -1,5 +1,8 @@
 package com.eaglesakura.firearm.di
 
+/**
+ * Functional interface for DI provider.
+ */
 interface ProviderFunction<ReturnType, ArgumentType> {
 
     /**
