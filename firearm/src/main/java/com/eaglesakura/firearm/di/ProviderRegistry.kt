@@ -28,6 +28,11 @@ class ProviderRegistry {
     private val registries = ArrayList<Provider<*, *>>()
 
     /**
+     * Make provider from Interface.
+     */
+    fun <ReturnType, ArgumentType> newProvider(defaultProvider: ProviderFunction<ReturnType, ArgumentType>): Provider<ReturnType, ArgumentType> = newProvider(defaultProvider.asFunction())
+
+    /**
      * Make provider.
      */
     fun <ReturnType, ArgumentType> newProvider(defaultProvider: (ArgumentType.() -> ReturnType)): Provider<ReturnType, ArgumentType> {
