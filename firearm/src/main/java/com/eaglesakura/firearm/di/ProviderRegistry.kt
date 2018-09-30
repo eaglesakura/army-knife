@@ -39,7 +39,7 @@ class ProviderRegistry {
     }
 
     /**
-     * Reset all providers.
+     * Reset overwrite providers.
      */
     fun reset() {
         lock.withLock {

@@ -8,11 +8,11 @@ class Provider<ReturnType, ArgumentType>(
 ) {
     private val lock = ReentrantLock()
 
-    private var overrideProvider: (ArgumentType.() -> ReturnType)? = null
+    private var overwriteProvider: (ArgumentType.() -> ReturnType)? = null
 
     internal fun reset() {
         lock.withLock {
-            overrideProvider = null
+            overwriteProvider = null
         }
     }
 
@@ -21,7 +21,7 @@ class Provider<ReturnType, ArgumentType>(
      */
     operator fun invoke(arg: ArgumentType): ReturnType {
         val target = lock.withLock {
-            overrideProvider ?: provider
+            overwriteProvider ?: provider
         }
         return target.invoke(arg)
     }
