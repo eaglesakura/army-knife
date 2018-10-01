@@ -30,6 +30,7 @@ fun newEventObserver(block: (event: Event) -> Unit): Observer<EventDataState> {
     }
 }
 
+@Deprecated("Use firearm.RxStream")
 fun newEventObserverWithForeground(owner: LifecycleOwner, block: (event: Event) -> Unit): Observer<EventDataState> {
     return newEventObserver {
         runOnForeground(owner.lifecycle) { block(it) }

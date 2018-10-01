@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
-import com.eaglesakura.firearm.rx.newStreamObserver
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 import org.junit.Assert
@@ -28,13 +27,13 @@ class BleDeviceStreamTest : AndroidTestCase() {
 
         scanner.observeForever(dataObserver)
         try {
-            scanner.event.subscribe(newStreamObserver { event ->
+            scanner.event.subscribe { event ->
                 when (event) {
                     is BluetoothScanEvent -> {
                         Logger.debug("BLE", "OneshotData [${event.id}] Device[${event.scanResult.device.name}]")
                     }
                 }
-            })
+            }
 
             // check device
             withTimeout(60, TimeUnit.SECONDS) {

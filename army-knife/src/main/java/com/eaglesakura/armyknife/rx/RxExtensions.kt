@@ -3,7 +3,7 @@ package com.eaglesakura.armyknife.rx
 import androidx.annotation.CheckResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
-import com.eaglesakura.armyknife.android.extensions.subscribe
+import com.eaglesakura.armyknife.android.extensions.subscribeWithCancel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.experimental.CoroutineDispatcher
@@ -39,13 +39,14 @@ fun Disposable.with(lifecycle: Lifecycle): Disposable {
 //            .buffer(2, 1)
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe {
-//
 //            }.with(lifecycle)
 
-    lifecycle.subscribe {
-        if (it == Lifecycle.Event.ON_DESTROY) {
+    lifecycle.subscribeWithCancel { event, cancel ->
+        if (event == Lifecycle.Event.ON_DESTROY) {
             origin?.dispose()
             origin = null
+
+            cancel()
         }
     }
 

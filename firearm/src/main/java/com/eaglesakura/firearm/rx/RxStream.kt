@@ -5,9 +5,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.eaglesakura.armyknife.android.extensions.delay
 import com.eaglesakura.armyknife.rx.toChannel
 import com.eaglesakura.armyknife.rx.toLiveData
 import com.eaglesakura.armyknife.rx.with
+import com.eaglesakura.firearm.event.Event
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -20,6 +22,8 @@ import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.CoroutineContext
+
+typealias EventStream = RxStream<Event>
 
 /**
  * Support RxJava functions.
@@ -101,6 +105,14 @@ open class RxStream<T> private constructor(
         subscribe(observer).with(lifecycle)
     }
 
+    fun subscribe(owner: LifecycleOwner, observer: Observer<T>) {
+        subscribe(owner.lifecycle, observer)
+    }
+
+    fun subscribe(owner: LifecycleOwner, observer: (value: T) -> Unit) {
+        subscribe(owner.lifecycle, Observer { observer(it) })
+    }
+
     /**
      * RxStream build utils.
      *
@@ -158,18 +170,10 @@ open class RxStream<T> private constructor(
         }
 
         @JvmStatic
-        fun <T> newObserver(block: (value: T) -> Unit): Observer<T> {
-            return Observer { value ->
-                block(value)
-            }
-        }
-
-        @JvmStatic
         fun <T> newObserverWithForeground(owner: LifecycleOwner, block: (value: T) -> Unit): Observer<T> {
-            return newObserver {
-                owner.lifecycle.runOnForeground {
-                    block(it)
-                }
+            return newObserverWithContext(Dispatchers.Main) {
+                delay(owner.lifecycle, Lifecycle.Event.ON_RESUME)
+                block(it)
             }
         }
 
