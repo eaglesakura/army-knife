@@ -75,6 +75,12 @@ dependencies {
     testImplementationProjectOrMaven(':army-knife-junit', 'com.eaglesakura:army-knife-junit:+')
 
     /**
+     * java libraries
+     */
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'   // Reactive Extension
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
+
+    /**
      * Kotlin support
      */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -105,12 +111,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'androidx.test:monitor:1.1.0-alpha4'
-
-    /**
-     * for Android Tests
-     */
+    testImplementation 'org.assertj:assertj-core:3.11.1'
+    testImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'org.assertj:assertj-core:3.11.1'
 }
 
 group = "com.eaglesakura"

@@ -33,7 +33,7 @@ fun newEventObserverWithForeground(owner: LifecycleOwner, block: (event: Event) 
     }
 }
 
-private fun runOnForeground(lifecycle: Lifecycle, action: () -> Unit) {
+internal fun runOnForeground(lifecycle: Lifecycle, action: () -> Unit) {
     if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
         return
     }

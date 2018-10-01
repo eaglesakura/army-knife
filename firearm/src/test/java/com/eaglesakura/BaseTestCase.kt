@@ -1,16 +1,17 @@
 package com.eaglesakura
 
 import android.app.Application
+import android.os.Build
+import androidx.test.runner.AndroidJUnit4
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [26])
+@RunWith(AndroidJUnit4::class)
+@Config(sdk = [Build.VERSION_CODES.O_MR1])
 abstract class BaseTestCase {
 
     @Suppress("MemberVisibilityCanBePrivate")
