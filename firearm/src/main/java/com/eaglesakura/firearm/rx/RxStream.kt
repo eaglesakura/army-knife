@@ -2,6 +2,7 @@ package com.eaglesakura.firearm.rx
 
 import androidx.annotation.CheckResult
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.eaglesakura.armyknife.rx.with
 import io.reactivex.Observable
@@ -17,16 +18,15 @@ import kotlinx.coroutines.experimental.channels.Channel
 /**
  * Support RxJava functions.
  */
-open class RxStream<T>(
-        subject: Subject<T>,
-        validator: ((T) -> Boolean)
+open class RxStream<T> private constructor(
+        private val subject: Subject<T>,
+        private val observable: Observable<T>,
+        private val validator: ((T) -> Boolean)
 ) {
-    private val subject: Subject<T> = subject
+    constructor(subject: Subject<T>, validator: (T) -> Boolean) : this(subject, subject.observeOn(AndroidSchedulers.mainThread()), validator)
 
-    private val observable: Observable<T> = subject
-            .observeOn(AndroidSchedulers.mainThread())
-
-    private val validator: ((T) -> Boolean) = validator
+    @Suppress("unused")
+    constructor(validator: (T) -> Boolean) : this(PublishSubject.create(), validator)
 
     /**
      * Post new value.
@@ -37,6 +37,16 @@ open class RxStream<T>(
             throw IllegalArgumentException("Value is invalid[$value]")
         }
         subject.onNext(value)
+    }
+
+    /**
+     * Make LiveData from Observable in RxJava.
+     *
+     * LiveData calls "dispose()" method at Inactive event.
+     * You should not call Disposable.dispose() method.
+     */
+    fun toLiveData(): LiveData<T> {
+        return observable.toLiveData()
     }
 
     /**
@@ -59,7 +69,7 @@ open class RxStream<T>(
         }
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    @Suppress("MemberVisibilityCanBePrivate", "unused")
     fun subscribe(lifecycle: Lifecycle, observer: (value: T) -> Unit) {
         subscribe(observer).with(lifecycle)
     }
@@ -71,9 +81,51 @@ open class RxStream<T>(
         }
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    @Suppress("MemberVisibilityCanBePrivate", "unused")
     fun subscribe(lifecycle: Lifecycle, observer: Observer<T>) {
         subscribe(observer).with(lifecycle)
+    }
+
+    /**
+     * RxStream build utils.
+     *
+     * e.g.) RxStream with Unique value.
+     * RxStream.Builder<String>().apply {
+     *      observableTransform = { origin ->
+     *          origin.distinctUntilChanged()
+     *      }
+     * }.build()
+     */
+    class Builder<T> {
+
+        /**
+         * Optional subject.
+         */
+        @Suppress("MemberVisibilityCanBePrivate")
+        var subject: Subject<T>? = null
+
+        /**
+         * Optional observableTransform.
+         */
+        var observableTransform: ((Observable<T>) -> Observable<T>)? = null
+
+        /**
+         * Optional validator.
+         */
+        @Suppress("MemberVisibilityCanBePrivate")
+        var validator: ((T) -> Boolean)? = null
+
+        fun build(): RxStream<T> {
+            val subject = subject ?: PublishSubject.create()
+            val validator = validator ?: { true }
+            val observable = if (observableTransform != null) {
+                observableTransform!!(subject.observeOn(AndroidSchedulers.mainThread()))
+            } else {
+                subject.observeOn(AndroidSchedulers.mainThread())
+            }
+
+            return RxStream(subject, observable, validator)
+        }
     }
 
     companion object {
@@ -85,7 +137,7 @@ open class RxStream<T>(
         }
 
         @JvmStatic
-        @Suppress("MemberVisibilityCanBePrivate")
+        @Suppress("MemberVisibilityCanBePrivate", "unused")
         fun <T> withValidator(validator: (value: T) -> Boolean): RxStream<T> {
             return RxStream(PublishSubject.create<T>(), validator)
         }
