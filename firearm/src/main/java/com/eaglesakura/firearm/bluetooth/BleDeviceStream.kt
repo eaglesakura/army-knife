@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.RuntimePermissions
 import com.eaglesakura.armyknife.android.logger.Logger
+import com.eaglesakura.firearm.rx.RxStream
+import com.eaglesakura.oneshotlivedata.Event
 import com.eaglesakura.oneshotlivedata.EventStream
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
@@ -23,7 +25,19 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
     /**
      * Device scan events.
      */
+    @Deprecated("use this.event2, delete soon.")
     val event = EventStream { id ->
+        when (id) {
+            BluetoothScanEvent.EVENT_LOST, BluetoothScanEvent.EVENT_FOUND, BluetoothScanEvent.EVENT_UPDATED -> true
+            is BluetoothScanEvent -> true
+            else -> false
+        }
+    }
+
+    /**
+     * Device scan events.
+     */
+    val event2 = RxStream<Event> { id ->
         when (id) {
             BluetoothScanEvent.EVENT_LOST, BluetoothScanEvent.EVENT_FOUND, BluetoothScanEvent.EVENT_UPDATED -> true
             is BluetoothScanEvent -> true
@@ -104,6 +118,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                 if (cache.expired) {
                     dirty = true
                     iterator.remove()
+                    event2.send(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_LOST, scanResult = cache.scanResult))
                     event.setOneshot(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_LOST, scanResult = cache.scanResult))
                 }
             }
@@ -134,6 +149,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                     if (it.scanResult.device.address == result.device.address) {
                         Logger.debug("BLE", "Ble update device name[${result.device.name}]")
                         it.scanResult = result
+                        event2.send(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_UPDATED, scanResult = result))
                         event.setOneshot(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_UPDATED, scanResult = result))
                         return
                     }
@@ -141,6 +157,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
 
                 // new data
                 Logger.debug("BLE", "Ble new device found name[${result.device.name}]")
+                event2.send(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_FOUND, scanResult = result))
                 event.setOneshot(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_FOUND, scanResult = result))
                 caches.add(ScanResultCache(result))
             } finally {
