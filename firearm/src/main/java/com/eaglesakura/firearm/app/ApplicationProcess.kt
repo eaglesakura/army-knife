@@ -10,8 +10,8 @@ import com.eaglesakura.armyknife.android.hardware.DisplayInfo
 import com.eaglesakura.armyknife.runtime.Random
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
-import com.eaglesakura.oneshotlivedata.EventId
-import com.eaglesakura.oneshotlivedata.EventStream
+import com.eaglesakura.firearm.rx.RxStream
+import com.eaglesakura.firearm.event.EventId
 import java.lang.ref.WeakReference
 
 /**
@@ -25,7 +25,7 @@ class ApplicationProcess(val application: Application) {
      * Logger function.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    var log: (msg: String) -> Unit = { msg ->
+    var console: (msg: String) -> Unit = { msg ->
         Log.d(javaClass.simpleName, msg)
     }
 
@@ -44,10 +44,16 @@ class ApplicationProcess(val application: Application) {
     private val settings: SystemSettings
 
     /**
+     * Event for Application.
      * @see EVENT_APPLICATION_BACKGROUND
      * @see EVENT_APPLICATION_FOREGROUND
      */
-    val event: EventStream = EventStream(EVENT_APPLICATION_BACKGROUND, EVENT_APPLICATION_FOREGROUND)
+    val event = RxStream<EventId> { event ->
+        when (event) {
+            EVENT_APPLICATION_BACKGROUND, EVENT_APPLICATION_FOREGROUND -> true
+            else -> false
+        }
+    }
 
     private val activityCallback = ActivityCallbackImpl(event)
 
@@ -84,11 +90,11 @@ class ApplicationProcess(val application: Application) {
         }
         val sdkInt = Build.VERSION.SDK_INT
 
-        log("Install Unique ID [${settings.installUniqueId}]")
-        log("Process Unique ID [$processId]")
-        log("VersionCode       [$oldVersionCode] -> [$versionCode]")
-        log("VersionName       [$oldVersionName] -> [$versionName]")
-        log("API Level         [$oldSdkInt] -> [$sdkInt]")
+        console("Install Unique ID [${settings.installUniqueId}]")
+        console("Process Unique ID [$processId]")
+        console("VersionCode       [$oldVersionCode] -> [$versionCode]")
+        console("VersionName       [$oldVersionName] -> [$versionName]")
+        console("API Level         [$oldSdkInt] -> [$sdkInt]")
 
         _versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
         settings.transaction {
@@ -103,16 +109,16 @@ class ApplicationProcess(val application: Application) {
             return
         }
 
-        log("========= Runtime Information =========")
-        log("== Device ${Build.MODEL}")
+        console("========= Runtime Information =========")
+        console("== Device ${Build.MODEL}")
         DisplayInfo.newInstance(application).also { displayInfo ->
-            log("== Display ${displayInfo.diagonalRoundInch.major}.${displayInfo.diagonalRoundInch.minor} inch = ${displayInfo.deviceType.name}")
-            log("==   Display [${displayInfo.widthPixel} x ${displayInfo.heightPixel}] pix")
-            log("==   Display [%.1f x %.1f] dp".format(displayInfo.widthDp, displayInfo.heightDp))
-            log("==   res/values-${displayInfo.dpi.name}")
-            log("==   res/values-sw${displayInfo.smallestWidthDp}dp")
+            console("== Display ${displayInfo.diagonalRoundInch.major}.${displayInfo.diagonalRoundInch.minor} inch = ${displayInfo.deviceType.name}")
+            console("==   Display [${displayInfo.widthPixel} x ${displayInfo.heightPixel}] pix")
+            console("==   Display [%.1f x %.1f] dp".format(displayInfo.widthDp, displayInfo.heightDp))
+            console("==   res/values-${displayInfo.dpi.name}")
+            console("==   res/values-sw${displayInfo.smallestWidthDp}dp")
         }
-        log("========= Runtime Information =========")
+        console("========= Runtime Information =========")
     }
 
     companion object {
@@ -130,7 +136,7 @@ class ApplicationProcess(val application: Application) {
     }
 }
 
-internal class ActivityCallbackImpl(private val event: EventStream) : Application.ActivityLifecycleCallbacks {
+private class ActivityCallbackImpl(private val event: RxStream<EventId>) : Application.ActivityLifecycleCallbacks {
 
     /**
      * Foregroundとして扱われているActivity
@@ -146,7 +152,7 @@ internal class ActivityCallbackImpl(private val event: EventStream) : Applicatio
 
         foregroundActivity = WeakReference<Activity>(activity)
         if (moveToForeground) {
-            event.setOneshot(EVENT_APPLICATION_FOREGROUND)
+            event.next(EVENT_APPLICATION_FOREGROUND)
         }
     }
 
@@ -171,7 +177,7 @@ internal class ActivityCallbackImpl(private val event: EventStream) : Applicatio
 
         // Activityがなくなったら通知
         if (foregroundActivity == null) {
-            event.setOneshot(EVENT_APPLICATION_BACKGROUND)
+            event.next(EVENT_APPLICATION_BACKGROUND)
         }
     }
 

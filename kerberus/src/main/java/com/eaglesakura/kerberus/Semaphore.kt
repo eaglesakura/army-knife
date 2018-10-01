@@ -71,7 +71,8 @@ interface Semaphore {
 }
 
 fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit): Job {
+    val self = this
     return GlobalScope.launch(context) {
-        block()
+        self.run { block() }
     }
 }

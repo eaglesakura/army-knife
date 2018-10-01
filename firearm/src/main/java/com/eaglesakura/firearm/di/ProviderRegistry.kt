@@ -11,11 +11,13 @@ import kotlin.concurrent.withLock
  * In unit test, Provider will changed to Mock or such provider.
  *
  * object FooClassFactory {
- *      val provider = ProviderRegistry.newProvider<FooClass, Builder> { arg ->
+ *      val provider = ProviderRegistry.newProvider<FooClass, Builder> { /* this = this@Builder */
  *          // return it
+ *          return Foo(context)
  *      }
  *
  *      class Builder {
+ *          var context : Context = // set context by builder.
  *
  *          fun build() : Foo = provider(this)
  *      }
@@ -30,7 +32,7 @@ class ProviderRegistry {
     /**
      * Make provider from Interface.
      */
-    fun <ReturnType, ArgumentType> newProvider(defaultProvider: ProviderFunction<ReturnType, ArgumentType>): Provider<ReturnType, ArgumentType> = newProvider(defaultProvider.asFunction())
+    fun <ReturnType, ArgumentType> newProvider(defaultProvider: ProviderFunction<ReturnType, ArgumentType>): Provider<ReturnType, ArgumentType> = newProvider(defaultProvider.toFunction())
 
     /**
      * Make provider.

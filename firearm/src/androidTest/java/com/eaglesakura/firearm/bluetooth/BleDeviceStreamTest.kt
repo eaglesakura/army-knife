@@ -28,7 +28,7 @@ class BleDeviceStreamTest : AndroidTestCase() {
 
         scanner.observeForever(dataObserver)
         try {
-            scanner.event2.subscribe(newStreamObserver { event ->
+            scanner.event.subscribe(newStreamObserver { event ->
                 when (event) {
                     is BluetoothScanEvent -> {
                         Logger.debug("BLE", "OneshotData [${event.id}] Device[${event.scanResult.device.name}]")

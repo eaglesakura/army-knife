@@ -1,5 +1,6 @@
 package com.eaglesakura.oneshotlivedata
 
+@Deprecated("Use firearm.Event")
 class EventId(private val name: String) : Event {
     override val id: Any
         get() = name

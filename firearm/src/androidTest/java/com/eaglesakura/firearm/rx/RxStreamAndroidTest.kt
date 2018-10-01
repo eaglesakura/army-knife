@@ -19,7 +19,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
     fun channel_background() = blockingTest(Dispatchers.Default) {
         val stream = RxStream.create<String>()
         val channel = stream.toChannel()
-        stream.send("send1")
+        stream.next("send1")
         assertThat(channel.receive()).apply {
             isEqualTo("send1")
         }
@@ -30,7 +30,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
     fun channel_ui() = blockingTest(Dispatchers.Main) {
         val stream = RxStream.create<String>()
         val channel = stream.toChannel()
-        stream.send("send1")
+        stream.next("send1")
         yield()
         assertThat(channel.receive()).apply {
             isEqualTo("send1")
@@ -43,13 +43,13 @@ class RxStreamAndroidTest : AndroidTestCase() {
     fun channel_multi() = blockingTest(Dispatchers.Main) {
         val stream = RxStream.create<String>()
         stream.toChannel().consume {
-            stream.send("send1")
+            stream.next("send1")
             assertEquals("send1", receive())
 
-            stream.send("send2")
+            stream.next("send2")
             assertEquals("send2", receive())
 
-            stream.send("send3")
+            stream.next("send3")
             assertEquals("send3", receive())
         }
     }
@@ -61,7 +61,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
         val disposable = stream.subscribe {
             assertUIThread()
             assertThat(it).apply {
-                startsWith("send")
+                startsWith("next")
             }
 
             if (it.endsWith("finish")) {
@@ -69,10 +69,10 @@ class RxStreamAndroidTest : AndroidTestCase() {
             }
         }
 
-        stream.send("send1")
-        stream.send("send2")
-        stream.send("send3")
-        stream.send("send_finish")
+        stream.next("send1")
+        stream.next("send2")
+        stream.next("send3")
+        stream.next("send_finish")
 
         channel.receive()  // await.
         disposable.dispose()
@@ -87,14 +87,14 @@ class RxStreamAndroidTest : AndroidTestCase() {
         }.build()
 
         stream.toChannel().consume {
-            stream.send("value1")
+            stream.next("value1")
             assertEquals("value1", receive())
 
-            stream.send("value2")
+            stream.next("value2")
             assertEquals("value2", receive())
 
             // Do not receive
-            stream.send("value2")
+            stream.next("value2")
             try {
                 withTimeout(1, TimeUnit.SECONDS) {
                     receive()
@@ -105,7 +105,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
             }
 
             // receive.
-            stream.send("value1")
+            stream.next("value1")
             assertEquals("value1", receive())
         }
     }

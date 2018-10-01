@@ -8,7 +8,7 @@ interface ProviderFunction<ReturnType, ArgumentType> {
     /**
      * Interface to Function.
      */
-    fun asFunction(): (ArgumentType.() -> ReturnType) {
+    fun toFunction(): (ArgumentType.() -> ReturnType) {
         val function = this
         return {
             function(this)

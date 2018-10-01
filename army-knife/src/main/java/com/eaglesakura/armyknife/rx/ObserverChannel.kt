@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.rx
+package com.eaglesakura.armyknife.rx
 
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

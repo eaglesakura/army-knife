@@ -24,12 +24,13 @@ class Provider<ReturnType, ArgumentType>(
      * Overwrite provider function.
      * If you rollback(to default) provider, then call this.reset() function.
      */
-    fun overwrite(newProvider: ProviderFunction<ReturnType, ArgumentType>) = overwrite(newProvider.asFunction())
+    fun overwrite(newProvider: ProviderFunction<ReturnType, ArgumentType>) = overwrite(newProvider.toFunction())
 
     /**
      * Overwrite provider function.
      * If you rollback(to default) provider, then call this.reset() function.
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     fun overwrite(newProvider: (ArgumentType.() -> ReturnType)) {
         lock.withLock {
             overwriteProvider = newProvider

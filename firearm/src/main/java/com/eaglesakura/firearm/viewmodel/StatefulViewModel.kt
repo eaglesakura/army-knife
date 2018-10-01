@@ -6,6 +6,7 @@ import android.os.Bundle
 /**
  * ViewModel with State.
  */
+@Deprecated("Don't use this, This is a junk.")
 interface StatefulViewModel {
 
     /**

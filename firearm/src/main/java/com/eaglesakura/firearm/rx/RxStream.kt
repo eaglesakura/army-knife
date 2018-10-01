@@ -2,8 +2,11 @@ package com.eaglesakura.firearm.rx
 
 import androidx.annotation.CheckResult
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.eaglesakura.armyknife.rx.toChannel
+import com.eaglesakura.armyknife.rx.toLiveData
 import com.eaglesakura.armyknife.rx.with
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,8 +15,11 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.launch
+import kotlin.coroutines.experimental.CoroutineContext
 
 /**
  * Support RxJava functions.
@@ -34,7 +40,7 @@ open class RxStream<T> private constructor(
      * Post new value.
      * Can run on any-thread.
      */
-    open fun send(value: T) {
+    open fun next(value: T) {
         if (!validator(value)) {
             throw IllegalArgumentException("Value is invalid[$value]")
         }
@@ -61,6 +67,13 @@ open class RxStream<T> private constructor(
     @CheckResult
     fun toChannel(dispatcher: CoroutineDispatcher = Dispatchers.Main): Channel<T> {
         return observable.toChannel(dispatcher)
+    }
+
+    /**
+     * Subscribe by reactivex.Observer
+     */
+    fun subscribe(observer: io.reactivex.Observer<T>) {
+        return observable.subscribe(observer)
     }
 
 
@@ -142,6 +155,31 @@ open class RxStream<T> private constructor(
         @Suppress("MemberVisibilityCanBePrivate", "unused")
         fun <T> withValidator(validator: (value: T) -> Boolean): RxStream<T> {
             return RxStream(PublishSubject.create<T>(), validator)
+        }
+
+        @JvmStatic
+        fun <T> newObserver(block: (value: T) -> Unit): Observer<T> {
+            return Observer { value ->
+                block(value)
+            }
+        }
+
+        @JvmStatic
+        fun <T> newObserverWithForeground(owner: LifecycleOwner, block: (value: T) -> Unit): Observer<T> {
+            return newObserver {
+                owner.lifecycle.runOnForeground {
+                    block(it)
+                }
+            }
+        }
+
+        @JvmStatic
+        fun <T> newObserverWithContext(context: CoroutineContext, block: suspend (value: T) -> Unit): Observer<T> {
+            return Observer { value ->
+                GlobalScope.launch(context) {
+                    block(value)
+                }
+            }
         }
     }
 }

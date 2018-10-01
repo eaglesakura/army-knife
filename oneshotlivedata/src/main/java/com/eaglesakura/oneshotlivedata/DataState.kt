@@ -1,5 +1,6 @@
 package com.eaglesakura.oneshotlivedata
 
+@Deprecated("Use firearm.RxStream")
 class DataState<T>(val raw: T) {
 
     /**

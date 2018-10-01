@@ -9,6 +9,7 @@ import kotlinx.coroutines.experimental.Job
 /**
  * Coroutine check function.
  */
+@Deprecated("Do not use this. This class is a junk.")
 interface Monitor {
 
     /**
@@ -20,6 +21,7 @@ interface Monitor {
     suspend fun interrupt(job: Job)
 }
 
+@Deprecated("Do not use this. This class is a junk.")
 class CancelOnBackgroundMonitor(lifecycle: Lifecycle) : Monitor {
     override val interval: Long
         get() = 1
@@ -48,6 +50,7 @@ class CancelOnBackgroundMonitor(lifecycle: Lifecycle) : Monitor {
     }
 }
 
+@Deprecated("Do not use this. This class is a junk.")
 class CancelOnDestroyMonitor(private val lifecycle: Lifecycle) : Monitor {
     override val interval: Long
         get() = 1

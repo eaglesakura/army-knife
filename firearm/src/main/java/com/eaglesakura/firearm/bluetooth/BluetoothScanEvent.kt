@@ -1,8 +1,8 @@
 package com.eaglesakura.firearm.bluetooth
 
 import android.bluetooth.le.ScanResult
-import com.eaglesakura.oneshotlivedata.Event
-import com.eaglesakura.oneshotlivedata.EventId
+import com.eaglesakura.firearm.event.Event
+import com.eaglesakura.firearm.event.EventId
 
 class BluetoothScanEvent(override val id: EventId, val scanResult: ScanResult) : Event {
 

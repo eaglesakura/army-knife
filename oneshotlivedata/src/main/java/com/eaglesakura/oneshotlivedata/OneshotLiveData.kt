@@ -18,6 +18,7 @@ import kotlinx.coroutines.experimental.launch
  * @see newOneshotObserver
  * @see newOneshotObserverWithForeground
  */
+@Deprecated("Use firearm.RxStream")
 open class OneshotLiveData<T> : LiveData<DataState<T>>() {
     final override fun setValue(value: DataState<T>?) {
         throw IllegalAccessError("Not supported!! Should use setValue(data:T) method")

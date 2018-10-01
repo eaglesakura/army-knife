@@ -6,6 +6,7 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 
+@Deprecated("Use firearm.RxStream")
 fun <T> newOneshotObserver(block: (data: T) -> Unit): Observer<DataState<T>> {
     return Observer {
         @Suppress("UNCHECKED_CAST")
@@ -14,12 +15,14 @@ fun <T> newOneshotObserver(block: (data: T) -> Unit): Observer<DataState<T>> {
     }
 }
 
+@Deprecated("Use firearm.RxStream")
 fun <T> newOneshotObserverWithForeground(owner: LifecycleOwner, block: (data: T) -> Unit): Observer<DataState<T>> {
     return newOneshotObserver<T> {
         runOnForeground(owner.lifecycle) { block(it) }
     }
 }
 
+@Deprecated("Use firearm.RxStream")
 fun newEventObserver(block: (event: Event) -> Unit): Observer<EventDataState> {
     return Observer {
         val event = it?.get<Event>() ?: return@Observer

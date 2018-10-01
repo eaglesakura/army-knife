@@ -10,6 +10,7 @@ import kotlin.reflect.KClass
 /**
  * Activity/Fragment内で利用されたViewModelをキャッシュし、必要に応じてSave/Restoreを支援する.
  */
+@Deprecated("Don't use this, This is a junk.")
 class ViewModelContainer(private val owner: ViewModelOwner) {
     /**
      * オブジェクトで利用されたViewModelのKey

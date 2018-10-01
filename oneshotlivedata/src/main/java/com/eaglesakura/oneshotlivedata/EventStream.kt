@@ -6,6 +6,7 @@ package com.eaglesakura.oneshotlivedata
  * @see newEventObserver
  * @see newEventObserverWithForeground
  */
+@Deprecated("Use firearm.RxStream")
 open class EventStream : OneshotLiveData<Event> {
     private val validateData: (id: Event) -> Boolean
 

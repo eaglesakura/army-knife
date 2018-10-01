@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.rx
+package com.eaglesakura.armyknife.rx
 
 import androidx.lifecycle.LiveData
 import io.reactivex.Observable

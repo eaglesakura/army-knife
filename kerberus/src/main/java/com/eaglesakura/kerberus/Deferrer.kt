@@ -9,10 +9,12 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 
+@Deprecated("Do not use this. This class is a junk.")
 interface DelayToken {
     suspend fun resume()
 }
 
+@Deprecated("Do not use this. This class is a junk.")
 interface Deferrer {
     /**
      * Should call "delay()" or spin-lock in this method.
@@ -24,6 +26,7 @@ interface Deferrer {
 /**
  * Stop this task, wait for foreground.
  */
+@Deprecated("Do not use this. This class is a junk.")
 class DeferredOnForeground(private val lifecycle: Lifecycle) : Deferrer {
 
     /**
@@ -46,6 +49,7 @@ class DeferredOnForeground(private val lifecycle: Lifecycle) : Deferrer {
 /**
  * Foregroundになったタイミングでactionを実行する.
  */
+@Deprecated("Do not use this. This class is a junk.")
 internal fun Lifecycle.runOnForeground(action: () -> Unit) {
     if (currentState == Lifecycle.State.DESTROYED) {
         return

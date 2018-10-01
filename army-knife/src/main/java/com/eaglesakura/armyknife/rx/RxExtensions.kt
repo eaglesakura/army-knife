@@ -1,9 +1,36 @@
 package com.eaglesakura.armyknife.rx
 
+import androidx.annotation.CheckResult
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.extensions.subscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.experimental.CoroutineDispatcher
+import kotlinx.coroutines.experimental.channels.Channel
+
+/**
+ * Make LiveData from Observable in RxJava.
+ *
+ * LiveData calls "dispose()" method at Inactive event.
+ * You should not call Disposable.dispose() method.
+ */
+fun <T> Observable<T>.toLiveData(): LiveData<T> {
+    return RxLiveData(this)
+}
+
+/**
+ * Make Channel from Observable in RxJava.
+ *
+ * Channel calls "dispose()" method at Channel.close() or Channel.cancel().
+ * You should not call Disposable.dispose() method.
+ */
+@CheckResult
+fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
+    return ObserverChannel<T>(dispatcher).also {
+        subscribe(it)
+    }
+}
 
 fun Disposable.with(lifecycle: Lifecycle): Disposable {
     var origin: Disposable? = this

@@ -7,11 +7,13 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlin.coroutines.experimental.CoroutineContext
 
+@Deprecated("Do not use this. This property is a junk.")
 private val monitorDispatcher = newSingleThreadContext("job-interrupt")
 
 /**
  * see CoroutineContext.monitor(Monitor)
  */
+@Deprecated("Do not use this. This function is a junk.")
 suspend fun CoroutineContext.monitor(block: suspend (job: Job) -> Unit) {
     monitor(object : Monitor {
         override suspend fun interrupt(job: Job) {
@@ -51,6 +53,7 @@ suspend fun CoroutineContext.monitor(monitor: Monitor) {
 /**
  * Current coroutine pause to until "Deferrer" calls to "resume()" method.
  */
+@Deprecated("Do not use this. This function is a junk.")
 suspend fun CoroutineContext.pause(callback: Deferrer) {
     val current = this
     val job = current[Job]!!
@@ -61,6 +64,7 @@ suspend fun CoroutineContext.pause(callback: Deferrer) {
     token.waitResume()
 }
 
+@Deprecated("Do not use this. This class is a junk.")
 private class DelayTokenImpl : DelayToken {
 
     private val channel = Channel<Unit>()
