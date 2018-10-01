@@ -3,14 +3,17 @@ package com.eaglesakura.armyknife.android.hardware
 import android.content.Context
 import android.graphics.Point
 import android.os.Build
+import android.os.Parcelable
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Display real sizes.
  */
 @Suppress("MemberVisibilityCanBePrivate")
+@Parcelize
 data class DisplayInfo(
 
         /**
@@ -60,7 +63,7 @@ data class DisplayInfo(
         val smallestWidthDp: Int,
 
         val diagonalInch: Float
-) {
+) : Parcelable {
 
     @Suppress("EnumEntryName")
     enum class Dpi {
@@ -84,7 +87,8 @@ data class DisplayInfo(
     /**
      * Display inch
      */
-    data class Inch(val major: Int, val minor: Int) {
+    @Parcelize
+    data class Inch(val major: Int, val minor: Int) : Parcelable {
 
         @Suppress("unused")
         fun toFloat(): Float {
