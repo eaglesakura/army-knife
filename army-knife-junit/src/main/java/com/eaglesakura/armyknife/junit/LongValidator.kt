@@ -5,6 +5,7 @@ import org.junit.Assert.*
 /**
  * Validator for Long.
  */
+@Deprecated("Use assertJ library, delete soon.")
 class LongValidator(val actual: Long) {
     fun from(expected: Long) {
         assertTrue("expected %d | actual %d".format(expected, actual), expected <= actual)

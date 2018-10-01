@@ -5,6 +5,7 @@ import org.junit.Assert.assertTrue
 /**
  * Validator for String.
  */
+@Deprecated("Use assertJ library, delete soon.")
 class StringValidator(var actual: String) {
     fun contains(expected: CharSequence) {
         assertTrue("contains | expected \"%s\" | actual \"%s\"".format(expected, actual), actual.contains(expected))

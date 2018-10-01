@@ -1,12 +1,11 @@
 package com.eaglesakura.armyknife.junit
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 
 /**
  * Validator for Double.
  */
+@Deprecated("Use assertJ library, delete soon.")
 class DoubleValidator(val actual: Double) {
     /**
      * the maximum delta.
