@@ -17,6 +17,8 @@ import kotlinx.coroutines.experimental.channels.Channel
 
 /**
  * Support RxJava functions.
+ *
+ * RxStream use to event or snackbar-data or such one-shot data.
  */
 open class RxStream<T> private constructor(
         private val subject: Subject<T>,

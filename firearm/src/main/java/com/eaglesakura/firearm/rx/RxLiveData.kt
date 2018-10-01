@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 /**
  * RxJava to LiveData.
  */
-class RxLiveData<T>(observable: Observable<T>) : LiveData<T>() {
+internal class RxLiveData<T>(observable: Observable<T>) : LiveData<T>() {
 
     private var disposable: Disposable? = null
 
