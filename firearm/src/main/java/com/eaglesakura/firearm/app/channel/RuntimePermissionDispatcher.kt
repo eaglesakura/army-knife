@@ -189,6 +189,12 @@ data class RuntimePermissionResult internal constructor(
         val shouldShowRationalePermissions: List<String>
 ) : Parcelable {
 
+    val granted: Boolean
+        get() = (status == Status.Granted)
+
+    val denied: Boolean
+        get() = (status == Status.Denied)
+
     /**
      * Permission check result.
      *

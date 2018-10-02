@@ -76,3 +76,9 @@ fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.()
         self.run { block() }
     }
 }
+
+suspend fun <T> Semaphore.runWith(context: CoroutineContext, block: suspend CoroutineScope.() -> T): T {
+    return withContext(context) {
+        block()
+    }
+}
