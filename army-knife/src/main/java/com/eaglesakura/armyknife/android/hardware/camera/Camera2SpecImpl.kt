@@ -17,7 +17,7 @@ import com.eaglesakura.armyknife.android.hardware.camera.spec.*
 import java.util.*
 
 @SuppressLint("NewApi")
-class Camera2SpecImpl internal constructor(context: Context) {
+internal class Camera2SpecImpl internal constructor(context: Context) {
 
 
     private val mContext: Context

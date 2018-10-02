@@ -29,7 +29,7 @@ import kotlin.coroutines.experimental.coroutineContext
 
 @SuppressLint("MissingPermission")
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class Camera2ControlManager(
+internal class Camera2ControlManager(
         private val context: Context,
         private val connectRequest: CameraConnectRequest) : CameraControlManager() {
 
@@ -367,5 +367,6 @@ class Camera2ControlManager(
          */
         private const val FLAG_NOW_PREVIEW = 0x01 shl 0
 
+        private val TAG = Camera2ControlManager::class.java.simpleName
     }
 }
