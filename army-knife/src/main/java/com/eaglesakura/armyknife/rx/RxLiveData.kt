@@ -12,7 +12,7 @@ internal class RxLiveData<T>(observable: Observable<T>) : LiveData<T>() {
 
     private var disposable: Disposable? = null
 
-    private val observable: Observable<T> = observable.subscribeOn(AndroidSchedulers.mainThread())
+    private val observable: Observable<T> = observable.observeOn(AndroidSchedulers.mainThread())
 
     override fun onActive() {
         super.onActive()

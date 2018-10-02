@@ -22,8 +22,17 @@ fun <T> Observable<T>.toLiveData(): LiveData<T> {
 /**
  * Make Channel from Observable in RxJava.
  *
+ * CAUTION!! You will finished to using, then should call "Channel.close()" method.
+ * Or, You may use Channel.consume{} block.
+ *
  * Channel calls "dispose()" method at Channel.close() or Channel.cancel().
  * You should not call Disposable.dispose() method.
+ *
+ * e.g.)
+ *
+ * observable.toChannel().consume {
+ *      // something...
+ * }    // Channel.close() on exit.
  */
 @CheckResult
 fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {

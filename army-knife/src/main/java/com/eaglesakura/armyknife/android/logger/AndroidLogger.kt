@@ -11,7 +11,7 @@ class AndroidLogger : Logger.Impl {
         if (stackInfo) {
             val trace = Exception().stackTrace
             val elem = trace[Math.min(trace.size - 1, 2)]
-            message = String.format("%s[%d] : %s", elem.fileName, elem.lineNumber, msg)
+            message = "${elem.fileName}[${elem.lineNumber}] : $msg"
         }
         when (level) {
             Logger.LEVEL_INFO -> Log.i(tag, message)
