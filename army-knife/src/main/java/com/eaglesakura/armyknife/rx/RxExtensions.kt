@@ -1,11 +1,11 @@
 package com.eaglesakura.armyknife.rx
 
 import androidx.annotation.CheckResult
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.*
 import com.eaglesakura.armyknife.android.extensions.subscribeWithCancel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.channels.Channel
 
@@ -83,4 +83,24 @@ fun <T> Observable<T>.subscribe(lifecycle: Lifecycle,
             { err -> onError?.invoke(err) },
             { onComplete?.invoke() }
     ).with(lifecycle)
+}
+
+/**
+ * Lifecycle to RxJava observable.
+ *
+ * Observable will call "onComplete()" function at lifecycle in "Event.ON_DESTROY".
+ */
+fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
+    val result = PublishSubject.create<Lifecycle.Event>()
+
+    addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+        fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
+            result.onNext(event)
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                result.onComplete()
+            }
+        }
+    })
+    return result
 }

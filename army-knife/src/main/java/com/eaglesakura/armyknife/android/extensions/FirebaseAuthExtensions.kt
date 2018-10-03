@@ -35,7 +35,7 @@ suspend fun FirebaseAuth.getCachedAccessToken(): String {
         throw FirebaseAuthFailedException("getIdToken(true) failed")
     }
 
-    tokenCache = tokenTask.result.token
+    tokenCache = tokenTask.result!!.token
     tokenExpireTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(59)
     return tokenCache!!
 }

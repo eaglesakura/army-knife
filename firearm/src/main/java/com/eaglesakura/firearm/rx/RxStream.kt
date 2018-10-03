@@ -32,7 +32,7 @@ typealias EventStream = RxStream<Event>
  */
 open class RxStream<T> private constructor(
         private val subject: Subject<T>,
-        private val observable: Observable<T>,
+        @Suppress("MemberVisibilityCanBePrivate") val observable: Observable<T>,
         private val validator: ((T) -> Boolean)
 ) {
     constructor(subject: Subject<T>, validator: (T) -> Boolean) : this(subject, subject.observeOn(AndroidSchedulers.mainThread()), validator)

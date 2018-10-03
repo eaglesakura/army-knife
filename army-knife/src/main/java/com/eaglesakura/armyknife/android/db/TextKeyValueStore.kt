@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger
 typealias DatabaseOpenFunction = (context: Context, filePath: String?) -> SupportSQLiteDatabase
 
 /**
- * The TextKeyValueStore is A simple Key-Value store for Android app.
+ * TextKeyValueStore is A simple Key-Value store for Android app.
  * This class use SQLite. Not used third-party class libraries.
  *
  * When "path" argument set to null, SQLite use in-memory database.
