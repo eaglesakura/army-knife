@@ -13,11 +13,9 @@ import kotlinx.coroutines.experimental.channels.Channel
  * @see GoogleApiClient.SIGN_IN_MODE_REQUIRED
  * @see GoogleApiClient.SIGN_IN_MODE_OPTIONAL
  */
-@Throws(exceptionClasses = [
-    DeveloperImplementFailedException::class,
-    RequireRetryConnectException::class,
-    PlayServiceException::class
-])
+@Throws(DeveloperImplementFailedException::class,
+        RequireRetryConnectException::class,
+        PlayServiceException::class)
 suspend fun GoogleApiClient.Builder.connect(mode: Int): GoogleApiClient {
     return when (mode) {
         GoogleApiClient.SIGN_IN_MODE_REQUIRED, GoogleApiClient.SIGN_IN_MODE_OPTIONAL -> {
@@ -36,20 +34,16 @@ suspend fun GoogleApiClient.Builder.connect(mode: Int): GoogleApiClient {
 /**
  * GoogleApiClient build with awaitWithSuspend.
  */
-@Throws(exceptionClasses = [
-    DeveloperImplementFailedException::class,
-    RequireRetryConnectException::class,
-    PlayServiceException::class
-])
+@Throws(DeveloperImplementFailedException::class,
+        RequireRetryConnectException::class,
+        PlayServiceException::class)
 suspend fun GoogleApiClient.Builder.connect(): GoogleApiClient {
     return connectImpl(0x00FF00FF)
 }
 
-@Throws(exceptionClasses = [
-    DeveloperImplementFailedException::class,
-    RequireRetryConnectException::class,
-    PlayServiceException::class
-])
+@Throws(DeveloperImplementFailedException::class,
+        RequireRetryConnectException::class,
+        PlayServiceException::class)
 private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiClient {
     val channel = Channel<Pair<Bundle?, Exception?>>(1)
     val connectionCallbacks = object : GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {

@@ -10,12 +10,14 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 
 object RuntimePermissions {
 
     /**
      * This functions returns true when Android M(Android 6.0).
      */
+    @Deprecated("Don't use this. replace to Compat classes in Android Jetpack")
     val supported: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
     val PERMISSIONS_SELF_LOCATION = listOf(
@@ -74,13 +76,8 @@ object RuntimePermissions {
      * If all permissions are granted, this method returns true.
      */
     fun hasAllRuntimePermissions(context: Context, permissions: Iterable<String>): Boolean {
-        if (!supported) {
-            return true
-        }
-
-        @TargetApi(Build.VERSION_CODES.M)
         for (permission in permissions) {
-            if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false
             }
         }

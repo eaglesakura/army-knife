@@ -1,8 +1,9 @@
 package com.eaglesakura.armyknife.android.db
 
+import android.util.Log
 import com.eaglesakura.BaseTestCase
-import com.eaglesakura.armyknife.android.logger.Logger
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class TextKeyValueStoreTest : BaseTestCase() {
@@ -14,7 +15,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
         val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_READ_ONLY).use {
-            Logger.debug(TAG, "Database path ${it.path!!.absolutePath}")
+            Log.i(TAG, "Database path ${it.path!!.absolutePath}")
         }
     }
 
@@ -23,7 +24,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
         val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use {
-            Logger.debug(TAG, "Database path ${it.path!!.absolutePath}")
+            Log.i(TAG, "Database path ${it.path!!.absolutePath}")
         }
     }
 
@@ -49,7 +50,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
         val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use { kvs ->
-            Logger.debug(TAG, "Database path ${kvs.path!!.absolutePath}")
+            Log.i(TAG, "Database path ${kvs.path!!.absolutePath}")
             kvs.transaction { _ ->
                 kvs.put("key0", "value0")
                 kvs.put("key1", "value1")
@@ -75,7 +76,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
         val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use { kvs ->
-            Logger.debug(TAG, "Database path ${kvs.path!!.absolutePath}")
+            Log.i(TAG, "Database path ${kvs.path!!.absolutePath}")
 
             kvs.transaction { _ ->
                 kvs.put("key0", "value0")
@@ -97,7 +98,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
         val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use { kvs ->
-            Logger.debug(TAG, "Database path ${kvs.path!!.absolutePath}")
+            Log.i(TAG, "Database path ${kvs.path!!.absolutePath}")
 
             kvs.put("key0", "value0")
             kvs.put("key0", "value1")

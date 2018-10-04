@@ -6,6 +6,7 @@ include ':firearm-channel'      // alone
 // Below are group
 include ':army-knife-junit'
 include ':army-knife'
-include ':army-knife-camera'    // depends[army-knife]
+include ':army-knife-camera'        // depends[army-knife]
+include ':army-knife-persistence'   // depends[army-knife]
 
 include ':firearm'

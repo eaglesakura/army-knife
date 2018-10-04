@@ -65,9 +65,10 @@ dependencies {
         }
     }
 
-    implementationProjectOrMaven(':oneshotlivedata', 'com.eaglesakura:oneshotlivedata:+')
+//    implementationProjectOrMaven(':oneshotlivedata', 'com.eaglesakura:oneshotlivedata:+')
     implementationProjectOrMaven(':kerberus', 'com.eaglesakura:kerberus:+')
     implementationProjectOrMaven(':army-knife', 'com.eaglesakura:army-knife:+')
+    implementationProjectOrMaven(':army-knife-persistence', 'com.eaglesakura:army-knife-persistence:+')
     testImplementationProjectOrMaven(':army-knife-junit', 'com.eaglesakura:army-knife-junit:+')
 
     /**

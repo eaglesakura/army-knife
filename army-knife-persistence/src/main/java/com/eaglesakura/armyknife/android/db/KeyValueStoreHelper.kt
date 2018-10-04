@@ -35,13 +35,17 @@ internal class KeyValueStoreHelper(context: Context, path: String?) : SQLiteOpen
         db.execSQL(SQL_GENERATE_INDEX)
     }
 
+    @Suppress("PrivatePropertyName")
     private val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
+
+    @Suppress("PrivatePropertyName")
     private val SQL_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS $TABLE_NAME" +
             "(" +
             "$COLUMN_KEY TEXT PRIMARY KEY NOT NULL UNIQUE, " +
             "$COLUMN_VALUE TEXT NOT NULL, " +
             "$COLUMN_DATE INTEGER NOT NULL" +
             ")"
-    private val SQL_GENERATE_INDEX = "CREATE INDEX KEY ON $TABLE_NAME($COLUMN_KEY, $COLUMN_DATE)"
 
+    @Suppress("PrivatePropertyName")
+    private val SQL_GENERATE_INDEX = "CREATE INDEX KEY ON $TABLE_NAME($COLUMN_KEY, $COLUMN_DATE)"
 }

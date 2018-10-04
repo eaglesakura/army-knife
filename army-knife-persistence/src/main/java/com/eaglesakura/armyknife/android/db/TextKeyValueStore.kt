@@ -54,6 +54,7 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
     /**
      * Do action() in transaction.
      */
+    @Suppress("unused")
     fun <R> transaction(action: (db: SupportSQLiteDatabase) -> R): R {
         return validDatabase().transaction {
             action(this)
@@ -64,6 +65,7 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
      * Insert key-value data to database.
      * If database has old data, Replace to new data.
      */
+    @Suppress("unused")
     fun put(key: String, value: String) {
         val row = ContentValues(3)
         row.put(COLUMN_KEY, key)
@@ -100,6 +102,7 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
      * @see OPEN_READ_ONLY
      * @see OPEN_WRITABLE
      */
+    @Suppress("unused")
     fun open(function: DatabaseOpenFunction): TextKeyValueStore {
         if (refs.incrementAndGet() != 1) {
             return this

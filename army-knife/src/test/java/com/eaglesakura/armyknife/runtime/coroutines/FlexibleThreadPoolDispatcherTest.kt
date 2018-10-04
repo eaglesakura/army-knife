@@ -1,13 +1,13 @@
 package com.eaglesakura.armyknife.runtime.coroutines
 
 import com.eaglesakura.armyknife.junit.blockingTest
-import com.eaglesakura.armyknife.junit.validate
 import com.eaglesakura.armyknife.runtime.Random
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -25,9 +25,10 @@ class FlexibleThreadPoolDispatcherTest {
             delay(10)
             println("dispatch success")
         }
-        dispatcher.aliveThreadNum.validate {
-            from(1)
-            to(5)
+
+        assertThat(dispatcher.aliveThreadNum).apply {
+            isGreaterThan(0)
+            isLessThanOrEqualTo(5)
         }
 
         delay(30)
@@ -44,9 +45,9 @@ class FlexibleThreadPoolDispatcherTest {
             delay(10)
             println("dispatch success")
         }
-        dispatcher.aliveThreadNum.validate {
-            from(1)
-            to(5)
+        assertThat(dispatcher.aliveThreadNum).apply {
+            isGreaterThan(0)
+            isLessThanOrEqualTo(5)
         }
 
         delay(30)
