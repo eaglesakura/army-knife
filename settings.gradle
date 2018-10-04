@@ -1,5 +1,5 @@
 include ':kerberus'             // alone
-include ':oneshotlivedata'      // alone
+include ':oneshotlivedata'      // [alone][Deprecated]
 
 // Below are group
 include ':army-knife-junit'
