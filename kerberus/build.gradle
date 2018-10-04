@@ -63,6 +63,7 @@ android {
     // for Kotlin-Android
     androidExtensions {
         experimental = true
+        features = ["parcelize"]
     }
 
     defaultConfig {

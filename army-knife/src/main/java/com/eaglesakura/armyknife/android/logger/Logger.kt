@@ -9,6 +9,7 @@ import com.eaglesakura.armyknife.android.extensions.debugMode
  * When UnitTest from robolectric, It use printf.
  * When Android device, It use Log.{d,i,e}.
  */
+@Deprecated("replace to Timber or such libraries.")
 object Logger {
     var impl: Impl = newImpl(false)
         private set

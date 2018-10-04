@@ -8,12 +8,11 @@ import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.RuntimePermissions
-import com.eaglesakura.armyknife.android.logger.Logger
-import com.eaglesakura.firearm.rx.RxStream
-import com.eaglesakura.firearm.event.Event
+import com.eaglesakura.firearm.rx.EventStream
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 
@@ -24,7 +23,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
     /**
      * Device scan events.
      */
-    val event = RxStream<Event> { id ->
+    val event = EventStream { id ->
         when (id) {
             BluetoothScanEvent.EVENT_LOST, BluetoothScanEvent.EVENT_FOUND, BluetoothScanEvent.EVENT_UPDATED -> true
             is BluetoothScanEvent -> true
@@ -123,7 +122,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                     async(Dispatchers.Main) { cleanUp() }.await()
                 }
             } finally {
-                Logger.debug("BLE", "Scan clean up abort.")
+                Log.d(TAG, "Scan clean up abort.")
             }
         }
     }
@@ -133,7 +132,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
             try {
                 caches.forEach {
                     if (it.scanResult.device.address == result.device.address) {
-                        Logger.debug("BLE", "Ble update device name[${result.device.name}]")
+                        Log.d(TAG, "Ble update device name[${result.device.name}]")
                         it.scanResult = result
                         event.next(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_UPDATED, scanResult = result))
                         return
@@ -141,7 +140,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                 }
 
                 // new data
-                Logger.debug("BLE", "Ble new device found name[${result.device.name}]")
+                Log.d(TAG, "Ble new device found name[${result.device.name}]")
                 event.next(BluetoothScanEvent(id = BluetoothScanEvent.EVENT_FOUND, scanResult = result))
                 caches.add(ScanResultCache(result))
             } finally {
@@ -151,7 +150,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
         }
 
         override fun onScanFailed(errorCode: Int) {
-            Logger.debug("BLE", "Ble scan failed[$errorCode]")
+            Log.d(TAG, "Ble scan failed[$errorCode]")
         }
     }
 
@@ -169,5 +168,9 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
          */
         val expired: Boolean
             get() = currentTimeMillis() > (modifiedTime + expireTimeMs)
+    }
+
+    companion object {
+        private val TAG = BleDeviceStream::class.java.simpleName
     }
 }

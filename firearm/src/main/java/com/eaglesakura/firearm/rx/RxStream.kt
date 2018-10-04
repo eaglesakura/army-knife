@@ -127,6 +127,7 @@ open class RxStream<T> private constructor(
 
         /**
          * Optional subject.
+         * If it value is null, then use "PublishSubject" observable.
          */
         @Suppress("MemberVisibilityCanBePrivate")
         var subject: Subject<T>? = null

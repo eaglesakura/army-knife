@@ -1,5 +1,6 @@
 package com.eaglesakura.armyknife.android.logger
 
+@Deprecated("replace to Timber or such libraries.")
 class ConsoleLogger : Logger.Impl {
 
     override fun out(level: Int, tag: String, msg: String) {

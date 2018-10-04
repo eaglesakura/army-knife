@@ -1,7 +1,10 @@
 include ':kerberus'             // alone
-include ':oneshotlivedata'      // [alone][Deprecated]
+include ':firearm-di'           // alone
+// include ':oneshotlivedata'      // [alone][Deprecated]
 
 // Below are group
 include ':army-knife-junit'
 include ':army-knife'
+include ':army-knife-camera'    // depends[army-knife]
+
 include ':firearm'

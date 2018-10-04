@@ -28,6 +28,7 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+    delete rootProject.file("artifacts")
 }
 
 ext.ANDROID_STUDIO = project.hasProperty("devBuild")

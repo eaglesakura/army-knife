@@ -7,7 +7,7 @@ import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
 import com.eaglesakura.armyknife.android.hardware.camera.spec.Scene
 import com.eaglesakura.armyknife.android.hardware.camera.spec.WhiteBalance
 import com.eaglesakura.armyknife.junit.blockingTest
-import com.eaglesakura.armyknife.junit.validate
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -19,13 +19,13 @@ class CameraSpecTest : AndroidTestCase() {
 
         assertEquals(CameraType.Back, specs.type)
         specs.getJpegPictureSize(640, 480).also {
-            it.width.validate {
-                from(1)
-                to(640)
+            assertThat(it.width).apply {
+                isGreaterThan(0)
+                isLessThanOrEqualTo(640)
             }
-            it.height.validate {
-                from(1)
-                to(480)
+            assertThat(it.height).apply {
+                isGreaterThan(0)
+                isLessThanOrEqualTo(480)
             }
         }
     }

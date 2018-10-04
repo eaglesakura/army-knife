@@ -2,7 +2,7 @@ package com.eaglesakura.armyknife.android.logger
 
 import android.util.Log
 
-
+@Deprecated("replace to Timber or such libraries.")
 class AndroidLogger : Logger.Impl {
     var stackInfo: Boolean = false
 

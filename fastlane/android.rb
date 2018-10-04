@@ -5,7 +5,7 @@ platform :android do
   end
 
   lane :test do
-    gradle(task: "--parallel clean assembleAndroidTest")
+    gradle(task: "clean assembleAndroidTest")
 
     $projects.each do |project|
         android_test(":#{project}:testDebug", "#{project}")
@@ -16,10 +16,10 @@ platform :android do
     gradle(task: "clean")
 
     $projects.each do |project|
-        gradle(task: "--parallel :#{project}:assemble")
+        gradle(task: "--parallel :#{project}:assembleRelease")
         copy_artifacts(
-          target_path: "artifacts/#project",
-          artifacts: ["#project/build/outputs"],
+          target_path: "artifacts/#{project}",
+          artifacts: ["#{project}/build/outputs"],
         )
     end
   end
