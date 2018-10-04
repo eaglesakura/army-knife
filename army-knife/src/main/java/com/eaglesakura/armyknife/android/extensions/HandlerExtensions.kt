@@ -25,16 +25,24 @@ val onUiThread: Boolean
     get() = Thread.currentThread() == UIHandler.looper.thread
 
 
+/**
+ * Call function from UI-Thread in Android Device.
+ * If you call this function from the Worker-Thread, then throw Error.
+ */
 @UiThread
 fun assertUIThread() {
-    if (!onUiThread) {
+    if (Thread.currentThread() != Looper.getMainLooper().thread) {
         throw Error("Thread[${Thread.currentThread()}] is not UI")
     }
 }
 
+/**
+ * Call function from Worker-Thread in Android Device.
+ * If you call this function from the UI-Thread, then throw Error.
+ */
 @WorkerThread
 fun assertWorkerThread() {
-    if (onUiThread) {
+    if (Thread.currentThread() == UIHandler.looper.thread) {
         throw Error("Thread[${Thread.currentThread()}] is UI")
     }
 }

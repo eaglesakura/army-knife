@@ -1,11 +1,9 @@
-package com.eaglesakura.firearm.app.channel
+package com.eaglesakura.firearm.channel
 
 import androidx.annotation.CheckResult
 import androidx.annotation.UiThread
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.eaglesakura.armyknife.android.extensions.subscribe
-import com.eaglesakura.armyknife.runtime.coroutines.DelegateChannel
 import kotlinx.coroutines.experimental.channels.Channel
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -18,7 +16,6 @@ import kotlin.concurrent.withLock
  * ChannelRegistry use to  an activity with short time or check to the runtime permission.
  * DON'T USE LONG TIME ACTIVITY.
  */
-@Deprecated("Replace to firearm.channel.ChannelRegistry")
 class ChannelRegistry(private val owner: LifecycleOwner) {
     /**
      * Did register channels.
@@ -39,6 +36,7 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
     /**
      * Returns channel num.
      */
+    @Suppress("unused")
     val size: Int
         get() = lock.withLock {
             channels.size
@@ -110,4 +108,3 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
         }
     }
 }
-

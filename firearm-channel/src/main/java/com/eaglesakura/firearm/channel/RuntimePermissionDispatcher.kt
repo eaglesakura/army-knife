@@ -1,17 +1,14 @@
-package com.eaglesakura.firearm.app.channel
+package com.eaglesakura.firearm.channel
 
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.CheckResult
 import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.eaglesakura.armyknife.android.extensions.assertUIThread
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.android.Main
@@ -22,7 +19,6 @@ import kotlinx.coroutines.experimental.launch
 /**
  * RuntimePermission Dispatcher with Channel.
  */
-@Deprecated("Replace to firearm.channel.RuntimePermissionDispatcher")
 class RuntimePermissionDispatcher(
         private val getContext: () -> Context,
         private val requestPermissions: (permissions: Array<String>, requestCode: Int) -> Unit,
@@ -30,6 +26,7 @@ class RuntimePermissionDispatcher(
         private val registry: ChannelRegistry
 ) {
 
+    @Suppress("unused")
     constructor(fragment: Fragment, registry: ChannelRegistry) :
             this(
                     { fragment.context!! },
@@ -38,6 +35,7 @@ class RuntimePermissionDispatcher(
                     registry
             )
 
+    @Suppress("unused")
     constructor(activity: Activity, registry: ChannelRegistry) :
             this(
                     { activity },
@@ -54,6 +52,7 @@ class RuntimePermissionDispatcher(
      * Show runtime permission dialog, with await.
      * You shouldn't keep channel, and "close()" channel.
      */
+    @Suppress("unused")
     suspend fun requestPermissionsWithResult(permissions: Collection<String>): RuntimePermissionResult {
         return requestPermissions(permissions).consume {
             receive()
@@ -118,6 +117,7 @@ class RuntimePermissionDispatcher(
     /**
      * Should call this method on "onRequestPermissionsResult" from Fragment or Activity.
      */
+    @Suppress("unused")
     @UiThread
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         assertUIThread()
@@ -150,6 +150,7 @@ class RuntimePermissionDispatcher(
     /**
      * Returns runtime permission status, just now.
      */
+    @Suppress("unused")
     fun getRuntimePermissionStatus(permissions: Collection<String>): RuntimePermissionResult {
 
         val context = getContext()

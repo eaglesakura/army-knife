@@ -1,5 +1,6 @@
 include ':kerberus'             // alone
 include ':firearm-di'           // alone
+include ':firearm-channel'      // alone
 // include ':oneshotlivedata'      // [alone][Deprecated]
 
 // Below are group

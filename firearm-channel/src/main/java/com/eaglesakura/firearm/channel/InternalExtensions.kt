@@ -1,17 +1,48 @@
-package com.eaglesakura.armyknife.runtime.coroutines
+package com.eaglesakura.firearm.channel
 
+import android.os.Looper
+import androidx.annotation.UiThread
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.ChannelIterator
 import kotlinx.coroutines.experimental.channels.SendChannel
 import kotlinx.coroutines.experimental.selects.SelectClause1
 import kotlinx.coroutines.experimental.selects.SelectClause2
 
+
+/**
+ * Call function from UI-Thread in Android Device.
+ * If you call this function from the worker thread, then throw Error.
+ */
+@UiThread
+internal fun assertUIThread() {
+    if (Thread.currentThread() != Looper.getMainLooper().thread) {
+        throw Error("Thread[${Thread.currentThread()}] is not UI")
+    }
+}
+
+/**
+ * Subscribe lifecycle's event.
+ */
+@Suppress("unused")
+internal fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
+    this.addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+        fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
+            receiver(event)
+        }
+    })
+}
+
 /**
  * Delegate supported channel.
  *
  * If you want to the simple use case, then replace to "RendezvousChannel<T>".
  */
-abstract class DelegateChannel<T>(protected val origin: Channel<T>) : Channel<T> {
+internal abstract class DelegateChannel<T>(protected val origin: Channel<T>) : Channel<T> {
     override val isClosedForReceive: Boolean
         get() = origin.isClosedForReceive
 
