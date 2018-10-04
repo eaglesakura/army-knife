@@ -45,31 +45,12 @@ android {
 }
 
 dependencies {
-    final def implementationProjectOrMaven = { path, module ->
-        try {
-            implementation project(path)
-            println "implementation project(${path})"
-        } catch (ignored) {
-            implementation module
-        }
-    }
-
-    final def testImplementationProjectOrMaven = { path, module ->
-        try {
-            testImplementation project(path)
-            androidTestImplementation project(path)
-            println "testImplementation project(${path})"
-        } catch (ignored) {
-            testImplementation module
-            androidTestImplementation module
-        }
-    }
-
-//    implementationProjectOrMaven(':oneshotlivedata', 'com.eaglesakura:oneshotlivedata:+')
-    implementationProjectOrMaven(':kerberus', 'com.eaglesakura:kerberus:+')
-    implementationProjectOrMaven(':army-knife', 'com.eaglesakura:army-knife:+')
-    implementationProjectOrMaven(':army-knife-persistence', 'com.eaglesakura:army-knife-persistence:+')
-    testImplementationProjectOrMaven(':army-knife-junit', 'com.eaglesakura:army-knife-junit:+')
+    implementation project(':kerberus')
+    implementation project(':army-knife')
+    implementation project(':army-knife-persistence')
+    implementation project(':army-knife-reactivex')
+    testImplementation project(':army-knife-junit')
+    androidTestImplementation project(':army-knife-junit')
 
     /**
      * java libraries

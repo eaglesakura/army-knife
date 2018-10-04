@@ -1,11 +1,14 @@
 package com.eaglesakura.firearm.event
 
 /**
- * "EventId" is stream-item for RxStream<Event>.
+ * "EventId" is stream-item for RxStream<Event>(alias to EventStream).
+ *
+ *  EventId will validated before than send to the observable.
+ *  Objects of EventStream.subscribe() are will be received only verified events.
  *
  * e.g.)
  * object Foo {
- *      val event = RxStream<Event> { event ->
+ *      val event = EventStream<Event> { event ->
  *          when(event) {
  *              EVENT_EXAMPLE -> true   // exist event.
  *              else -> false   // This event has been not supported!!

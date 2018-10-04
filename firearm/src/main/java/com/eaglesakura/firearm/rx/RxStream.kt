@@ -23,6 +23,7 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.CoroutineContext
 
+@Deprecated("Replace package-name to com.eaglesakura.firearm.event")
 typealias EventStream = RxStream<Event>
 
 /**
