@@ -1,0 +1,157 @@
+def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
+        army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
+
+def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
+def BINTRAY_LABELS = ["android", "kotlin"]
+def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "com.github.ben-manes.versions"   // dependencies version check
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
+android {
+    compileSdkVersion 28
+
+    // for *.java options
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // for Kotlin-Android
+    androidExtensions {
+        experimental = true
+        features = ["parcelize"]
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        multiDexEnabled true
+        aaptOptions.cruncherEnabled false
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/**_debug.kotlin_module'
+    }
+}
+
+dependencies {
+    implementation project(':army-knife')
+
+    /**
+     * java libraries
+     */
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'   // Reactive Extension
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
+
+    /**
+     * Kotlin support
+     */
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
+
+    /**
+     * Support Libraries
+     * https://developer.android.com/topic/libraries/architecture/adding-components
+     * https://developer.android.com/topic/libraries/support-library/refactor
+     */
+    implementation 'androidx.core:core-ktx:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.sqlite:sqlite:2.0.0'
+    implementation 'androidx.sqlite:sqlite-ktx:2.0.0'
+    androidTestImplementation 'androidx.multidex:multidex:2.0.0'
+    androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
+
+    /**
+     * for Tests
+     */
+    testImplementation project(':army-knife-junit')
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation 'androidx.test:monitor:1.1.0-alpha4'
+    testImplementation 'org.assertj:assertj-core:3.11.1'
+    androidTestImplementation project(':army-knife-junit')
+    androidTestImplementation 'org.assertj:assertj-core:3.11.1'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+
+}
+
+group = "com.eaglesakura"
+version = ARTIFACT_VERSION + {
+    String CIRCLE_TAG = System.env.CIRCLE_TAG
+
+    if (CIRCLE_TAG != null) {
+        // have CIRCLE_TAG(build on CircleCI)
+        return ""
+    }
+
+    if (System.env.CIRCLE_BUILD_NUM != null) {
+        return ".build-${System.env.CIRCLE_BUILD_NUM}"
+    } else {
+        return ".snapshot"
+    }
+}()
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    outputFormat = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: dokka) {
+    from "$buildDir/dokka"
+    classifier = 'javadoc'
+}
+android.libraryVariants.all { variant ->
+    if ("release" != variant.name || "" == ARTIFACT_VERSION) {
+        return
+    }
+
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+}
+
+bintray {
+    user = 'eaglesakura'
+    key = System.env.BINTRAY_API_KEY
+    publish = true
+    override = true
+    pkg {
+        repo = "maven"
+        name = BINTRAY_PACKAGE_NAME
+        vcsUrl = BINTRAY_VCS_URL
+        issueTrackerUrl = "${BINTRAY_VCS_URL}/issues"
+        licenses = ["MIT"]
+        labels = BINTRAY_LABELS
+        version {
+            name = project.version
+            released = new Date()
+            gpg {
+                sign = true
+                passphrase = System.env.BINTRAY_GPG_PASS
+            }
+        }
+    }
+    configurations = ['archives']
+}

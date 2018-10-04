@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.rx
+package com.eaglesakura.armyknife.android.reactivex
 
 import androidx.lifecycle.LiveData
 import io.reactivex.Observable

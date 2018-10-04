@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.rx
+package com.eaglesakura.armyknife.android.reactivex
 
 import androidx.annotation.CheckResult
 import androidx.lifecycle.Lifecycle
@@ -6,10 +6,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.eaglesakura.armyknife.android.extensions.delay
-import com.eaglesakura.armyknife.rx.toChannel
-import com.eaglesakura.armyknife.rx.toLiveData
-import com.eaglesakura.armyknife.rx.with
-import com.eaglesakura.firearm.event.Event
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,14 +19,11 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.CoroutineContext
 
-typealias EventStream = RxStream<Event>
-
 /**
  * Support RxJava functions.
  *
  * RxStream use to event or snackbar-data or such one-shot data.
  */
-@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex.RxStream")
 open class RxStream<T> private constructor(
         private val subject: Subject<T>,
         @Suppress("MemberVisibilityCanBePrivate") val observable: Observable<T>,
@@ -58,6 +51,7 @@ open class RxStream<T> private constructor(
      * LiveData calls "dispose()" method at Inactive event.
      * You should not call Disposable.dispose() method.
      */
+    @Suppress("unused")
     fun toLiveData(): LiveData<T> {
         return observable.toLiveData()
     }
@@ -69,6 +63,7 @@ open class RxStream<T> private constructor(
      * Channel calls "dispose()" method at Channel.close() or Channel.cancel().
      * You should not call Disposable.dispose() method.
      */
+    @Suppress("unused")
     @CheckResult
     fun toChannel(dispatcher: CoroutineDispatcher = Dispatchers.Main): Channel<T> {
         return observable.toChannel(dispatcher)
@@ -77,6 +72,7 @@ open class RxStream<T> private constructor(
     /**
      * Subscribe by reactivex.Observer
      */
+    @Suppress("unused")
     fun subscribe(observer: io.reactivex.Observer<T>) {
         return observable.subscribe(observer)
     }
@@ -106,10 +102,12 @@ open class RxStream<T> private constructor(
         subscribe(observer).with(lifecycle)
     }
 
+    @Suppress("unused")
     fun subscribe(owner: LifecycleOwner, observer: Observer<T>) {
         subscribe(owner.lifecycle, observer)
     }
 
+    @Suppress("unused")
     fun subscribe(owner: LifecycleOwner, observer: (value: T) -> Unit) {
         subscribe(owner.lifecycle, Observer { observer(it) })
     }
@@ -124,6 +122,7 @@ open class RxStream<T> private constructor(
      *      }
      * }.build()
      */
+    @Suppress("unused")
     class Builder<T> {
 
         /**
@@ -159,7 +158,7 @@ open class RxStream<T> private constructor(
 
     companion object {
         @JvmStatic
-        @Suppress("MemberVisibilityCanBePrivate")
+        @Suppress("MemberVisibilityCanBePrivate", "unused")
         fun <T> create(): RxStream<T> {
             @Suppress("MoveLambdaOutsideParentheses")
             return RxStream(PublishSubject.create<T>(), { true })
@@ -171,6 +170,7 @@ open class RxStream<T> private constructor(
             return RxStream(PublishSubject.create<T>(), validator)
         }
 
+        @Suppress("unused")
         @JvmStatic
         fun <T> newObserverWithForeground(owner: LifecycleOwner, block: (value: T) -> Unit): Observer<T> {
             return newObserverWithContext(Dispatchers.Main) {
