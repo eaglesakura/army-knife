@@ -1,12 +1,13 @@
 include ':kerberus'                         // alone
+include ':army-knife-junit'                 // alone
+include ':army-knife'                       // alone
+include ':army-knife-view-adapters'         // alone
 include ':firearm-di'                       // alone
 include ':firearm-channel'                  // alone
 include ':firearm-material-resources'       // alone [Deprecated, Replace to https://github.com/DmitryMalkovich/material-design-dimens]
 // include ':oneshotlivedata'               // alone [Deprecated, Replace to army-knife-reactivex]
 
 // Below are group
-include ':army-knife-junit'         // alone
-include ':army-knife'               // alone
 include ':army-knife-camera'        // depends[army-knife]
 include ':army-knife-persistence'   // depends[army-knife]
 include ':army-knife-reactivex'     // depends[army-knife]

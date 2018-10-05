@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.adapter
+package com.eaglesakura.armyknife.adapters
 
 import android.content.Context
 import android.view.View
@@ -6,8 +6,14 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.annotation.ArrayRes
 
-
-@Deprecated("Replace to com.eaglesakura.armyknife.adapters.SpinnerAdapterBuilder")
+/**
+ * Spinner adapter with builder
+ *
+ * e.g.)
+ * SpinnerAdapterBuilder.from<String>(spinner, /* more arguments */).apply {
+ *      // build adapter.
+ * }.build()
+ */
 class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinner) {
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -38,9 +44,9 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
         }
     }
 
-    fun selection(obj: T): SpinnerAdapterBuilder<T> {
+    @Suppress("unused")
+    fun selection(obj: T) {
         selected = Math.max(items.indexOf(obj), 0)
-        return this
     }
 
     /**
@@ -55,7 +61,8 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
         return adapter
     }
 
-    fun build(): SpinnerAdapterBuilder<T> {
+    @Suppress("unused")
+    fun build() {
         spinner.adapter = buildAdapter()
         spinner.setSelection(selected)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -67,7 +74,6 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
                 selectedAction?.invoke(position, spinner.adapter.getItem(position) as T?)
             }
         }
-        return this
     }
 
     companion object {
@@ -80,6 +86,7 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
         }
 
 
+        @Suppress("unused")
         fun fromStringArray(spinner: Spinner, context: Context, @ArrayRes resId: Int): SpinnerAdapterBuilder<String> {
             return SpinnerAdapterBuilder<String>(context, spinner).also {
                 it.items.addAll(context.resources.getStringArray(resId).asList())

@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.adapter
+package com.eaglesakura.armyknife.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,11 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 
-@Deprecated("Replace to com.eaglesakura.armyknife.adapters.SupportArrayAdapter")
+/**
+ * Basic array-adapter.
+ *
+ * Supported drop-down, selection.
+ */
 class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private val itemLayoutId: Int, @LayoutRes private val dropdownViewId: Int) : BaseAdapter() {
     /**
      * Convert T to title.
@@ -40,7 +44,7 @@ class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private va
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView
-                ?: LayoutInflater.from(context).inflate(dropdownViewId, parent, false)
+                ?: LayoutInflater.from(context).inflate(dropdownViewId, parent, false)!!
 
         @Suppress("UNCHECKED_CAST")
         dropdownViewMap(position, getItem(position), view)
