@@ -16,7 +16,7 @@ platform :android do
     gradle(task: "clean assembleAndroidTest")
 
     $projects.each do |project|
-        sh "killall -v java"
+        sh "pkill -KILL -f java"
         android_test(":#{project}:testDebug", "#{project}")
     end
   end
@@ -37,7 +37,7 @@ platform :android do
     gradle(task: "clean")
 
     $projects.each do |project|
-        sh "killall -v java"
+        sh "pkill -KILL -f java"
         gradle(task: ":#{project}:assembleRelease")
         copy_artifacts(
           target_path: "artifacts/#{project}",
