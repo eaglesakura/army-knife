@@ -3,8 +3,6 @@ package com.eaglesakura.armyknife.android.reactivex
 import androidx.annotation.CheckResult
 import androidx.lifecycle.*
 import com.eaglesakura.armyknife.android.extensions.subscribeWithCancel
-import com.eaglesakura.armyknife.android.reactivex.ObserverChannel
-import com.eaglesakura.armyknife.android.reactivex.RxLiveData
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
