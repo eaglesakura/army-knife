@@ -12,10 +12,32 @@ platform :android do
     end
   end
 
+  lane :test_lowmemory do
+    gradle(task: "clean assembleAndroidTest")
+
+    $projects.each do |project|
+        sh "killall -v java"
+        android_test(":#{project}:testDebug", "#{project}")
+    end
+  end
+
   lane :assemble do
     gradle(task: "clean")
 
     $projects.each do |project|
+        gradle(task: ":#{project}:assembleRelease")
+        copy_artifacts(
+          target_path: "artifacts/#{project}",
+          artifacts: ["#{project}/build/outputs"],
+        )
+    end
+  end
+
+  lane :assemble_lowmemory do
+    gradle(task: "clean")
+
+    $projects.each do |project|
+        sh "killall -v java"
         gradle(task: ":#{project}:assembleRelease")
         copy_artifacts(
           target_path: "artifacts/#{project}",
