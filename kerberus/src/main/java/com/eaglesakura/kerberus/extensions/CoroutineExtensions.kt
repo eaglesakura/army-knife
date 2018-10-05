@@ -29,6 +29,7 @@ suspend fun CoroutineContext.monitor(block: suspend (job: Job) -> Unit) {
  * This function is simple.
  * "Monitor.interrupt()" calls from job's coroutine-dispatcher with repeat.
  */
+@Deprecated("Do not use this. This function is a junk.")
 suspend fun CoroutineContext.monitor(monitor: Monitor) {
     val current = this
     val job = current[Job]!!

@@ -5,10 +5,11 @@ include ':firearm-material-resources'       // alone [Deprecated, Replace to htt
 // include ':oneshotlivedata'               // alone [Deprecated, Replace to army-knife-reactivex]
 
 // Below are group
-include ':army-knife-junit'
-include ':army-knife'
+include ':army-knife-junit'         // alone
+include ':army-knife'               // alone
 include ':army-knife-camera'        // depends[army-knife]
 include ':army-knife-persistence'   // depends[army-knife]
 include ':army-knife-reactivex'     // depends[army-knife]
 
-include ':firearm'
+include ':firearm-event'            // dependes[army-knife-reactivex]
+include ':firearm'                  // dependes[army-knife, army-knife-persistence, army-knife-reactivex]

@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import com.eaglesakura.armyknife.android.extensions.debugMode
 import com.eaglesakura.armyknife.android.hardware.DisplayInfo
+import com.eaglesakura.armyknife.android.reactivex.RxStream
 import com.eaglesakura.armyknife.runtime.Random
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_BACKGROUND
 import com.eaglesakura.firearm.app.ApplicationProcess.Companion.EVENT_APPLICATION_FOREGROUND
-import com.eaglesakura.firearm.rx.RxStream
 import com.eaglesakura.firearm.event.EventId
 import java.lang.ref.WeakReference
 
