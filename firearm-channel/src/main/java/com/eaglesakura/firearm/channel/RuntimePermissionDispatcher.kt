@@ -152,23 +152,47 @@ class RuntimePermissionDispatcher(
      */
     @Suppress("unused")
     fun getRuntimePermissionStatus(permissions: Collection<String>): RuntimePermissionResult {
-
-        val context = getContext()
-        val shouldShowRationalePermissions = mutableListOf<String>()
-        for (permission in permissions) {
-            if (shouldShowRequestPermissionRationale(permission)) {
-                shouldShowRationalePermissions.add(permission)
-            }
-        }
-
-        return RuntimePermissionResult(
-                permissions.toList(),
-                permissions.map { permission -> ActivityCompat.checkSelfPermission(context, permission) },
-                shouldShowRationalePermissions
-        )
+        return getRuntimePermissionStatus(getContext(), shouldShowRequestPermissionRationale, permissions)
     }
 
     companion object {
         private val TAG = RuntimePermissionDispatcher::class.java.simpleName
+
+        /**
+         * Returns runtime permission status, just now.
+         */
+        @JvmStatic
+        @Suppress("unused")
+        private fun getRuntimePermissionStatus(context: Context, shouldShowRequestPermissionRationale: (permission: String) -> Boolean, permissions: Collection<String>): RuntimePermissionResult {
+            val shouldShowRationalePermissions = mutableListOf<String>()
+            for (permission in permissions) {
+                if (shouldShowRequestPermissionRationale(permission)) {
+                    shouldShowRationalePermissions.add(permission)
+                }
+            }
+
+            return RuntimePermissionResult(
+                    permissions.toList(),
+                    permissions.map { permission -> ActivityCompat.checkSelfPermission(context, permission) },
+                    shouldShowRationalePermissions
+            )
+        }
+
+        /**
+         * Returns runtime permission status, just now.
+         */
+        @JvmStatic
+        fun getRuntimePermissionStatus(fragment: Fragment, permissions: Collection<String>): RuntimePermissionResult {
+            return getRuntimePermissionStatus(fragment.context!!, fragment::shouldShowRequestPermissionRationale, permissions)
+        }
+
+        /**
+         * Returns runtime permission status, just now.
+         */
+        @JvmStatic
+        @Suppress("unused")
+        fun getRuntimePermissionStatus(activity: Activity, permissions: Collection<String>): RuntimePermissionResult {
+            return getRuntimePermissionStatus(activity, { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) }, permissions)
+        }
     }
 }
