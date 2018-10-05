@@ -7,8 +7,8 @@ jobs:
             username: _json_key
             password: $SERVICE_ACCOUNT_JSON
         environment:
-          _JAVA_OPTIONS: -Dfile.encoding=UTF-8 -XX:ParallelGCThreads=2 -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -Djava.util.concurrent.ForkJoinPool.common.parallelism=2
-          GRADLE_OPTS: "-Xmx3500m"
+          _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+          GRADLE_OPTS: "-Xmx2g"
           CACHE_VERSION: "1.0"
           TZ: Asia/Tokyo
     steps:
