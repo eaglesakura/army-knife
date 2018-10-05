@@ -6,37 +6,15 @@ def BINTRAY_LABELS = ["android", "kotlin"]
 def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply plugin: "com.github.ben-manes.versions"   // dependencies version check
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
 
 android {
     compileSdkVersion 28
-
-    // for *.java options
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    // for Kotlin-Android
-    androidExtensions {
-        experimental = true
-        features = ["parcelize"]
-    }
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
         multiDexEnabled true
-        aaptOptions.cruncherEnabled false
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

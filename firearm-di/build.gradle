@@ -46,58 +46,25 @@ android {
 }
 
 dependencies {
-    final def implementationProjectOrMaven = { path, module ->
-        try {
-            implementation project(path)
-            println "implementation project(${path})"
-        } catch (ignored) {
-            implementation module
-        }
-    }
-
-    final def testImplementationProjectOrMaven = { path, module ->
-        try {
-            testImplementation project(path)
-            androidTestImplementation project(path)
-            println "testImplementation project(${path})"
-        } catch (ignored) {
-            testImplementation module
-            androidTestImplementation module
-        }
-    }
-
-    testImplementationProjectOrMaven(':army-knife-junit', 'com.eaglesakura:army-knife-junit:+')
-
-    /**
-     * Kotlin support
-     */
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
+    testImplementation project(':army-knife-junit')
+    androidTestImplementation project(':army-knife-junit')
 
     /**
      * Support Libraries
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    implementation 'androidx.core:core-ktx:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-    implementation 'com.google.android.material:material:1.0.0' // Material components
 
     /**
      * for Tests
      */
-    testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'androidx.test:monitor:1.1.0-alpha4'
-    testImplementation 'org.assertj:assertj-core:3.11.1'
     testImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    androidTestImplementation 'org.assertj:assertj-core:3.11.1'
 }
 
 group = "com.eaglesakura"

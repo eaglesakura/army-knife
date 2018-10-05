@@ -46,25 +46,17 @@ android {
 }
 
 dependencies {
-    implementation project(':army-knife')
-
-    /**
-     * Kotlin support
-     */
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
+    api project(':army-knife')
 
     /**
      * Support Libraries
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    implementation 'androidx.core:core-ktx:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.sqlite:sqlite:2.0.0'
-    implementation 'androidx.sqlite:sqlite-ktx:2.0.0'
+    api 'androidx.sqlite:sqlite:2.0.0'
+    api 'androidx.sqlite:sqlite-ktx:2.0.0'
+    api 'androidx.core:core-ktx:1.0.0'
+//    api 'androidx.appcompat:appcompat:1.0.0'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
 
@@ -72,12 +64,9 @@ dependencies {
      * for Tests
      */
     testImplementation project(':army-knife-junit')
-    testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'androidx.test:monitor:1.1.0-alpha4'
-    testImplementation 'org.assertj:assertj-core:3.11.1'
     androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'org.assertj:assertj-core:3.11.1'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 

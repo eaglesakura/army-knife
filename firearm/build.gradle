@@ -45,34 +45,18 @@ android {
 }
 
 dependencies {
-    implementation project(':kerberus')
-    implementation project(':army-knife')
-    implementation project(':army-knife-persistence')
-    implementation project(':army-knife-reactivex')
-    implementation project(':firearm-event')
+    api project(':army-knife')
+    api project(':army-knife-persistence')
+    api project(':army-knife-reactivex')
+    api project(':firearm-event')
     testImplementation project(':army-knife-junit')
     androidTestImplementation project(':army-knife-junit')
-
-    /**
-     * java libraries
-     */
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'   // Reactive Extension
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
-
-    /**
-     * Kotlin support
-     */
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
 
     /**
      * Support Libraries
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    implementation 'androidx.core:core-ktx:1.0.0'
     implementation 'androidx.sqlite:sqlite:2.0.0'
     implementation 'androidx.sqlite:sqlite-ktx:2.0.0'
     implementation 'androidx.collection:collection-ktx:1.0.0'
@@ -82,19 +66,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-    implementation 'com.google.android.material:material:1.0.0' // Material components
 
     /**
      * for Tests
      */
-    testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'androidx.test:monitor:1.1.0-alpha4'
-    testImplementation 'org.assertj:assertj-core:3.11.1'
     testImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    androidTestImplementation 'org.assertj:assertj-core:3.11.1'
 }
 
 group = "com.eaglesakura"
