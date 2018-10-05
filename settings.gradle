@@ -11,5 +11,6 @@ include ':army-knife-camera'        // depends[army-knife]
 include ':army-knife-persistence'   // depends[army-knife]
 include ':army-knife-reactivex'     // depends[army-knife]
 
+include ':firearm-persistence'      // dependes[army-knife-persistence]
 include ':firearm-event'            // dependes[army-knife-reactivex]
 include ':firearm'                  // dependes[army-knife, army-knife-persistence, army-knife-reactivex]
