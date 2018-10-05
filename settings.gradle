@@ -1,7 +1,8 @@
-include ':kerberus'             // alone
-include ':firearm-di'           // alone
-include ':firearm-channel'      // alone
-// include ':oneshotlivedata'      // [alone][Deprecated]
+include ':kerberus'                         // alone
+include ':firearm-di'                       // alone
+include ':firearm-channel'                  // alone
+include ':firearm-material-resources'       // alone [Deprecated, Replace to https://github.com/DmitryMalkovich/material-design-dimens]
+// include ':oneshotlivedata'               // alone [Deprecated, Replace to army-knife-reactivex]
 
 // Below are group
 include ':army-knife-junit'
