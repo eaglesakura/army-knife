@@ -20,17 +20,10 @@ class StackTraceTree(
          * Back trace depth num.
          * Default is [StackTraceTree][Timber][Console wrapper method] = 6 stack will popping.
          */
-        private val popStack: Int = 6,
-
-        /**
-         * Console output function.
-         * Default is Log.d() in Android SDK.
-         */
-        private val console: (tag: String, message: String) -> Unit = { tag, message -> Log.d(tag, message) }
+        private val popStack: Int = 6
 ) : Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-
         val outTag = tag ?: javaClass.simpleName
         val outMessage = Throwable().let {
             val trace = Exception().stackTrace
@@ -38,6 +31,6 @@ class StackTraceTree(
             "${elem.fileName}[${elem.lineNumber}] : $message"
         }
 
-        console(outTag, outMessage)
+        Log.println(priority, outTag, outMessage)
     }
 }
