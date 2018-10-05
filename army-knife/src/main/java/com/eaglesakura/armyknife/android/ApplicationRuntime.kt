@@ -16,6 +16,22 @@ import android.os.Build
 object ApplicationRuntime {
 
     /**
+     * identifier of this process.
+     */
+    val pid: Int
+        get() = android.os.Process.myPid()
+
+    /**
+     * Kill self process.
+     */
+    fun killSelf() {
+        android.os.Process.killProcess(pid)
+        while (true) {
+            // spin lock.
+        }
+    }
+
+    /**
      * Robolectric runtime is true.
      */
     val ROBOLECTRIC: Boolean = try {

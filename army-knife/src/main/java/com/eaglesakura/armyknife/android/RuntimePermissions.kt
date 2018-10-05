@@ -67,8 +67,7 @@ object RuntimePermissions {
     /**
      * This method returns Intent for "usage stats access permission".
      */
-    fun newUsageStatusSettingIntent(
-            @Suppress("UNUSED_PARAMETER") context: Context): Intent {
+    fun newUsageStatusSettingIntent(@Suppress("UNUSED_PARAMETER") context: Context): Intent {
         return Intent("android.settings.USAGE_ACCESS_SETTINGS")
     }
 
@@ -87,7 +86,19 @@ object RuntimePermissions {
     /**
      * If this app has permission for draw on system-layer, this method returns true.
      */
+    @Deprecated("Replace to RuntimePermissions.canDrawOverlays()", ReplaceWith("canDrawOverlays"))
     fun hasDrawOverlayPermission(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            true
+        } else {
+            Settings.canDrawOverlays(context)
+        }
+    }
+
+    /**
+     * If this app has permission for draw on system-layer, this method returns true.
+     */
+    fun canDrawOverlays(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             true
         } else Settings.canDrawOverlays(context)
@@ -96,15 +107,16 @@ object RuntimePermissions {
     /**
      * If this app has permission for "usage stats access", this method returns true.
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun hasAccessUsageStatusPermission(context: Context): Boolean {
+        @Suppress("LiftReturnOrAssignment")
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         if (Build.VERSION.SDK_INT <= 19) {
             return true
+        } else {
+            val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val uid = android.os.Process.myUid()
+            val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, uid, context.packageName)
+            return mode == AppOpsManager.MODE_ALLOWED
         }
-
-        val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val uid = android.os.Process.myUid()
-        val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, uid, context.packageName)
-        return mode == AppOpsManager.MODE_ALLOWED
     }
 }
