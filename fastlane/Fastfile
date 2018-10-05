@@ -21,6 +21,7 @@ $projects=[
     "army-knife-junit",
     "army-knife-persistence",
     "army-knife-reactivex",
+    "army-knife-timber",
     "army-knife-view-adapters",
     "firearm",
     "firearm-channel",

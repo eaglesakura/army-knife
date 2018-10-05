@@ -2,6 +2,7 @@ include ':kerberus'                         // alone
 include ':army-knife-junit'                 // alone
 include ':army-knife'                       // alone
 include ':army-knife-view-adapters'         // alone
+include ':army-knife-timber'                // alone
 include ':firearm-di'                       // alone
 include ':firearm-channel'                  // alone
 include ':firearm-material-resources'       // alone [Deprecated, Replace to https://github.com/DmitryMalkovich/material-design-dimens]
