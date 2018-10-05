@@ -5,7 +5,7 @@ platform :android do
   end
 
   lane :test do
-    gradle(task: "--no-daemon clean assembleAndroidTest")
+    gradle(task: "clean assembleAndroidTest")
 
     $projects.each do |project|
         android_test(":#{project}:testDebug", "#{project}")
@@ -29,7 +29,7 @@ end
 # single test with archive.
 def android_test(task, path)
     begin
-        gradle(task: "--no-daemon #{task}")
+        gradle(task: "#{task}")
         copy_artifacts(
           target_path: "artifacts/#{path}",
           artifacts: ["#{path}/build/reports"],
@@ -45,7 +45,7 @@ end
 
 # single assemble with archive.
 def android_assemble(task, path)
-    gradle(task: "--no-daemon clean #{task}")
+    gradle(task: "clean #{task}")
     copy_artifacts(
       target_path: "artifacts/#{path}",
       artifacts: ["#{path}/build/outputs"],
