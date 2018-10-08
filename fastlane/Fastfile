@@ -18,6 +18,7 @@
 $projects=[
     "army-knife",
     "army-knife-camera",
+    "army-knife-gms",
     "army-knife-junit",
     "army-knife-persistence",
     "army-knife-reactivex",
