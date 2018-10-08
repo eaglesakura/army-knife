@@ -7,10 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.eaglesakura.armyknife.android.extensions.awaitWithSuspend
-import com.eaglesakura.armyknife.android.extensions.connect
-import com.eaglesakura.armyknife.android.extensions.use
 import com.eaglesakura.armyknife.android.gms.error.PlayServiceException
 import com.eaglesakura.armyknife.android.gms.error.PlayServiceNotAvailableException
+import com.eaglesakura.armyknife.android.gms.extensions.connect
+import com.eaglesakura.armyknife.android.gms.extensions.use
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult

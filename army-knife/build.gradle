@@ -95,10 +95,10 @@ dependencies {
      */
     testImplementation project(':army-knife-junit')
     testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'androidx.test:monitor:1.1.0-alpha4'
+    testImplementation 'androidx.test:monitor:1.1.0-beta01'
     androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 
 }
 

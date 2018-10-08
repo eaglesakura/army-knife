@@ -46,34 +46,45 @@ android {
 }
 
 dependencies {
-    testImplementation project(':army-knife-junit')
-    androidTestImplementation project(':army-knife-junit')
-
-    /**
-     * Kotlin support
-     */
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
+    api project(':army-knife')
 
     /**
      * Support Libraries
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    api 'androidx.core:core-ktx:1.0.0'
-    api 'androidx.appcompat:appcompat:1.0.0'
+//    implementation 'androidx.core:core-ktx:1.0.0'
+//    implementation 'androidx.collection:collection-ktx:1.0.0'
+//    implementation 'androidx.fragment:fragment-ktx:1.0.0'
+//    implementation 'androidx.appcompat:appcompat:1.0.0'
+//    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
 
     /**
+     * Google Play Services
+     */
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+    /**
+     * Firebase
+     */
+    api 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.4'
+    implementation 'com.google.firebase:firebase-config:16.0.1'
+    implementation 'com.google.firebase:firebase-iid:17.0.3'
+
+    /**
      * for Tests
      */
+    testImplementation project(':army-knife-junit')
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'androidx.test:monitor:1.1.0-beta01'
-    testImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation project(':army-knife-junit')
     androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
+
 }
 
 group = "com.eaglesakura"

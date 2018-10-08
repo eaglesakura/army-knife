@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.android.extensions
+package com.eaglesakura.armyknife.android.gms.extensions
 
 import android.os.Bundle
 import com.eaglesakura.armyknife.android.gms.error.*
