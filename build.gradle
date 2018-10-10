@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.2.71'
     ext.kotlin_coroutines_version = '0.30.2'
-    ext.army_knife_version = '0.4'
+    ext.army_knife_version = '0.5'
     repositories {
         google()
         jcenter()
