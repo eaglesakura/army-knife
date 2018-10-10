@@ -15,6 +15,9 @@ object ApplicationResources {
     /**
      * Convert resource-id-int to Uri.
      * Use to ImageLibrary, NetworkLibrary, or else.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @JvmStatic
     fun getDrawableUri(context: Context, @DrawableRes id: Int): Uri {

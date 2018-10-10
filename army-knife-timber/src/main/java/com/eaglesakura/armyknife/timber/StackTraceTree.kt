@@ -20,7 +20,7 @@ class StackTraceTree(
          * Back trace depth num.
          * Default is [StackTraceTree][Timber][Console wrapper method] = 6 stack will popping.
          */
-        private val popStack: Int = 6
+        private val popStack: Int = POP_STACK_DEFAULT
 ) : Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -32,5 +32,13 @@ class StackTraceTree(
         }
 
         Log.println(priority, outTag, outMessage)
+    }
+
+    companion object {
+        /**
+         * Back trace depth num.
+         * Default is [StackTraceTree][Timber] = 5 stack will popping.
+         */
+        const val POP_STACK_DEFAULT = 5
     }
 }

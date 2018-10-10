@@ -13,6 +13,9 @@ fun ByteArray.encodeBase64(): String = Base64Impl.byteArrayToString(this)
  * Alphabet characters are lower-case.
  *
  * example) [0x01, 0x02, FF] -> "0102ff"
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun ByteArray.toHexString(): String {
     val sBuffer = StringBuffer(size * 2)
