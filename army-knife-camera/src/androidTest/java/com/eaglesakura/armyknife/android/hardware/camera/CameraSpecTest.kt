@@ -1,6 +1,8 @@
 package com.eaglesakura.armyknife.android.hardware.camera
 
+import android.Manifest
 import android.os.Build
+import androidx.test.rule.GrantPermissionRule
 import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
@@ -9,9 +11,14 @@ import com.eaglesakura.armyknife.android.hardware.camera.spec.WhiteBalance
 import com.eaglesakura.armyknife.junit.blockingTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.*
+import org.junit.Rule
 import org.junit.Test
 
 class CameraSpecTest : AndroidTestCase() {
+
+    @Rule
+    @JvmField
+    val rule = GrantPermissionRule.grant(Manifest.permission.CAMERA)!!
 
     @Test
     fun getSpecs() = blockingTest {

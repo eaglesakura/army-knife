@@ -21,6 +21,5 @@ class DisplayInfoTest : AndroidTestCase() {
 
         assertNotEquals(0, displayInfo.diagonalInch)
         assertNotEquals(0, displayInfo.diagonalRoundInch.major)
-        assertNotEquals(0, displayInfo.diagonalRoundInch.minor)
     }
 }

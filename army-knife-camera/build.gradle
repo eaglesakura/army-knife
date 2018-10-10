@@ -66,6 +66,7 @@ dependencies {
     testImplementation 'androidx.test:runner:1.1.0-beta01'
     androidTestImplementation project(':army-knife-junit')
     androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test:rules:1.1.0-beta01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 }
 
