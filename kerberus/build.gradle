@@ -17,8 +17,8 @@ dependencies {
      */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
     /**
      * Support Libraries
@@ -33,8 +33,9 @@ dependencies {
      * for Tests
      */
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation 'org.robolectric:robolectric:4.0-beta-1'
     testImplementation 'androidx.test:monitor:1.1.0-beta01'
+    testImplementation 'androidx.test:runner:1.1.0-beta01'
 
     /**
      * for Android Tests

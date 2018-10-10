@@ -62,7 +62,7 @@ class FlexibleThreadPoolDispatcherTest {
         val channel = Channel<Int>(loop)
         for (i in 0..loop) {
             GlobalScope.launch(dispatcher) {
-                delay(Random.int32() % 10 + 1)
+                delay((Random.int32() % 10 + 1).toLong())
                 channel.send(i)
             }
         }

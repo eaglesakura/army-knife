@@ -9,9 +9,10 @@ MAINTAINER @eaglesakura
 # setup argments
 # Version 1.0.0 : initial
 # Version 1.0.1 : Support fastlane
+# Version 1.0.2 : Build Tools updated
 #####
 ARG ANDROID_DOWNLOAD_URL=https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
-ARG ANDROID_BUILD_TOOLS_VERSION=28.0.2
+ARG ANDROID_BUILD_TOOLS_VERSION=28.0.3
 ARG ANDROID_TARGET_SDK_VERSION=28
 
 #####
@@ -49,7 +50,7 @@ RUN  mkdir $HOME/tools/android \
   && yes | sdkmanager "extras;android;m2repository" \
   && yes | sdkmanager "extras;google;google_play_services" \
   && yes | sdkmanager "extras;google;m2repository" \
-  && yes | sdkmanager --channel=3 --update
+  && yes | sdkmanager --update
 
 ###########################################
 ## fastlane

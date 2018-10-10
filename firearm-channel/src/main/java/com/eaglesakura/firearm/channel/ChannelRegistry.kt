@@ -97,6 +97,11 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
             private val registry: ChannelRegistry
     ) : DelegateChannel<T>(origin) {
 
+        override fun cancel(): Boolean {
+            registry.unregister(key)
+            return super.cancel()
+        }
+
         override fun cancel(cause: Throwable?): Boolean {
             registry.unregister(key)
             return super.cancel(cause)

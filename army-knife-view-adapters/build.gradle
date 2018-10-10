@@ -47,18 +47,12 @@ android {
 
 dependencies {
     /**
-     * java libraries
-     */
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'   // Reactive Extension
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
-
-    /**
      * Kotlin support
      */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1'
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
     /**
      * Support Libraries
@@ -66,8 +60,6 @@ dependencies {
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
     implementation 'androidx.core:core-ktx:1.0.0'
-    implementation 'androidx.sqlite:sqlite:2.0.0'
-    implementation 'androidx.sqlite:sqlite-ktx:2.0.0'
     implementation 'androidx.collection:collection-ktx:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -78,28 +70,14 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0' // Material components
 
     /**
-     * Google Play Services
-     */
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
-
-    /**
-     * Firebase
-     */
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-auth:16.0.4'
-    implementation 'com.google.firebase:firebase-config:16.0.1'
-    implementation 'com.google.firebase:firebase-iid:17.0.3'
-
-    /**
      * for Tests
      */
     testImplementation project(':army-knife-junit')
-    testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation 'org.robolectric:robolectric:4.0-beta-1'
     testImplementation 'androidx.test:monitor:1.1.0-beta01'
     androidTestImplementation project(':army-knife-junit')
     androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
-
 }
 
 group = "com.eaglesakura"

@@ -54,7 +54,6 @@ dependencies {
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
     api 'androidx.core:core-ktx:1.0.0'
-    api 'androidx.core:core-ktx:1.0.0'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
 
@@ -63,10 +62,11 @@ dependencies {
      */
     testImplementation project(':army-knife-junit')
     testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'androidx.test:monitor:1.1.0-alpha4'
+    testImplementation 'androidx.test:monitor:1.1.0-beta01'
+    testImplementation 'androidx.test:runner:1.1.0-beta01'
     androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 }
 
 group = "com.eaglesakura"

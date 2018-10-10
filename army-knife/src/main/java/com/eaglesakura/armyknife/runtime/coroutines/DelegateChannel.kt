@@ -33,6 +33,8 @@ abstract class DelegateChannel<T>(protected val origin: Channel<T>) : Channel<T>
     override val onSend: SelectClause2<T, SendChannel<T>>
         get() = origin.onSend
 
+    override fun cancel(): Boolean = origin.cancel()
+
     override fun cancel(cause: Throwable?): Boolean = origin.cancel(cause)
 
     override fun close(cause: Throwable?): Boolean = origin.close(cause)
