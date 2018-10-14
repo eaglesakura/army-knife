@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.runtime.extensions
 
-import kotlinx.coroutines.experimental.Job
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
 /**
  * CoroutineContextから現在のJobを取得する.

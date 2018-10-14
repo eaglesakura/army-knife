@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.runtime.io
 
 import com.eaglesakura.armyknife.runtime.extensions.CancelCallback
-import kotlinx.coroutines.experimental.CancellationException
+import kotlinx.coroutines.CancellationException
 import java.io.IOException
 import java.io.InputStream
 

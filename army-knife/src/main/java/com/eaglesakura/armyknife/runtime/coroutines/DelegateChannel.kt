@@ -1,10 +1,10 @@
 package com.eaglesakura.armyknife.runtime.coroutines
 
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.ChannelIterator
-import kotlinx.coroutines.experimental.channels.SendChannel
-import kotlinx.coroutines.experimental.selects.SelectClause1
-import kotlinx.coroutines.experimental.selects.SelectClause2
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ChannelIterator
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.selects.SelectClause1
+import kotlinx.coroutines.selects.SelectClause2
 
 /**
  * Delegate supported channel.

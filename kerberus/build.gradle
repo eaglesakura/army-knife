@@ -46,7 +46,7 @@ dependencies {
 
 kotlin {
     experimental {
-        coroutines "enable"
+//        coroutines "enable"
     }
 }
 

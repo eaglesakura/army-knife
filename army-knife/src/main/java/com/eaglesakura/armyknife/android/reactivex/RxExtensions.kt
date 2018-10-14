@@ -6,8 +6,8 @@ import com.eaglesakura.armyknife.android.extensions.subscribeWithCancel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.coroutines.experimental.CoroutineDispatcher
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
 
 /**
  * Make LiveData from Observable in RxJava.

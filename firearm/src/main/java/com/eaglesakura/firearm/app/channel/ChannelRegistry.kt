@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.eaglesakura.armyknife.android.extensions.subscribe
 import com.eaglesakura.armyknife.runtime.coroutines.DelegateChannel
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.channels.Channel
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 

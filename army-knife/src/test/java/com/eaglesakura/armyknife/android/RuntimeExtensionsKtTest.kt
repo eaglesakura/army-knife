@@ -3,13 +3,13 @@ package com.eaglesakura.armyknife.android
 import com.eaglesakura.BaseTestCase
 import com.eaglesakura.armyknife.junit.blockingTest
 import com.eaglesakura.armyknife.runtime.extensions.asCancelCallback
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import org.junit.Assert.*
 import org.junit.Test
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.experimental.coroutineContext
+import kotlin.coroutines.coroutineContext
 
 @Suppress("TestFunctionName")
 class RuntimeExtensionsKtTest : BaseTestCase() {

@@ -1,6 +1,6 @@
 package com.eaglesakura.armyknife.runtime.extensions
 
-import kotlinx.coroutines.experimental.CancellationException
+import kotlinx.coroutines.CancellationException
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream

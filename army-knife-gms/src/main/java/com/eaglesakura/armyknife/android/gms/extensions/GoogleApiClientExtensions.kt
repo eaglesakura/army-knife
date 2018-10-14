@@ -4,9 +4,9 @@ import android.os.Bundle
 import com.eaglesakura.armyknife.android.gms.error.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.channels.Channel
 
 /**
  * GoogleApiClient build with awaitWithSuspend.

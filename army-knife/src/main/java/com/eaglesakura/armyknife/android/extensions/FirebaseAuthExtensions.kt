@@ -4,7 +4,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.delay
 
 suspend fun FirebaseAuth.awaitLogin(): FirebaseUser {
     while (currentUser == null) {

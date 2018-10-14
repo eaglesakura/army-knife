@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.logger.Logger
 import com.eaglesakura.armyknife.junit.blockingTest
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.TimeUnit

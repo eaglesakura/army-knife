@@ -3,12 +3,12 @@ package com.eaglesakura.armyknife.android.extensions
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.common.api.Result
 import com.google.android.gms.tasks.Task
-import kotlinx.coroutines.experimental.CancellationException
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 
 suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> {
     val channel = Channel<Unit>()

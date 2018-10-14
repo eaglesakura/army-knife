@@ -1,7 +1,6 @@
 package com.eaglesakura.kerberus
 
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
 
 private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: CoroutineDispatcher): Job {
     return GlobalScope.launch(dispatcher) {

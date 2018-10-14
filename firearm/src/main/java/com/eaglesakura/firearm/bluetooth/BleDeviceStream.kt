@@ -13,8 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.RuntimePermissions
 import com.eaglesakura.firearm.event.EventStream
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 
 @SuppressLint("MissingPermission")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

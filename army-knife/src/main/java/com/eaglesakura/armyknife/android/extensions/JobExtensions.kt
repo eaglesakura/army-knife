@@ -1,8 +1,8 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.Lifecycle
-import kotlinx.coroutines.experimental.CancellationException
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 
 /**
  * When lifecycle on destroyed, then cancel job.

@@ -1,6 +1,6 @@
 package com.eaglesakura.armyknife.runtime.coroutines
 
-import kotlinx.coroutines.experimental.ExecutorCoroutineDispatcherBase
+import kotlinx.coroutines.ExecutorCoroutineDispatcherBase
 import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.ThreadPoolExecutor

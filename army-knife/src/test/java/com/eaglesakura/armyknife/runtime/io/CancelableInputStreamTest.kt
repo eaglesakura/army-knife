@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.runtime.io
 
 import com.eaglesakura.BaseTestCase
-import kotlinx.coroutines.experimental.CancellationException
+import kotlinx.coroutines.CancellationException
 import org.junit.Test
 
 import org.junit.Assert.*

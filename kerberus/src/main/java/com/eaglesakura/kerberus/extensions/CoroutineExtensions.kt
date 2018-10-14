@@ -3,9 +3,9 @@ package com.eaglesakura.kerberus.extensions
 import com.eaglesakura.kerberus.Deferrer
 import com.eaglesakura.kerberus.DelayToken
 import com.eaglesakura.kerberus.Monitor
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlin.coroutines.CoroutineContext
 
 @Deprecated("Do not use this. This property is a junk.")
 private val monitorDispatcher = newSingleThreadContext("job-interrupt")

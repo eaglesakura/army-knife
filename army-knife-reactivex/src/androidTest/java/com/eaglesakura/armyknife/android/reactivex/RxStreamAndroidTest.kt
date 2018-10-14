@@ -3,10 +3,10 @@ package com.eaglesakura.armyknife.android.reactivex
 import com.eaglesakura.AndroidTestCase
 import com.eaglesakura.armyknife.android.extensions.assertUIThread
 import com.eaglesakura.armyknife.junit.blockingTest
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.consume
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.consume
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail

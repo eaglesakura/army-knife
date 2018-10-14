@@ -1,10 +1,10 @@
 package com.eaglesakura.oneshotlivedata
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.launch
 
 @Deprecated("Use firearm.RxStream")
 fun <T> newOneshotObserver(block: (data: T) -> Unit): Observer<DataState<T>> {

@@ -1,9 +1,9 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.Lifecycle
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
+import kotlin.coroutines.CoroutineContext
 
 
 /**

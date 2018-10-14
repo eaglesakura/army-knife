@@ -2,9 +2,9 @@
 
 package com.eaglesakura.kerberus
 
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlin.coroutines.CoroutineContext
 
 /**
  * TaskQueueの制御等に用いるセマフォ.

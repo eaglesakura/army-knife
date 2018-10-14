@@ -4,7 +4,7 @@ import androidx.annotation.CheckResult
 import androidx.annotation.UiThread
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.channels.Channel
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
