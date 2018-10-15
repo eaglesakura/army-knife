@@ -29,7 +29,8 @@ $projects=[
     "firearm-di",
     "firearm-event",
     "firearm-persistence",
-    "kerberus"
+    "kerberus",
+    "oneshotlivedata"
     ]
 $docker_image = "gcr.io/eaglesakura-container/github/army-knife:1.0.2"
 $build_number=ENV["CIRCLE_BUILD_NUM"]
@@ -37,4 +38,3 @@ $build_sha1=ENV["CIRCLE_SHA1"]
 
 import "./project.rb"
 import "./android.rb"
-import "./ci.rb"
