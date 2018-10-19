@@ -18,6 +18,9 @@ import kotlin.concurrent.withLock
  *          // do something.
  *      }
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 class OneshotRunner<T> {
     private val lock = ReentrantLock()

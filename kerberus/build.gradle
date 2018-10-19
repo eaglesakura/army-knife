@@ -44,12 +44,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
 }
 
-kotlin {
-    experimental {
-//        coroutines "enable"
-    }
-}
-
 android {
     compileSdkVersion 28
 
@@ -83,12 +77,19 @@ version = ARTIFACT_VERSION + {
         return ""
     }
 
+    try {
+        def BUILD_NUMBER_FILE = rootProject.file(".configs/secrets/build-number.env")
+        if (BUILD_NUMBER_FILE.file) {
+            return ".build-${BUILD_NUMBER_FILE.text as int}"
+        }
+    } catch (ignored) {
+    }
     if (System.env.CIRCLE_BUILD_NUM != null) {
         return ".build-${System.env.CIRCLE_BUILD_NUM}"
     } else {
         return ".snapshot"
     }
-}()
+}().trim()
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'

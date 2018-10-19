@@ -38,4 +38,3 @@ $build_sha1=ENV["CIRCLE_SHA1"]
 
 import "./project.rb"
 import "./android.rb"
-import "./ci.rb"

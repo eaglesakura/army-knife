@@ -12,15 +12,6 @@ platform :android do
     end
   end
 
-  lane :test_lowmemory do
-    gradle(task: "clean assembleAndroidTest")
-
-    $projects.each do |project|
-        sh "pkill -KILL -f java"
-        android_test(":#{project}:testDebug", "#{project}")
-    end
-  end
-
   lane :assemble do
     gradle(task: "clean")
 
@@ -33,18 +24,6 @@ platform :android do
     end
   end
 
-  lane :assemble_lowmemory do
-    gradle(task: "clean")
-
-    $projects.each do |project|
-        sh "pkill -KILL -f java"
-        gradle(task: ":#{project}:assembleRelease")
-        copy_artifacts(
-          target_path: "artifacts/#{project}",
-          artifacts: ["#{project}/build/outputs"],
-        )
-    end
-  end
 end
 
 

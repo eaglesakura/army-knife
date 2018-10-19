@@ -28,17 +28,17 @@ fun <T : Fragment> FragmentManager.find(finder: (frag: Fragment) -> Boolean): T?
  * @link https://github.com/eaglesakura/army-knife
  */
 inline fun <reified T> Fragment.findInterface(): T? {
-    if (activity is T) {
-        return activity as T
-    }
-
-    // 親を探索
-    var target = parentFragment
+    // find from parent
+    var target: Fragment? = this
     while (target != null) {
         if (target is T) {
             return target
         }
         target = target.parentFragment
+    }
+
+    if (activity is T) {
+        return activity as T
     }
 
     return null
