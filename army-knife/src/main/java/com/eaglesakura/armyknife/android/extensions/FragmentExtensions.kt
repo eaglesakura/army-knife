@@ -29,7 +29,7 @@ fun <T : Fragment> FragmentManager.find(finder: (frag: Fragment) -> Boolean): T?
  */
 inline fun <reified T> Fragment.findInterface(): T? {
     // find from parent
-    var target = this
+    var target: Fragment? = this
     while (target != null) {
         if (target is T) {
             return target
