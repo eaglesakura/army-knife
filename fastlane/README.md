@@ -50,33 +50,9 @@ fastlane android clean
 fastlane android test
 ```
 
-### android test_lowmemory
-```
-fastlane android test_lowmemory
-```
-
 ### android assemble
 ```
 fastlane android assemble
-```
-
-### android assemble_lowmemory
-```
-fastlane android assemble_lowmemory
-```
-
-
-----
-
-## ci
-### ci setup
-```
-fastlane ci setup
-```
-
-### ci deploy
-```
-fastlane ci deploy
 ```
 
 
