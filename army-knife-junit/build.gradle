@@ -1,3 +1,4 @@
+apply from: "../army_knife_configure.gradle"
 def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
         army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
 
@@ -11,10 +12,20 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "com.github.ben-manes.versions"   // dependencies version check
 
-kotlin {
-    experimental {
-        coroutines "enable"
+buildscript {
+    repositories {
+        jcenter()
     }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+}
+
+repositories {
+    maven { url 'https://dl.bintray.com/eaglesakura/maven/' }
 }
 
 android {

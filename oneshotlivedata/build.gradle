@@ -1,3 +1,4 @@
+apply from: "../army_knife_configure.gradle"
 def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
         army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
 
@@ -5,11 +6,51 @@ def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
 def BINTRAY_LABELS = ["android", "kotlin"]
 def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+}
+
+repositories {
+    maven { url 'https://dl.bintray.com/eaglesakura/maven/' }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "com.github.ben-manes.versions"   // dependencies version check
+
+android {
+    compileSdkVersion 28
+
+    // for *.java options
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // for Kotlin-Android
+    androidExtensions {
+        experimental = true
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        multiDexEnabled true
+        aaptOptions.cruncherEnabled false
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+}
 
 dependencies {
     /**
@@ -60,30 +101,6 @@ dependencies {
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.6.0'
     androidTestImplementation 'org.assertj:assertj-core:3.11.1'
-}
-
-android {
-    compileSdkVersion 28
-
-    // for *.java options
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    // for Kotlin-Android
-    androidExtensions {
-        experimental = true
-    }
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        multiDexEnabled true
-        aaptOptions.cruncherEnabled false
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
 }
 
 group = "com.eaglesakura"
