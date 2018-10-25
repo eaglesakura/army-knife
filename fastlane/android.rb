@@ -5,10 +5,9 @@ platform :android do
   end
 
   lane :test do
-    gradle(task: "clean assembleAndroidTest")
-
     $projects.each do |project|
         android_test(":#{project}:testDebug", "#{project}")
+        android_test(":#{project}:connectedAndroidTest", "#{project}")
     end
   end
 
