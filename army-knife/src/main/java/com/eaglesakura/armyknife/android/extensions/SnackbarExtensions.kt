@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.android.extensions
 
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import com.eaglesakura.armyknife.R
 import com.google.android.material.snackbar.Snackbar
 
 @Suppress("NOTHING_TO_INLINE")
@@ -12,5 +11,5 @@ inline fun Snackbar.setBackgroundColor(@ColorInt color: Int) {
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Snackbar.setTextColor(@ColorInt color: Int) {
-    view.findViewById<TextView>(R.id.snackbar_text).setTextColor(color)
+    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTextColor(color)
 }
