@@ -1,0 +1,5 @@
+ext.ANDROID_STUDIO = project.hasProperty("devBuild")
+
+if(!hasProperty("army_knife_version")) {
+  ext.army_knife_version = '0.6'
+}

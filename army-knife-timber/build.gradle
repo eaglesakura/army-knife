@@ -1,3 +1,4 @@
+apply from: "../army_knife_configure.gradle"
 def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
         army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
 
