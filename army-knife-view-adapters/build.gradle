@@ -5,6 +5,22 @@ def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
 def BINTRAY_LABELS = ["android", "kotlin"]
 def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+}
+
+repositories {
+    maven { url 'https://dl.bintray.com/eaglesakura/maven/' }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -59,7 +75,6 @@ dependencies {
     api 'androidx.appcompat:appcompat:1.0.0'
     api "androidx.lifecycle:lifecycle-extensions:2.0.0"
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
-//    implementation 'com.google.android.material:material:1.0.0' // Material components
 
     /**
      * for Tests (or Android Tests)
