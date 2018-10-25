@@ -2,7 +2,7 @@ version: 2.1
 aliases:
   - &depends-from-tests
       requires:
-        - dependencies
+        - configure
   - &depends-from-deploy
       requires:
         - army-knife-test
@@ -52,9 +52,7 @@ commands:
       - restore_cache:
           key: configs-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - restore_cache:
-          key: gradle-{{ checksum "build.gradle" }}
-      - restore_cache:
-          key: gradle-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
+          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
   module-save-cache:
     parameters:
       module:
@@ -64,19 +62,13 @@ commands:
           paths:
             - ~/.gradle
             - ~/.m2
-          key: gradle-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
+          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
 jobs:
-  dependencies:
+  configure:
     executor:
       name: android-build
     steps:
       - checkout
-      - restore_cache:
-          key: gradle-{{ checksum "build.gradle" }}
-      - run:
-          name: dependencies
-          command: |
-            ./gradlew dependencies
       - run:
           name: snapshot-build-number
           command: |
@@ -85,11 +77,6 @@ jobs:
           paths:
             - .configs/secrets
           key: configs-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - save_cache:
-          paths:
-            - ~/.gradle
-            - ~/.m2
-          key: gradle-{{ checksum "build.gradle" }}
   ##############################################
   # unit-test in parameters.module
   ##############################################
@@ -134,7 +121,7 @@ jobs:
 workflows:
   assemble-flow:
     jobs:
-      - dependencies:
+      - configure:
           <<: *filter-for-assemble
       ##############################################
       # tests in army-knife
