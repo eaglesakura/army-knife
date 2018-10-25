@@ -1,6 +1,7 @@
 package com.eaglesakura
 
 import android.app.Application
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -10,12 +11,11 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [26])
 abstract class BaseTestCase {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val application: Application
-        get() = RuntimeEnvironment.application
+        get() = InstrumentationRegistry.getInstrumentation().targetContext as Application
 
     @Before
     fun onSetUp() = runBlocking { setUp() }

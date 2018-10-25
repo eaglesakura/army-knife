@@ -41,7 +41,7 @@ commands:
     steps:
       - checkout
       - restore_cache:
-          key: configs-{{ .Revision }}
+          key: configs-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - restore_cache:
           key: gradle-{{ checksum "build.gradle" }}
       - restore_cache:
@@ -75,7 +75,7 @@ jobs:
       - save_cache:
           paths:
             - .configs/secrets
-          key: configs-{{ .Revision }}
+          key: configs-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - save_cache:
           paths:
             - ~/.gradle

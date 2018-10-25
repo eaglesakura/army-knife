@@ -11,7 +11,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
-@Config(sdk = [Build.VERSION_CODES.O_MR1])
 abstract class BaseTestCase {
 
     @Suppress("MemberVisibilityCanBePrivate")
