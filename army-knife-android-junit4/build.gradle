@@ -62,14 +62,22 @@ android {
 }
 
 dependencies {
-    implementation project(':army-knife-junit')
-
     /**
      * Kotlin support
      */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
+
+    /**
+     * Support Libraries
+     * https://developer.android.com/topic/libraries/architecture/adding-components
+     * https://developer.android.com/topic/libraries/support-library/refactor
+     */
+    compileOnly 'androidx.core:core-ktx:1.0.0'
+    compileOnly 'androidx.collection:collection-ktx:1.0.0'
+    compileOnly 'androidx.fragment:fragment-ktx:1.0.0'
+    compileOnly 'androidx.appcompat:appcompat:1.0.0'
 
     /**
      * Test Tools.

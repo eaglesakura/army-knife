@@ -5,11 +5,21 @@ import android.content.Context
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import com.eaglesakura.armyknife.android.junit4.TestDispatchers
-import com.eaglesakura.armyknife.junit.ROBOLECTRIC
-import com.eaglesakura.armyknife.junit.blockingTest
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.robolectric.shadows.ShadowLog
+import org.robolectric.shadows.ShadowLooper
+
+/**
+ * Robolectric runtime is true.
+ */
+val ROBOLECTRIC: Boolean = try {
+    Class.forName("org.robolectric.Robolectric")
+    true
+} catch (err: ClassNotFoundException) {
+    false
+}
 
 private const val TAG = "JUnit4"
 
@@ -34,12 +44,39 @@ val targetContext: Context
 val testContext: Context
     get() = InstrumentationRegistry.getInstrumentation().context
 
+private fun beforeRobolectricTest() {
+    if (!ROBOLECTRIC) {
+        return
+    }
+
+    ShadowLog.stream = System.out
+}
+
+/**
+ * Run block in Local Unit Test only.
+ */
+fun inLocalTest(block: () -> Unit) {
+    if (ROBOLECTRIC) {
+        block()
+    }
+}
+
+/**
+ * Run block in Instrumentation test only.
+ */
+fun inInstrumentationTest(block: () -> Unit) {
+    if (!ROBOLECTRIC) {
+        block()
+    }
+}
+
 /**
  * Test JVM only.
  */
 fun localTest(action: () -> Unit) {
+    beforeRobolectricTest()
+
     if (ROBOLECTRIC) {
-        ShadowLog.stream = System.out
         action()
     } else {
         Log.i(TAG, "skip InstrumentationTest")
@@ -50,8 +87,10 @@ fun localTest(action: () -> Unit) {
  * Test JVM only with Coroutines.
  */
 fun localBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend () -> Unit) {
+    beforeRobolectricTest()
+
     if (ROBOLECTRIC) {
-        blockingTest(dispatcher, action)
+        compatibleBlockingTest(dispatcher, action)
     } else {
         Log.i(TAG, "skip in InstrumentationTest")
     }
@@ -61,22 +100,26 @@ fun localBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default,
  * Test Android Device(or Emulator) only.
  */
 fun instrumentationTest(action: () -> Unit) {
+    beforeRobolectricTest()
+
     if (ROBOLECTRIC) {
         Log.i(TAG, "skip in LocalUnitTest")
-        return
+    } else {
+        action()
     }
-    action()
 }
 
 /**
  * Test Android Device(or Emulator) only with Coroutines.
  */
 fun instrumentationBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend () -> Unit) {
+    beforeRobolectricTest()
+
     if (ROBOLECTRIC) {
         Log.i(TAG, "skip in LocalUnitTest")
-        return
+    } else {
+        compatibleBlockingTest(dispatcher, action)
     }
-    blockingTest(dispatcher, action)
 }
 
 /**
@@ -85,9 +128,7 @@ fun instrumentationBlockingTest(dispatcher: CoroutineDispatcher = TestDispatcher
  * Architecture template created by @eaglesakura
  */
 fun compatibleTest(action: () -> Unit) {
-    if (ROBOLECTRIC) {
-        ShadowLog.stream = System.out
-    }
+    beforeRobolectricTest()
     action()
 }
 
@@ -97,10 +138,15 @@ fun compatibleTest(action: () -> Unit) {
  * Architecture template created by @eaglesakura
  */
 fun compatibleBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend () -> Unit) {
-    if (ROBOLECTRIC) {
-        ShadowLog.stream = System.out
-    }
-    runBlocking(dispatcher) {
+    beforeRobolectricTest()
+
+    val job = GlobalScope.launch(dispatcher) {
         action()
     }
+
+    do {
+        if (ROBOLECTRIC) {
+            ShadowLooper.runMainLooperToNextTask()
+        }
+    } while (!job.isCompleted)
 }

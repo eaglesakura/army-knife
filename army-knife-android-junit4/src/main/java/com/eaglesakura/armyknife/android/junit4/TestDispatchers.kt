@@ -1,25 +1,34 @@
 package com.eaglesakura.armyknife.android.junit4
 
-import com.eaglesakura.armyknife.junit.ROBOLECTRIC
+import com.eaglesakura.armyknife.android.junit4.extensions.ROBOLECTRIC
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.newSingleThreadContext
 
 /**
  * Dispatchers for UnitTest.
  */
 object TestDispatchers {
+
+    /**
+     * always use Dispatcher.Default
+     */
     val Default = Dispatchers.Default
 
     /**
-     * in Instrumentation test, then returns "Dispatchers.Main".
-     * in Local Unit Test, then returns a dummy single-thread dispatcher.
+     * always use Dispatcher.Main
      */
-    val Main: CoroutineDispatcher by lazy {
+    val Main: CoroutineDispatcher = Dispatchers.Main
+
+    /**
+     * Delegate to dispatcher for launch in ActivityTestRule.
+     * in Instrumentation test, then returns the Default dispatcher.
+     * in Local Unit Test, then returns the Main dispatcher.
+     */
+    val ActivityLaunchRule: CoroutineDispatcher by lazy {
         if (ROBOLECTRIC) {
-            newSingleThreadContext("junit4-main")
-        } else {
             Dispatchers.Main
+        } else {
+            Dispatchers.Default
         }
     }
 }
