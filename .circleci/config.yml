@@ -18,6 +18,7 @@ aliases:
         - firearm-channel-test
         - firearm-di-test
         - firearm-event-test
+        - firearm-material-resources-test
         - firearm-persistence-test
         - kerberus-test
         - oneshotlivedata-test
@@ -195,6 +196,11 @@ workflows:
       - local-unit-test:
           <<: *filter-for-assemble
           <<: *depends-from-tests
+          module: firearm-material-resources
+          name: firearm-material-resources-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
           module: firearm-persistence
           name: firearm-persistence-test
       - local-unit-test:
@@ -270,6 +276,11 @@ workflows:
           <<: *depends-from-deploy
           module: firearm-event
           name: firearm-event-deploy
+      - deploy-to-bintray:
+          <<: *filter-for-assemble
+          <<: *depends-from-deploy
+          module: firearm-material-resources
+          name: firearm-material-resources-deploy
       - deploy-to-bintray:
           <<: *filter-for-assemble
           <<: *depends-from-deploy
