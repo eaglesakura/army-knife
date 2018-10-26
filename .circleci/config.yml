@@ -224,6 +224,11 @@ workflows:
       - deploy-to-bintray:
           <<: *filter-for-assemble
           <<: *depends-from-deploy
+          module: army-knife-android-junit4
+          name: army-knife-android-junit4-deploy
+      - deploy-to-bintray:
+          <<: *filter-for-assemble
+          <<: *depends-from-deploy
           module: army-knife-camera
           name: army-knife-camera-deploy
       - deploy-to-bintray:
