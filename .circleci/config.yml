@@ -6,6 +6,7 @@ aliases:
   - &depends-from-deploy
       requires:
         - army-knife-test
+        - army-knife-android-junit4-test
         - army-knife-camera-test
         - army-knife-gms-test
         - army-knife-junit-test
@@ -131,6 +132,11 @@ workflows:
           <<: *depends-from-tests
           module: army-knife
           name: army-knife-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-android-junit4
+          name: army-knife-android-junit4-test
       - local-unit-test:
           <<: *filter-for-assemble
           <<: *depends-from-tests
