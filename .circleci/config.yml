@@ -6,6 +6,7 @@ aliases:
   - &depends-from-deploy
       requires:
         - army-knife-test
+        - army-knife-android-junit4-test
         - army-knife-camera-test
         - army-knife-gms-test
         - army-knife-junit-test
@@ -17,6 +18,7 @@ aliases:
         - firearm-channel-test
         - firearm-di-test
         - firearm-event-test
+        - firearm-material-resources-test
         - firearm-persistence-test
         - kerberus-test
         - oneshotlivedata-test
@@ -134,6 +136,11 @@ workflows:
       - local-unit-test:
           <<: *filter-for-assemble
           <<: *depends-from-tests
+          module: army-knife-android-junit4
+          name: army-knife-android-junit4-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
           module: army-knife-camera
           name: army-knife-camera-test
       - local-unit-test:
@@ -189,6 +196,11 @@ workflows:
       - local-unit-test:
           <<: *filter-for-assemble
           <<: *depends-from-tests
+          module: firearm-material-resources
+          name: firearm-material-resources-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
           module: firearm-persistence
           name: firearm-persistence-test
       - local-unit-test:
@@ -209,6 +221,11 @@ workflows:
           <<: *depends-from-deploy
           module: army-knife
           name: army-knife-deploy
+      - deploy-to-bintray:
+          <<: *filter-for-assemble
+          <<: *depends-from-deploy
+          module: army-knife-android-junit4
+          name: army-knife-android-junit4-deploy
       - deploy-to-bintray:
           <<: *filter-for-assemble
           <<: *depends-from-deploy
@@ -264,6 +281,11 @@ workflows:
           <<: *depends-from-deploy
           module: firearm-event
           name: firearm-event-deploy
+      - deploy-to-bintray:
+          <<: *filter-for-assemble
+          <<: *depends-from-deploy
+          module: firearm-material-resources
+          name: firearm-material-resources-deploy
       - deploy-to-bintray:
           <<: *filter-for-assemble
           <<: *depends-from-deploy

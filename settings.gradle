@@ -1,19 +1,19 @@
-include ':kerberus'                         // alone
-include ':army-knife-junit'                 // alone
 include ':army-knife'                       // alone
-include ':army-knife-view-adapters'         // alone
+include ':army-knife-android-junit4'        // alone
+include ':army-knife-camera'
+include ':army-knife-gms'
+include ':army-knife-junit'                 // alone
+include ':army-knife-persistence'
+include ':army-knife-reactivex'
 include ':army-knife-timber'                // alone
-include ':firearm-di'                       // alone
+include ':army-knife-view-adapters'         // alone
+
+include ':firearm'
 include ':firearm-channel'                  // alone
-//include ':firearm-material-resources'     // alone [Deprecated, Replace to https://github.com/DmitryMalkovich/material-design-dimens]
-include ':oneshotlivedata'                // alone [Deprecated, Replace to army-knife-reactivex]
+include ':firearm-di'                       // alone
+include ':firearm-event'
+include ':firearm-material-resources'       // alone [Deprecated, Replace to https://github.com/DmitryMalkovich/material-design-dimens]
+include ':firearm-persistence'
 
-// Below are group
-include ':army-knife-camera'        // depends[army-knife]
-include ':army-knife-gms'           // depends[army-knife]
-include ':army-knife-persistence'   // depends[army-knife]
-include ':army-knife-reactivex'     // depends[army-knife]
-
-include ':firearm-persistence'      // dependes[army-knife-persistence]
-include ':firearm-event'            // dependes[army-knife-reactivex]
-include ':firearm'                  // dependes[army-knife, army-knife-persistence, army-knife-reactivex]
+include ':kerberus'                         // alone
+include ':oneshotlivedata'                  // alone [Deprecated, Replace to army-knife-reactivex]
