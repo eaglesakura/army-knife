@@ -1,18 +1,21 @@
 package com.eaglesakura.armyknife.android.db
 
 import android.util.Log
-import com.eaglesakura.BaseTestCase
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class TextKeyValueStoreTest : BaseTestCase() {
+@RunWith(AndroidJUnit4::class)
+class TextKeyValueStoreTest {
 
     private val TAG = javaClass.simpleName
 
     @Test
     fun openReadable() {
-        val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
+        val store = TextKeyValueStore(targetContext, targetContext.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_READ_ONLY).use {
             Log.i(TAG, "Database path ${it.path!!.absolutePath}")
@@ -21,7 +24,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
 
     @Test
     fun openWritable() {
-        val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
+        val store = TextKeyValueStore(targetContext, targetContext.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use {
             Log.i(TAG, "Database path ${it.path!!.absolutePath}")
@@ -30,7 +33,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
 
     @Test
     fun insertWithoutTransaction() {
-        val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
+        val store = TextKeyValueStore(targetContext, targetContext.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use {
             it.put("key", "value")
@@ -47,7 +50,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
 
     @Test
     fun insertInTransaction() {
-        val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
+        val store = TextKeyValueStore(targetContext, targetContext.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use { kvs ->
             Log.i(TAG, "Database path ${kvs.path!!.absolutePath}")
@@ -73,7 +76,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
 
     @Test
     fun replaceInTransaction() {
-        val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
+        val store = TextKeyValueStore(targetContext, targetContext.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use { kvs ->
             Log.i(TAG, "Database path ${kvs.path!!.absolutePath}")
@@ -95,7 +98,7 @@ class TextKeyValueStoreTest : BaseTestCase() {
 
     @Test
     fun replaceWithoutTransaction() {
-        val store = TextKeyValueStore(application, application.getDatabasePath("test.db"))
+        val store = TextKeyValueStore(targetContext, targetContext.getDatabasePath("test.db"))
 
         store.open(TextKeyValueStore.OPEN_WRITABLE).use { kvs ->
             Log.i(TAG, "Database path ${kvs.path!!.absolutePath}")

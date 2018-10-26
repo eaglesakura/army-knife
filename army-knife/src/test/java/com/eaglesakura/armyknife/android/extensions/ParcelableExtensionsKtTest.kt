@@ -2,14 +2,17 @@ package com.eaglesakura.armyknife.android.extensions
 
 import android.os.Bundle
 import android.os.Parcelable
-import com.eaglesakura.BaseTestCase
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleTest
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class ParcelableExtensionsKtTest : BaseTestCase() {
+@RunWith(AndroidJUnit4::class)
+class ParcelableExtensionsKtTest {
 
     @Test
-    fun marshal_by_CREATOR() {
+    fun marshal_by_CREATOR() = compatibleTest {
         val bundle = Bundle()
         bundle.putString("key", "value")
 
@@ -22,7 +25,7 @@ class ParcelableExtensionsKtTest : BaseTestCase() {
     }
 
     @Test
-    fun marshal_by_KClass() {
+    fun marshal_by_KClass() = compatibleTest {
         val bundle = Bundle()
         bundle.putString("key", "value")
         val data = bundle.marshal()
@@ -31,7 +34,7 @@ class ParcelableExtensionsKtTest : BaseTestCase() {
     }
 
     @Test
-    fun deepCopy() {
+    fun deepCopy() = compatibleTest {
         val bundle = Bundle()
         bundle.putString("key", "value")
 

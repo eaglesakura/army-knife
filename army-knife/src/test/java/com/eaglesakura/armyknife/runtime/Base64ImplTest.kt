@@ -1,13 +1,17 @@
 package com.eaglesakura.armyknife.runtime
 
-import com.eaglesakura.BaseTestCase
-import org.junit.Assert.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class Base64ImplTest : BaseTestCase() {
+@RunWith(AndroidJUnit4::class)
+class Base64ImplTest {
 
     @Test
-    fun encodeAndDecode() {
+    fun encodeAndDecode() = compatibleTest {
         // test data
         Base64Impl.byteArrayToString(byteArrayOf(0x01, 0x02)).also { base64 ->
             assertNotEquals("", base64)

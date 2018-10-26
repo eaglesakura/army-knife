@@ -1,13 +1,16 @@
 package com.eaglesakura.armyknife.android.hardware.camera.spec
 
-import com.eaglesakura.BaseTestCase
-import org.junit.Assert.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class CaptureSizeTest : BaseTestCase() {
+@RunWith(AndroidJUnit4::class)
+class CaptureSizeTest {
 
     @Test
-    fun getPreviewSizeInWindow() {
+    fun getPreviewSizeInWindow() = compatibleTest {
         CaptureSize(640, 480).also { captureSize ->
             // just size.
             captureSize.getPreviewSizeInWindow(640, 480).also { previewSize ->
@@ -49,7 +52,7 @@ class CaptureSizeTest : BaseTestCase() {
     }
 
     @Test
-    fun getPreviewSizeWrapWindow() {
+    fun getPreviewSizeWrapWindow() = compatibleTest {
         CaptureSize(640, 480).also { captureSize ->
             // just size.
             captureSize.getPreviewSizeWrapWindow(640, 480).also { previewSize ->

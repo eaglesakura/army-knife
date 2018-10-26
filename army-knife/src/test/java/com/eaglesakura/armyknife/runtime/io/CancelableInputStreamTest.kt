@@ -1,16 +1,19 @@
 package com.eaglesakura.armyknife.runtime.io
 
-import com.eaglesakura.BaseTestCase
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleTest
 import kotlinx.coroutines.CancellationException
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
 
-class CancelableInputStreamTest : BaseTestCase() {
+@RunWith(AndroidJUnit4::class)
+class CancelableInputStreamTest {
 
     @Test
-    fun readOnce() {
+    fun readOnce() = compatibleTest {
         val stream = CancelableInputStream(ByteArrayInputStream(ByteArray(1024)), { false }).also {
             it.bufferSize = 128
         }
@@ -19,7 +22,7 @@ class CancelableInputStreamTest : BaseTestCase() {
     }
 
     @Test
-    fun readAll() {
+    fun readAll() = compatibleTest {
         val stream = CancelableInputStream(ByteArrayInputStream(ByteArray(1024)), { false }).also {
             it.bufferSize = 4096
         }
@@ -28,7 +31,7 @@ class CancelableInputStreamTest : BaseTestCase() {
     }
 
     @Test(expected = CancellationException::class)
-    fun readCancel() {
+    fun readCancel() = compatibleTest {
         val stream = CancelableInputStream(ByteArrayInputStream(ByteArray(1024)), { true }).also {
             it.bufferSize = 128
         }

@@ -51,6 +51,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    sourceSets {
+        androidTest.java.srcDirs += ["src/test/java"]
+    }
+
     packagingOptions {
         exclude 'META-INF/**_debug.kotlin_module'
     }
@@ -66,25 +70,15 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
 
     /**
-     * Support Libraries
-     * https://developer.android.com/topic/libraries/architecture/adding-components
-     * https://developer.android.com/topic/libraries/support-library/refactor
+     * for Tests (or Android Tests)
      */
-    api 'androidx.core:core-ktx:1.0.0'
-    api 'androidx.appcompat:appcompat:1.0.0'
+    testImplementation 'org.robolectric:robolectric:4.0-beta-1'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
 
-    /**
-     * for Tests
-     */
-    testImplementation project(':army-knife-junit')
-    testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'androidx.test:monitor:1.1.0-beta01'
-    testImplementation 'androidx.test:runner:1.1.0-beta01'
-    androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
+    testImplementation project(':army-knife-android-junit4')
+    androidTestImplementation project(':army-knife-android-junit4')
 
 }
 

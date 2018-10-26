@@ -1,27 +1,29 @@
 package com.eaglesakura.firearm.bluetooth
 
 import android.bluetooth.le.ScanResult
+import android.util.Log
 import androidx.lifecycle.Observer
-import com.eaglesakura.AndroidTestCase
-import com.eaglesakura.armyknife.android.logger.Logger
-import com.eaglesakura.armyknife.junit.blockingTest
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
+import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 import org.junit.Assert
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
-class BleDeviceStreamTest : AndroidTestCase() {
+@RunWith(AndroidJUnit4::class)
+class BleDeviceStreamTest {
 
     @Test
-    fun testBleScan() = blockingTest(Dispatchers.Main) {
-        val scanner = BleDeviceStream(application)
+    fun testBleScan() = compatibleBlockingTest(Dispatchers.Main) {
+        val scanner = BleDeviceStream(targetContext)
         Assert.assertTrue(scanner.hasPermissions)
 
         val dataObserver = Observer<List<ScanResult>> {
-            Logger.debug("BLE", "Device num[${it!!.size}]")
+            Log.d("BLE", "Device num[${it!!.size}]")
             it.forEach {
-                Logger.debug("BLE", "  - Device name[${it.device.name}] addr[${it.device.address}]")
+                Log.d("BLE", "  - Device name[${it.device.name}] addr[${it.device.address}]")
             }
         }
 
@@ -30,18 +32,18 @@ class BleDeviceStreamTest : AndroidTestCase() {
             scanner.event.subscribe { event ->
                 when (event) {
                     is BluetoothScanEvent -> {
-                        Logger.debug("BLE", "OneshotData [${event.id}] Device[${event.scanResult.device.name}]")
+                        Log.d("BLE", "OneshotData [${event.id}] Device[${event.scanResult.device.name}]")
                     }
                 }
             }
 
             // check device
-            withTimeout(60, TimeUnit.SECONDS) {
+            withTimeout(TimeUnit.SECONDS.toMillis(60)) {
                 while (isActive) {
                     delay(1000)
                     scanner.value?.size?.also { size ->
                         if (size > 0) {
-                            Logger.debug("BLE", "Test completed.")
+                            Log.d("BLE", "Test completed.")
                             return@withTimeout
                         }
                     }

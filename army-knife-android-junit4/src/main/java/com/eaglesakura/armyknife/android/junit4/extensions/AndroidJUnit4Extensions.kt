@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.junit4.extensions
 
 import android.app.Application
@@ -6,8 +8,9 @@ import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import com.eaglesakura.armyknife.android.junit4.TestDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 import org.robolectric.shadows.ShadowLog
 import org.robolectric.shadows.ShadowLooper
 
@@ -86,7 +89,7 @@ fun localTest(action: () -> Unit) {
 /**
  * Test JVM only with Coroutines.
  */
-fun localBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend () -> Unit) {
+fun localBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend CoroutineScope.() -> Unit) {
     beforeRobolectricTest()
 
     if (ROBOLECTRIC) {
@@ -112,7 +115,7 @@ fun instrumentationTest(action: () -> Unit) {
 /**
  * Test Android Device(or Emulator) only with Coroutines.
  */
-fun instrumentationBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend () -> Unit) {
+fun instrumentationBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend CoroutineScope.() -> Unit) {
     beforeRobolectricTest()
 
     if (ROBOLECTRIC) {
@@ -137,11 +140,16 @@ fun compatibleTest(action: () -> Unit) {
  *
  * Architecture template created by @eaglesakura
  */
-fun compatibleBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend () -> Unit) {
+fun compatibleBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend CoroutineScope.() -> Unit) {
     beforeRobolectricTest()
 
-    val job = GlobalScope.launch(dispatcher) {
-        action()
+    val job = GlobalScope.async(dispatcher) {
+        try {
+            action(this)
+            null
+        } catch (e: Throwable) {
+            e
+        }
     }
 
     do {
@@ -149,4 +157,8 @@ fun compatibleBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Def
             ShadowLooper.runMainLooperToNextTask()
         }
     } while (!job.isCompleted)
+
+    job.getCompleted()?.also {
+        throw it
+    }
 }

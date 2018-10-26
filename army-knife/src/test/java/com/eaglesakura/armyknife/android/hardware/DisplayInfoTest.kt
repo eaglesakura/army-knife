@@ -1,15 +1,20 @@
 package com.eaglesakura.armyknife.android.hardware
 
-import com.eaglesakura.AndroidTestCase
+import android.util.Log
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.instrumentationTest
+import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class DisplayInfoTest : AndroidTestCase() {
+@RunWith(AndroidJUnit4::class)
+class DisplayInfoTest {
 
     @Test
-    fun displayInfoRead() {
-        val displayInfo = DisplayInfo.newInstance(application)
-        console("$displayInfo")
+    fun displayInfoRead() = instrumentationTest {
+        val displayInfo = DisplayInfo.newInstance(targetContext)
+        Log.d(javaClass.simpleName, "$displayInfo")
 
         assertNotEquals(0, displayInfo.widthPixel)
         assertNotEquals(0, displayInfo.heightPixel)

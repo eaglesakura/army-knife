@@ -1,13 +1,16 @@
 package com.eaglesakura.firearm.event
 
-import com.eaglesakura.BaseTestCase
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleTest
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class EventIdTest : BaseTestCase() {
+@RunWith(AndroidJUnit4::class)
+class EventIdTest {
 
     @Test
-    fun eventIdTest() {
+    fun eventIdTest() = compatibleTest {
         val id0 = EventId("EVENT")
         val id1 = EventId("EVENT")
         assertEquals(id0.toString(), "EVENT")

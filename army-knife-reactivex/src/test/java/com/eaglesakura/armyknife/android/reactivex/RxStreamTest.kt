@@ -1,22 +1,24 @@
-package com.eaglesakura.firearm.rx
+package com.eaglesakura.armyknife.android.reactivex
 
-import com.eaglesakura.AndroidTestCase
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.eaglesakura.armyknife.android.extensions.assertUIThread
-import com.eaglesakura.armyknife.junit.blockingTest
+import com.eaglesakura.armyknife.android.junit4.TestDispatchers
+import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consume
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
-class RxStreamAndroidTest : AndroidTestCase() {
+@RunWith(AndroidJUnit4::class)
+class RxStreamTest {
 
     @Test
-    fun channel_background() = blockingTest(Dispatchers.Default) {
+    fun channel_background() = compatibleBlockingTest(TestDispatchers.Default) {
         val stream = RxStream.create<String>()
         val channel = stream.toChannel()
         stream.next("send1")
@@ -27,7 +29,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
     }
 
     @Test
-    fun channel_ui() = blockingTest(Dispatchers.Main) {
+    fun channel_ui() = compatibleBlockingTest(TestDispatchers.Main) {
         val stream = RxStream.create<String>()
         val channel = stream.toChannel()
         stream.next("send1")
@@ -40,7 +42,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
 
 
     @Test
-    fun channel_multi() = blockingTest(Dispatchers.Main) {
+    fun channel_multi() = compatibleBlockingTest(TestDispatchers.Main) {
         val stream = RxStream.create<String>()
         stream.toChannel().consume {
             stream.next("send1")
@@ -55,13 +57,14 @@ class RxStreamAndroidTest : AndroidTestCase() {
     }
 
     @Test
-    fun subscribe() = blockingTest(Dispatchers.Default) {
+    fun subscribe() = compatibleBlockingTest(TestDispatchers.Default) {
         val stream = RxStream.create<String>()
         val channel = Channel<Unit>()
+        stream.subscribe { }
         val disposable = stream.subscribe {
             assertUIThread()
             assertThat(it).apply {
-                startsWith("next")
+                startsWith("send")
             }
 
             if (it.endsWith("finish")) {
@@ -79,7 +82,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
     }
 
     @Test
-    fun builder_transform() = blockingTest(Dispatchers.Main) {
+    fun builder_transform() = compatibleBlockingTest(Dispatchers.Main) {
         val stream = RxStream.Builder<String>().apply {
             observableTransform = { origin ->
                 origin.distinctUntilChanged()
@@ -96,7 +99,7 @@ class RxStreamAndroidTest : AndroidTestCase() {
             // Do not receive
             stream.next("value2")
             try {
-                withTimeout(1, TimeUnit.SECONDS) {
+                withTimeout(TimeUnit.SECONDS.toMillis(1)) {
                     receive()
                 }
                 fail("Do not receive.")
