@@ -1,4 +1,27 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.runtime.extensions
+
+/**
+ * find "K" from map.
+ *
+ * e.g.)
+ * val map = mapOf(
+ *      Pair("Key", "Value")
+ * )
+ * val key = map.findKey { value ->
+ *      value == "Value"
+ * }
+ */
+fun <K, V> Map<K, V>.findKey(selector: (value: V) -> Boolean): K? {
+    this.entries.forEach {
+        if (selector(it.value)) {
+            return it.key
+        }
+    }
+    return null
+}
+
 
 /**
  * Returns true, if it was null or empty.

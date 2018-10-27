@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.Lifecycle

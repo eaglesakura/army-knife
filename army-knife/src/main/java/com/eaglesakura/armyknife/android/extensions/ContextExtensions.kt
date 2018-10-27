@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.extensions
 
 import android.annotation.SuppressLint
@@ -108,7 +110,19 @@ val Context.debugMode: Boolean
  * When developer mode enabled on this device, This property return true.
  * But, API Level less than 17, This property always returns false.
  */
+@Deprecated("typo, developerModeDevice", ReplaceWith("developerModeDevice"))
 val Context.devloperModeDevice: Boolean
+    get() = if (Build.VERSION.SDK_INT < 17) {
+        false
+    } else {
+        Settings.Secure.getInt(contentResolver, Settings.Global.ADB_ENABLED, 0) != 0
+    }
+
+/**
+ * When developer mode enabled on this device, This property return true.
+ * But, API Level less than 17, This property always returns false.
+ */
+val Context.developerModeDevice: Boolean
     get() = if (Build.VERSION.SDK_INT < 17) {
         false
     } else {

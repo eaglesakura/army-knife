@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.extensions
 
 import com.google.android.gms.tasks.Task

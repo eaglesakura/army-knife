@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.extensions
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,4 +19,3 @@ suspend fun FirebaseAuth.awaitLogin(): FirebaseUser {
  * Syntax sugar to Sign-In with Google Account.
  */
 fun FirebaseAuth.signIn(account: GoogleSignInAccount) = signInWithCredential(GoogleAuthProvider.getCredential(account.idToken, null))
-

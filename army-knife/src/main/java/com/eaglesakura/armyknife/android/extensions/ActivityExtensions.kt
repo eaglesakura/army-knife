@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.extensions
 
 import android.app.Activity
@@ -7,8 +9,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.FragmentActivity
 
 /**
- * ActivityとActivityから探索可能なFragmentを検査し、目的のインターフェースを取得する.
- * インターフェースが複数ある場合、最初にヒットしたオブジェクトを返却する.
+ * Find interface by Activity and children.
+ * If it has many interfaces then returns 1st hit object.
  */
 inline fun <reified T> FragmentActivity.findInterface(): T? {
     if (this is T) {

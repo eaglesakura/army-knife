@@ -14,6 +14,13 @@ import kotlinx.coroutines.withContext
 
 /**
  * Subscribe lifecycle's event.
+ *
+ * e.g.)
+ * fragment.lifecycle.subscribe { event ->
+ *      if(event == Lifecycle.Event.ON_RESUME) {
+ *          // do something.
+ *      }
+ * }
  */
 fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
     this.addObserver(object : LifecycleObserver {
@@ -27,6 +34,15 @@ fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
 /**
  * Subscribe event with cancel callback.
  * If you should be ignore receiver, call "cancel()" function.
+ *
+ * e.g.)
+ * fragment.lifecycle.subscribe { event, cancel ->
+ *      if(event == Lifecycle.Event.ON_RESUME) {
+ *          // do something.
+ *
+ *          cancel() // cancel subscribe events.
+ *      }
+ * }
  */
 fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () -> Unit) -> Unit) {
     val self = this
@@ -41,6 +57,13 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
 
 /**
  * Suspend current coroutines context until receive lifecycle event.
+ *
+ * e.g.)
+ * suspend fun awaitToResume() {
+ *      delay(fragment.lifecycle, Lifecycle.Event.ON_RESUME)
+ *
+ *      // do something, fragment on resumed.
+ * }
  */
 suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
     withContext(Dispatchers.Main) {
@@ -51,7 +74,7 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
         val channel = Channel<Lifecycle.Event>()
         lifecycle.subscribeWithCancel { event, cancel ->
             if (event == targetEvent) {
-                // resume coroutine
+                // resume coroutines
                 launch(Dispatchers.Main) {
                     channel.send(event)
                 }

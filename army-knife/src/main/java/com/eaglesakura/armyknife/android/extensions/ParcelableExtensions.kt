@@ -6,6 +6,10 @@ import kotlin.reflect.KClass
 
 /**
  * Copy object with new instance by Parcel.
+ *
+ * e.g.)
+ * val rect = Rect()
+ * val copied = rect.deepCopy() // rect -> ByteArray -> rect
  */
 fun <T : Parcelable> Parcelable.deepCopy(): T {
     val data = marshal()
@@ -15,6 +19,10 @@ fun <T : Parcelable> Parcelable.deepCopy(): T {
 
 /**
  * Convert Parcelable to ByteArray.
+ *
+ * e.g.)
+ * val rect = Rect()
+ * val byteArray = rect.marshal()
  */
 fun Parcelable.marshal(): ByteArray {
     val parcel = Parcel.obtain()
@@ -28,6 +36,10 @@ fun Parcelable.marshal(): ByteArray {
 
 /**
  * Convert ByteArray to Parcelable
+ *
+ * e.g.)
+ * val byteArray = ...
+ * val rect = Rect.CREATOR.unmarshal(byteArray)
  */
 fun <T : Parcelable> Parcelable.Creator<T>.unmarshal(data: ByteArray): T {
     val parcel = Parcel.obtain()
@@ -46,6 +58,9 @@ fun <T : Parcelable> Parcelable.Creator<T>.unmarshal(data: ByteArray): T {
  * If you used Kotlin-Android-Extensions(@Parcel annotation) in class, then can not access "CREATOR" field.
  * So, this function access field by reflection.
  * It speed is very slowly.
+ *
+ * val byteArray = ...
+ * val rect = Rect::class.unmarshal(byteArray)
  */
 inline fun <reified T : Parcelable> KClass<T>.unmarshal(data: ByteArray): T {
     val javaClass = java

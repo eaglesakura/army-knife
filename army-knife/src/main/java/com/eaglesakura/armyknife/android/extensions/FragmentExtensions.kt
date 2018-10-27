@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.fragment.app.Fragment
@@ -6,8 +8,10 @@ import com.eaglesakura.armyknife.runtime.extensions.instanceOf
 import kotlin.reflect.KClass
 
 /**
- * このメソッドはFragmentManagerから条件にマッチするFragmentを探索して返却する.
- * finder()は渡されるFragmentをチェックし、対象であればtrueを返却する.
+ * Find fragment by FragmentManager with finder.
+ *
+ * e.g.)
+ * val fragment = fragmentManager.find { it.tag == "main" }
  *
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
@@ -24,6 +28,9 @@ fun <T : Fragment> FragmentManager.find(finder: (frag: Fragment) -> Boolean): T?
 
 /**
  * Finding the "T" Interface from Activity or parent fragments.
+ *
+ * e.g.)
+ * val callback = fragment.findInterface(Callback::class)
  *
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
@@ -48,6 +55,9 @@ fun <T : Any> Fragment.findInterface(clazz: KClass<T>): T? {
 
 /**
  * Finding the "T" Interface from Activity or parent fragments.
+ *
+ * e.g.)
+ * val callback: Callback? = fragment.findInterface()
  *
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
