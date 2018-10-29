@@ -13,16 +13,25 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.ResolveInfo
 import android.os.Build
 
+/**
+ * Utility for Application Runtime information.
+ */
 object ApplicationRuntime {
 
     /**
      * identifier of this process.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     val pid: Int
         get() = android.os.Process.myPid()
 
     /**
      * Kill self process.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun killSelf() {
         android.os.Process.killProcess(pid)
@@ -33,6 +42,9 @@ object ApplicationRuntime {
 
     /**
      * Robolectric runtime is true.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     val ROBOLECTRIC: Boolean = try {
         Class.forName("org.robolectric.Robolectric")
@@ -42,15 +54,19 @@ object ApplicationRuntime {
     }
 
     /**
-     * 自分自身がTop Applicationとして起動している場合はtrue
+     * If this process is foreground now then returns true.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun isForegroundApplicationSelf(context: Context): Boolean {
         return context.packageName == getTopApplicationPackage(context)
     }
 
     /**
-     * ランチャー一覧を取得する
+     * Returns launcher objects.
      */
+    @Deprecated("will be delete this.")
     fun listLauncherApplications(context: Context): List<ResolveInfo> {
         val pm = context.packageManager
         val intent = Intent(Intent.ACTION_MAIN)
@@ -59,15 +75,16 @@ object ApplicationRuntime {
     }
 
     /**
-     * インストールされているアプリのpackage名一覧を取得する
+     * Returns installed applications.
      */
+    @Deprecated("will be delete this.")
     fun listInstalledApplications(context: Context): List<ApplicationInfo> {
         val pm = context.packageManager
         return pm.getInstalledApplications(0)
     }
 
     /**
-     * トップに起動しているActivityのpackage nameを指定する
+     * Returns an running application on top activity of this device.
      */
     @SuppressLint("WrongConstant")
     fun getTopApplicationPackage(context: Context): String {

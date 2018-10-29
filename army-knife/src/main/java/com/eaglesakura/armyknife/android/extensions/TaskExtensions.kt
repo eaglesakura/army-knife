@@ -6,11 +6,27 @@ import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
-suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> {
+/**
+ * await a Google Play Services task until complete or cancellation in Coroutines.
+ *
+ * e.g.)
+ * val task: Task<Result> = ...
+ * task.awaitWithSuspend()
+ */
+@Deprecated("rename to awaitInCoroutines", ReplaceWith("awaitInCoroutines"))
+suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> = this.awaitInCoroutines()
+
+/**
+ * await a Google Play Service's task until complete or cancellation in Coroutines.
+ *
+ * e.g.)
+ * val task: Task<Result> = ...
+ * task.awaitInCoroutines()
+ */
+suspend fun <T> Task<T>.awaitInCoroutines(): Task<T> {
     val channel = Channel<Unit>()
     addOnCompleteListener {
         GlobalScope.launch(Dispatchers.Main) {
@@ -25,12 +41,33 @@ suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> {
 }
 
 /**
- * キャンセルチェックを行ったうえで処理待ちを行う
+ * await a Google Play Service's task until complete or cancellation in Coroutines.
+ * When coroutines job canceled, then cancel this task.
+ *
+ * e.g.)
+ * val task: PendingResult<Result> = ...
+ * task.awaitWithSuspend()
  */
-suspend fun <T : Result> PendingResult<T>.awaitWithSuspend(): T {
+@Deprecated("rename to awaitInCoroutines", ReplaceWith("awaitInCoroutines"))
+suspend fun <T : Result> PendingResult<T>.awaitWithSuspend(): T = this.awaitInCoroutines()
+
+/**
+ * await a Google Play Service's task until complete or cancellation in Coroutines.
+ * When coroutines job canceled, then cancel this task.
+ *
+ * e.g.)
+ * val task: PendingResult<Result> = ...
+ * task.awaitInCoroutines()
+ */
+suspend fun <T : Result> PendingResult<T>.awaitInCoroutines(): T {
     val channel = Channel<T>()
     this.setResultCallback {
         GlobalScope.launch(Dispatchers.Main) { channel.send(it) }
     }
-    return channel.receive()
+    try {
+        return channel.receive()
+    } catch (e: CancellationException) {
+        this.cancel()
+        throw e
+    }
 }

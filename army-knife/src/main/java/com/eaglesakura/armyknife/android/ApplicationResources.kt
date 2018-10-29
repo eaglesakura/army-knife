@@ -10,6 +10,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 
+/**
+ * Utility for runtime resources control.
+ */
 object ApplicationResources {
 
     /**
@@ -35,6 +38,9 @@ object ApplicationResources {
     /**
      * Convert resource-id-int to Uri.
      * Use to ImageLibrary, NetworkLibrary, or else.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @JvmStatic
     fun getDrawableUri(context: Context, resName: String): Uri {
@@ -49,6 +55,9 @@ object ApplicationResources {
 
     /**
      * Load drawable resource with set tint color to it.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @JvmStatic
     fun getDrawable(context: Context, @DrawableRes resId: Int, @ColorInt tint: Int = 0): Drawable {
@@ -60,7 +69,10 @@ object ApplicationResources {
     }
 
     /**
-     * string xmlリソース名から文字列リソースを取得する
+     * get string resources in res/values/strings.xml(or such else) by XML Resource name.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @JvmStatic
     fun getStringFromIdName(context: Context, resName: String): String? {
@@ -78,7 +90,10 @@ object ApplicationResources {
     }
 
     /**
-     * string xmlリソース名から文字列リソースを取得する
+     * get string resources in res/values/strings.xml(or such else) by XML Resource name.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @JvmStatic
     fun getStringFromIdName(context: Context, resName: String, vararg arg: Any): String? {
@@ -97,7 +112,10 @@ object ApplicationResources {
     }
 
     /**
-     * string xmlリソース名から文字列リソースを取得する
+     * get integer resources in res/values/integer.xml(or such else) by XML Resource name.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @JvmStatic
     fun getIntegerFromIdName(context: Context, resName: String): Int? {

@@ -6,6 +6,9 @@ import androidx.annotation.RequiresApi
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 
+/**
+ * SQLiteOpenHelper to SupportSQLiteOpenHelper.
+ */
 fun SQLiteOpenHelper.asSupport(): SupportSQLiteOpenHelper = SupportSQLiteOpenHelperImpl(this)
 
 private class SupportSQLiteOpenHelperImpl(private val helper: SQLiteOpenHelper) : SupportSQLiteOpenHelper {

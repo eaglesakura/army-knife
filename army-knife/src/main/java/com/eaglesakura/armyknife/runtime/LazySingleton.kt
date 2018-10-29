@@ -19,6 +19,9 @@ import kotlin.concurrent.withLock
  *          Foo()
  *      }
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 class LazySingleton<T> {
     private var instance: T? = null

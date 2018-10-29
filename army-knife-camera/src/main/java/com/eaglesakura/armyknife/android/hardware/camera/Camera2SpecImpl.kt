@@ -9,11 +9,11 @@ import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.os.Build
-import com.eaglesakura.armyknife.android.extensions.findKey
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraAccessFailedException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraNotFoundException
 import com.eaglesakura.armyknife.android.hardware.camera.spec.*
+import com.eaglesakura.armyknife.runtime.extensions.findKey
 import java.util.*
 
 @SuppressLint("NewApi")

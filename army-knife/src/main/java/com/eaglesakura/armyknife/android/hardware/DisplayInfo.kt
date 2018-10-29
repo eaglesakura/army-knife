@@ -10,7 +10,11 @@ import android.view.WindowManager
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Display real sizes.
+ * This object calculate display information this device.
+ *
+ * e.g.)
+ * val info = DisplayInfo.newInstance(context)
+ * Log.d("DisplayInfo", "${info.widthPixel} x ${info.heightPixel}")
  */
 @Suppress("MemberVisibilityCanBePrivate")
 @Parcelize

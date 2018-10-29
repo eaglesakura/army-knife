@@ -22,6 +22,9 @@ import java.util.*
  */
 typealias CursorWrapper = (cursor: Cursor, signal: CancellationSignal?) -> Cursor
 
+/**
+ * SQLiteDatabase to SupportSQLiteDatabase.
+ */
 fun SQLiteDatabase.asSupport(cursorWrapper: CursorWrapper? = null): SupportSQLiteDatabase {
     return SupportSQLiteDatabaseImpl(this).also {
         if (cursorWrapper != null) {

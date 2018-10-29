@@ -4,6 +4,9 @@ import com.eaglesakura.armyknife.runtime.extensions.CancelCallback
 import kotlinx.coroutines.CancellationException
 import java.io.OutputStream
 
+/**
+ * add cancellation spec to OutputStream.
+ */
 class CancelableOutputStream(private val stream: OutputStream, private val cancelCallback: CancelCallback, bufferSize: Int = 1024 * 2) : OutputStream() {
 
     var bufferSize = bufferSize

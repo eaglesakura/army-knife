@@ -12,6 +12,9 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
+/**
+ * Utilities for Runtime permissions.
+ */
 object RuntimePermissions {
 
     /**

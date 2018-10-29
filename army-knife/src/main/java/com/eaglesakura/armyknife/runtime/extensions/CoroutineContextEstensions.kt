@@ -4,10 +4,10 @@ import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 /**
- * CoroutineContextから現在のJobを取得する.
+ * Returns an job object from coroutines.
  */
-val CoroutineContext.job: Job?
-    get() = this[Job]
+val CoroutineContext.job: Job
+    get() = this[Job]!!
 
 /**
  * Make a cancel-callback function from job.
@@ -17,5 +17,5 @@ fun CoroutineContext.asCancelCallback(): () -> Boolean {
     val currentJob = this.job
     // Jobの状態をチェックする.
     // Jobがない場合はキャンセルせずに実行終了を待つ.
-    return { currentJob?.isCancelled ?: false }
+    return { currentJob.isCancelled }
 }

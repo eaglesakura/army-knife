@@ -3,6 +3,9 @@ package com.eaglesakura.armyknife.android.extensions
 import android.database.sqlite.SQLiteStatement
 import androidx.sqlite.db.SupportSQLiteStatement
 
+/**
+ * SQLiteStatement to SupportSQLiteStatement.
+ */
 fun SQLiteStatement.asSupport(): SupportSQLiteStatement = SupportSqliteStatementImpl(this)
 
 private class SupportSqliteStatementImpl(private val mStatement: SQLiteStatement) : SupportSQLiteStatement {

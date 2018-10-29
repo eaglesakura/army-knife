@@ -8,6 +8,8 @@ import java.io.InputStream
 /**
  * Read all data from InputStream.
  * This method supported for Cancel in read process.
+ *
+ * If cancelCallback() returns true, then throw CancellationException in this function.
  */
 @Throws(CancellationException::class, IOException::class)
 fun InputStream.readBytes(readOnce: Int, cancelCallback: CancelCallback): ByteArray {

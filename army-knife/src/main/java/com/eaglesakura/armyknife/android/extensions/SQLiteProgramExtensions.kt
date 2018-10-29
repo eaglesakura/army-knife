@@ -4,6 +4,9 @@ import android.database.sqlite.SQLiteProgram
 import androidx.sqlite.db.SupportSQLiteProgram
 
 
+/**
+ * SQLiteProgram to SupportSQLiteProgram.
+ */
 fun SQLiteProgram.asSupport(): SupportSQLiteProgram = SupportSQLiteProgramImpl(this)
 
 private class SupportSQLiteProgramImpl(private val mProgram: SQLiteProgram) : SupportSQLiteProgram {

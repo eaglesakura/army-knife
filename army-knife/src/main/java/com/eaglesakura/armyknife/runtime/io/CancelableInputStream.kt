@@ -5,6 +5,9 @@ import kotlinx.coroutines.CancellationException
 import java.io.IOException
 import java.io.InputStream
 
+/**
+ * add cancellation spec to InputStream.
+ */
 @Suppress("MemberVisibilityCanBePrivate")
 class CancelableInputStream(private val stream: InputStream, private val cancelCallback: CancelCallback, bufferSize: Int = 1024 * 2) : InputStream() {
 

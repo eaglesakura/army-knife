@@ -14,7 +14,6 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -62,6 +61,11 @@ open class RxStream<T> private constructor(
      *
      * Channel calls "dispose()" method at Channel.close() or Channel.cancel().
      * You should not call Disposable.dispose() method.
+     *
+     * e.g.)
+     * stream.toChannel().consume {
+     *      // something...
+     * }    // Channel.close() on exit.
      */
     @Suppress("unused")
     @CheckResult

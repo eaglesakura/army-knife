@@ -1,6 +1,6 @@
 package com.eaglesakura.armyknife.android.gms.extensions
 
-import com.eaglesakura.armyknife.android.extensions.awaitWithSuspend
+import com.eaglesakura.armyknife.android.extensions.awaitInCoroutines
 import com.eaglesakura.armyknife.android.gms.error.FirebaseAuthFailedException
 import com.google.firebase.auth.FirebaseAuth
 import java.util.concurrent.TimeUnit
@@ -27,7 +27,7 @@ suspend fun FirebaseAuth.getCachedAccessToken(): String {
 
     // トークンをリフレッシュする
     val user = currentUser ?: throw FirebaseAuthFailedException("not authorized")
-    val tokenTask = user.getIdToken(true).awaitWithSuspend()
+    val tokenTask = user.getIdToken(true).awaitInCoroutines()
     if (!tokenTask.isSuccessful) {
         throw FirebaseAuthFailedException("getIdToken(true) failed")
     }

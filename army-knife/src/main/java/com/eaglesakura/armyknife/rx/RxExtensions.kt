@@ -17,7 +17,7 @@ import kotlinx.coroutines.channels.Channel
  * LiveData calls "dispose()" method at Inactive event.
  * You should not call Disposable.dispose() method.
  */
-@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex")
+@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex", ReplaceWith(""))
 fun <T> Observable<T>.toLiveData(): LiveData<T> {
     return RxLiveData(this)
 }
@@ -38,7 +38,7 @@ fun <T> Observable<T>.toLiveData(): LiveData<T> {
  * }    // Channel.close() on exit.
  */
 @CheckResult
-@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex")
+@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex", ReplaceWith(""))
 fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
     return ObserverChannel<T>(dispatcher).also {
         subscribe(it)
@@ -52,7 +52,7 @@ fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
  * If Call "Disposable.dispose()" function before than destroyed.
  * it is supported, you can it.
  */
-@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex")
+@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex", ReplaceWith(""))
 fun Disposable.with(lifecycle: Lifecycle): Disposable {
     var origin: Disposable? = this
 
@@ -86,7 +86,7 @@ fun Disposable.with(lifecycle: Lifecycle): Disposable {
 /**
  * Subscribe value from any Observable with Lifecycle.
  */
-@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex")
+@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex", ReplaceWith(""))
 fun <T> Observable<T>.subscribe(lifecycle: Lifecycle,
                                 onNext: ((next: T) -> Unit)?,
                                 onError: ((err: Throwable) -> Unit)?,
@@ -103,7 +103,7 @@ fun <T> Observable<T>.subscribe(lifecycle: Lifecycle,
  *
  * Observable will call "onComplete()" function at lifecycle in "Event.ON_DESTROY".
  */
-@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex")
+@Deprecated("Replace package-name to com.eaglesakura.armyknife.android.reactivex", ReplaceWith(""))
 fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
     val result = PublishSubject.create<Lifecycle.Event>()
 

@@ -4,7 +4,7 @@ import androidx.sqlite.db.SupportSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteStatement
 import com.eaglesakura.armyknife.runtime.extensions.encodeBase64
 
-fun SupportSQLiteQuery.getBindArgs(): Array<String?> {
+internal fun SupportSQLiteQuery.getBindArgs(): Array<String?> {
     val args = mutableListOf<String?>()
     this.bindTo(object : SupportSQLiteStatement {
         override fun bindLong(index: Int, value: Long) {
