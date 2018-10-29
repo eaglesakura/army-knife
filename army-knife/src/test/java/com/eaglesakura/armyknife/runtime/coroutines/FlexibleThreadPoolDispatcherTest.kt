@@ -8,58 +8,36 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.coroutineContext
 
 @RunWith(AndroidJUnit4::class)
 class FlexibleThreadPoolDispatcherTest {
 
     @Test
     fun launch_success() = compatibleBlockingTest {
-        val dispatcher = FlexibleThreadPoolDispatcher(5, 10, TimeUnit.MILLISECONDS, "test-dispatcher")
-        assertEquals(0, dispatcher.aliveThreadNum)
+        val dispatcher = FlexibleThreadPoolDispatcher.newDispatcher(5, 10, TimeUnit.MILLISECONDS)
 
         withContext(dispatcher) {
-            assertEquals(1, dispatcher.aliveThreadNum)
             delay(10)
             println("dispatch success")
         }
-
-        assertThat(dispatcher.aliveThreadNum).apply {
-            isGreaterThan(0)
-            isLessThanOrEqualTo(5)
-        }
-
-        delay(30)
-        assertEquals(0, dispatcher.aliveThreadNum)
     }
 
     @Test
     fun launch_success_with_current() = compatibleBlockingTest {
-        val dispatcher = FlexibleThreadPoolDispatcher(5, 10, TimeUnit.MILLISECONDS, "test-dispatcher")
-        assertEquals(0, dispatcher.aliveThreadNum)
+        val dispatcher = FlexibleThreadPoolDispatcher.newDispatcher(5, 10, TimeUnit.MILLISECONDS)
 
         withContext(coroutineContext + dispatcher) {
-            assertEquals(1, dispatcher.aliveThreadNum)
             delay(10)
             println("dispatch success")
         }
-        assertThat(dispatcher.aliveThreadNum).apply {
-            isGreaterThan(0)
-            isLessThanOrEqualTo(5)
-        }
-
-        delay(30)
-        assertEquals(0, dispatcher.aliveThreadNum)
     }
 
     @Test
     fun launch_auto_scale() = compatibleBlockingTest {
-        val dispatcher = FlexibleThreadPoolDispatcher(5, 10, TimeUnit.MILLISECONDS, "test-dispatcher")
+        val dispatcher = FlexibleThreadPoolDispatcher.newDispatcher(5, 10, TimeUnit.MILLISECONDS)
 
         val loop = 10000
         val channel = Channel<Int>(loop)
@@ -73,9 +51,5 @@ class FlexibleThreadPoolDispatcherTest {
         while (!channel.isFull) {
             delay(1)
         }
-        assertEquals(5, dispatcher.aliveThreadNum)
-
-        delay(20)
-        assertEquals(0, dispatcher.aliveThreadNum)
     }
 }

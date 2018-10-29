@@ -10,6 +10,7 @@ If You will go to battlefield of development then choose weapons from this repos
 |v0.4.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.4.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.4.x)| split module |
 |v0.5.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.5.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.5.x)| changed coroutines 0.30.x |
 |v0.6.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.6.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.6.x)| supported Kotlin 1.3-RC |
+|v0.7.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.7.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.7.x)| supported Kotlin 1.3, Coroutines 1.0.0-RC |
 
 # how to implementation into your project
 

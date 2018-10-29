@@ -42,7 +42,7 @@ internal fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
  *
  * If you want to the simple use case, then replace to "RendezvousChannel<T>".
  */
-internal abstract class DelegateChannel<T>(protected val origin: Channel<T>) : Channel<T> {
+internal abstract class DelegateChannel<T>(private val origin: Channel<T>) : Channel<T> {
     override val isClosedForReceive: Boolean
         get() = origin.isClosedForReceive
 
@@ -64,7 +64,7 @@ internal abstract class DelegateChannel<T>(protected val origin: Channel<T>) : C
     override val onSend: SelectClause2<T, SendChannel<T>>
         get() = origin.onSend
 
-    override fun cancel(): Boolean = origin.cancel()
+    override fun cancel(): Unit = origin.cancel()
 
     override fun cancel(cause: Throwable?): Boolean = origin.cancel(cause)
 

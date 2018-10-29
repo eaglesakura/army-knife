@@ -21,7 +21,6 @@ import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.channels.Channel
 import java.util.*
 import kotlin.coroutines.coroutineContext

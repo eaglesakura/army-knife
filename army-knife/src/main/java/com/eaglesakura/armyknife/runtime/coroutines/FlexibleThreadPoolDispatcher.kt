@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.runtime.coroutines
 
-import kotlinx.coroutines.ExecutorCoroutineDispatcherBase
-import java.util.concurrent.Executor
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
@@ -11,41 +11,29 @@ import java.util.concurrent.TimeUnit
  *
  * Thread pools are auto scale by ThreadPoolExecutor.
  * When do not using this instance in coroutines, Thread will be shutdown by a Dalvik.
+ *
+ * e.g.)
+ *
+ * val dispatcher = FlexibleThreadPoolDispatcher.newDispatcher(4, 1, TimeUnit.SECONDS)  // 4thread, 1seconds auto-scale dispatcher.
  */
-class FlexibleThreadPoolDispatcher(
-        private val maxThreads: Int,
-        keepAliveTime: Long,
-        keepAliveTimeUnit: TimeUnit,
-        private val name: String
-) : ExecutorCoroutineDispatcherBase() {
-
-    private val threadPool = FlexibleThreadPoolExecutor(maxThreads, keepAliveTime, keepAliveTimeUnit)
-
-    val aliveThreadNum: Int
-        get() = threadPool.poolSize
-
-    override val executor: Executor = threadPool
+object FlexibleThreadPoolDispatcher {
 
     /**
-     * Closes this dispatcher -- shuts down all threads in this pool and releases resources.
+     * Returns new auto-scale coroutine dispatcher.
      */
-    override fun close() {
-        threadPool.shutdown()
+    fun newDispatcher(maxThreads: Int, keepAliveTime: Long, keepAliveTimeUnit: TimeUnit): CoroutineDispatcher {
+        return FlexibleThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS).asCoroutineDispatcher()
     }
 
-    override fun toString(): String = "FlexibleThreadPoolDispatcher[$maxThreads, $name]"
+    /**
+     * for Device input/output dispatcher.
+     */
+    val IO = FlexibleThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS).asCoroutineDispatcher()
 
-    companion object {
-        /**
-         * for Device input/output dispatcher.
-         */
-        val IO = FlexibleThreadPoolDispatcher(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS, "IO-Dispatcher")
-
-        /**
-         * for Network fetch dispatcher.
-         */
-        val Network = FlexibleThreadPoolDispatcher(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS, "network-Dispatcher")
-    }
+    /**
+     * for Network fetch dispatcher.
+     */
+    val Network = FlexibleThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS).asCoroutineDispatcher()
 }
 
 private class FlexibleThreadPoolExecutor(

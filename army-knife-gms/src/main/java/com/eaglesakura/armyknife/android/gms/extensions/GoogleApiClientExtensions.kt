@@ -5,7 +5,6 @@ import com.eaglesakura.armyknife.android.gms.error.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.channels.Channel
 
 /**

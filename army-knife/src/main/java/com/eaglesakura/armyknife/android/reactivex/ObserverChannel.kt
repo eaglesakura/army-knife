@@ -1,24 +1,30 @@
 package com.eaglesakura.armyknife.android.reactivex
 
+import com.eaglesakura.armyknife.runtime.coroutines.DelegateChannel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.channels.RendezvousChannel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-internal class ObserverChannel<T>(private val dispatcher: CoroutineDispatcher = Dispatchers.Main) : RendezvousChannel<T>(), Observer<T> {
+internal class ObserverChannel<T>(private val dispatcher: CoroutineDispatcher = Dispatchers.Main) : DelegateChannel<T>(Channel<T>()), Observer<T> {
     private var disposable: Disposable? = null
 
     private val lock = ReentrantLock()
 
     private fun dispose(): Unit = lock.withLock {
+        Channel<Unit>()
         disposable?.dispose()
         disposable = null
+    }
+
+    override fun cancel() {
+        dispose()
+        super.cancel()
     }
 
     override fun cancel(cause: Throwable?): Boolean {

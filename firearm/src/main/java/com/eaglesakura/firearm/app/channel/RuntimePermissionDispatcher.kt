@@ -3,7 +3,6 @@ package com.eaglesakura.firearm.app.channel
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.CheckResult
 import androidx.annotation.UiThread
@@ -11,10 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.eaglesakura.armyknife.android.extensions.assertUIThread
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.launch

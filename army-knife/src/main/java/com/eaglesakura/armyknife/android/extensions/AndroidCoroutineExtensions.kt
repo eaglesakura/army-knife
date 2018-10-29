@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.Lifecycle
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 import kotlin.coroutines.CoroutineContext
 
 
@@ -51,7 +50,7 @@ fun CoroutineContext.with(lifecycle: Lifecycle) {
             return@subscribeWithCancel
         }
         if (event == Lifecycle.Event.ON_DESTROY) {
-            context.cancel(CancellationException("Lifecycle[$lifecycle] was destroyed."))
+            context.cancel()
             cancel()
         }
     }
