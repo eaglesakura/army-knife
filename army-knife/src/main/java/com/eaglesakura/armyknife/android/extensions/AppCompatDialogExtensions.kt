@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 /**
  * コードブロックの追加を簡素化するためのUtil
  */
+@Deprecated("Don't use this.")
 fun AlertDialog.Builder.positiveButton(text: CharSequence, block: () -> Unit): AlertDialog.Builder {
 
     this.setPositiveButton(text) { _, _ ->
@@ -18,6 +19,7 @@ fun AlertDialog.Builder.positiveButton(text: CharSequence, block: () -> Unit): A
 /**
  * コードブロックの追加を簡素化するためのUtil
  */
+@Deprecated("Don't use this.")
 fun AlertDialog.Builder.positiveButton(@StringRes textId: Int, block: () -> Unit): AlertDialog.Builder {
     return positiveButton(context.getText(textId), block)
 }
@@ -25,6 +27,7 @@ fun AlertDialog.Builder.positiveButton(@StringRes textId: Int, block: () -> Unit
 /**
  * コードブロックの追加を簡素化するためのUtil
  */
+@Deprecated("Don't use this.")
 fun AlertDialog.Builder.negativeButton(text: CharSequence, block: () -> Unit): AlertDialog.Builder {
     this.setNegativeButton(text) { _, _ ->
         block()
@@ -35,12 +38,14 @@ fun AlertDialog.Builder.negativeButton(text: CharSequence, block: () -> Unit): A
 /**
  * コードブロックの追加を簡素化するためのUtil
  */
+@Deprecated("Don't use this.")
 fun AlertDialog.Builder.negativeButton(@StringRes textId: Int, block: () -> Unit): AlertDialog.Builder {
     return negativeButton(context.getText(textId), block)
 }
 
 /**
- * ライフサイクルをチェックして自動的に AlertDialog.dismiss() を行うUtil.
+ * AlertDialog link to Lifecycle.
+ * When lifecycle on destroy, then dismiss this dialog.
  */
 fun AlertDialog.Builder.show(lifecycle: Lifecycle): AlertDialog {
     val dialog = this.show()
