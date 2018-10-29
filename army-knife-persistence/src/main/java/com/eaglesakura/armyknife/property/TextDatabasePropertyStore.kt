@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 /**
- * データベースを利用したKey-Value Store
+ * Key-Value Store by SQLite.
  */
 class TextDatabasePropertyStore(private val context: Context, private val databasePath: File) : TextPropertyStore() {
 
