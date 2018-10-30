@@ -22,7 +22,7 @@ object FlexibleThreadPoolDispatcher {
      * Returns new auto-scale coroutine dispatcher.
      */
     fun newDispatcher(maxThreads: Int, keepAliveTime: Long, keepAliveTimeUnit: TimeUnit): CoroutineDispatcher {
-        return FlexibleThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS).asCoroutineDispatcher()
+        return FlexibleThreadPoolExecutor(maxThreads, keepAliveTime, keepAliveTimeUnit).asCoroutineDispatcher()
     }
 
     /**
