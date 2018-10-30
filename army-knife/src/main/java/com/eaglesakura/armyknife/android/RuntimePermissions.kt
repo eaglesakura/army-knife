@@ -14,6 +14,9 @@ import androidx.core.content.ContextCompat
 
 /**
  * Utilities for Runtime permissions.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 object RuntimePermissions {
 

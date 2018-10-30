@@ -3,8 +3,13 @@ package com.eaglesakura.firearm.di
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
+/**
+ * Object<ReturnType> provider for Dependency Injection.
+ *
+ * @see ProviderRegistry
+ */
 class Provider<ReturnType, ArgumentType>(
-        val provider: (ArgumentType.() -> ReturnType)
+        private val provider: (ArgumentType.() -> ReturnType)
 ) {
     private val lock = ReentrantLock()
 

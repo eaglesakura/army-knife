@@ -10,6 +10,7 @@ import kotlin.concurrent.withLock
  * You will make a Factory class, and Builder class.
  * In unit test, Provider will changed to Mock or such provider.
  *
+ * e.g.)
  * object FooClassFactory {
  *      val provider = ProviderRegistry.newProvider<FooClass, Builder> { /* this = this@Builder */
  *          // return it

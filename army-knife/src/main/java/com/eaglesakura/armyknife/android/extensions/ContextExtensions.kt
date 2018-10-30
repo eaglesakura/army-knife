@@ -5,86 +5,13 @@ package com.eaglesakura.armyknife.android.extensions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
 import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
-import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
 
-
-/**
- * Load drawable resource with set tint color to it.
- */
-@Deprecated("Replace to ApplicationResources.kt")
-fun Context.getDrawableCompat(@DrawableRes resId: Int, @ColorInt tint: Int = 0): Drawable {
-    val result = ResourcesCompat.getDrawable(resources, resId, theme)!!
-    if (tint != 0) {
-        DrawableCompat.setTint(result, tint)
-    }
-    return result
-}
-
-/**
- * string xmlリソース名から文字列リソースを取得する
- */
-@Deprecated("Replace to ApplicationResources.kt")
-fun Context.getStringFromIdName(resName: String): String? {
-    return try {
-        val id = resources.getIdentifier(
-                resName,
-                "string",
-                packageName
-        )
-
-        resources.getString(id)
-    } catch (e: Exception) {
-        null
-    }
-
-}
-
-/**
- * string xmlリソース名から文字列リソースを取得する
- */
-@Deprecated("Replace to ApplicationResources.kt")
-fun Context.getStringFromIdName(resName: String, vararg arg: Any): String? {
-    return try {
-        val id = resources.getIdentifier(
-                resName,
-                "string",
-                packageName
-        )
-
-        resources.getString(id, *arg)
-    } catch (e: Exception) {
-        null
-    }
-
-}
-
-/**
- * string xmlリソース名から文字列リソースを取得する
- */
-@Deprecated("Replace to ApplicationResources.kt")
-fun Context.getIntegerFromIdName(resName: String): Int? {
-    return try {
-        val id = resources.getIdentifier(
-                resName,
-                "integer",
-                packageName
-        )
-        resources.getInteger(id)
-    } catch (e: Exception) {
-        null
-    }
-
-}
-
+@Deprecated("replace to ApplicationRuntime", ReplaceWith("ApplicationRuntime.getDeviceRotateDegree(context)"))
 val Context.deviceRotateDegree: Int
     get() {
         val surfaceRotation = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation

@@ -17,6 +17,7 @@
 
 $projects=[
     "army-knife",
+    "army-knife-android-junit4",
     "army-knife-camera",
     "army-knife-gms",
     "army-knife-junit",
@@ -28,6 +29,7 @@ $projects=[
     "firearm-channel",
     "firearm-di",
     "firearm-event",
+    "firearm-material-resources",
     "firearm-persistence",
     "kerberus",
     "oneshotlivedata"

@@ -4,6 +4,7 @@ import android.bluetooth.le.ScanResult
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.RequiresDevice
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
 import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
 import kotlinx.coroutines.*
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit
 @RunWith(AndroidJUnit4::class)
 class BleDeviceStreamTest {
 
+    @RequiresDevice
     @Test
     fun testBleScan() = compatibleBlockingTest(Dispatchers.Main) {
         val scanner = BleDeviceStream(targetContext)

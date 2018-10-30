@@ -1,64 +1,37 @@
 package com.eaglesakura.armyknife.android.extensions
 
-import androidx.annotation.StringRes
+import android.app.Dialog
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
-
-/**
- * コードブロックの追加を簡素化するためのUtil
- */
-@Deprecated("Don't use this.")
-fun AlertDialog.Builder.positiveButton(text: CharSequence, block: () -> Unit): AlertDialog.Builder {
-
-    this.setPositiveButton(text) { _, _ ->
-        block()
-    }
-    return this
-}
-
-/**
- * コードブロックの追加を簡素化するためのUtil
- */
-@Deprecated("Don't use this.")
-fun AlertDialog.Builder.positiveButton(@StringRes textId: Int, block: () -> Unit): AlertDialog.Builder {
-    return positiveButton(context.getText(textId), block)
-}
-
-/**
- * コードブロックの追加を簡素化するためのUtil
- */
-@Deprecated("Don't use this.")
-fun AlertDialog.Builder.negativeButton(text: CharSequence, block: () -> Unit): AlertDialog.Builder {
-    this.setNegativeButton(text) { _, _ ->
-        block()
-    }
-    return this
-}
-
-/**
- * コードブロックの追加を簡素化するためのUtil
- */
-@Deprecated("Don't use this.")
-fun AlertDialog.Builder.negativeButton(@StringRes textId: Int, block: () -> Unit): AlertDialog.Builder {
-    return negativeButton(context.getText(textId), block)
-}
 
 /**
  * AlertDialog link to Lifecycle.
  * When lifecycle on destroy, then dismiss this dialog.
  */
 fun AlertDialog.Builder.show(lifecycle: Lifecycle): AlertDialog {
-    val dialog = this.show()
+    return show().also {
+        it.with(lifecycle)
+    }
+}
+
+/**
+ * Dialog link to Lifecycle.
+ * When lifecycle on destroy, then dismiss this dialog.
+ */
+fun Dialog.with(lifecycle: Lifecycle) {
+    val dialog = this
     lifecycle.subscribe {
         if (it == Lifecycle.Event.ON_DESTROY) {
-            try {
-                if (dialog.isShowing) {
-                    dialog.dismiss()
-                }
-            } catch (err: Throwable) {
-                // drop error
-            }
+            dialog.forceDismiss()
         }
     }
-    return dialog
+}
+
+private fun Dialog.forceDismiss() {
+    try {
+        if (isShowing) {
+            dismiss()
+        }
+    } catch (e: Throwable) {
+    }
 }

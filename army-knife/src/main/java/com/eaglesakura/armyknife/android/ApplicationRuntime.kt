@@ -12,6 +12,8 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.ResolveInfo
 import android.os.Build
+import android.view.Surface
+import android.view.WindowManager
 
 /**
  * Utility for Application Runtime information.
@@ -51,6 +53,23 @@ object ApplicationRuntime {
         true
     } catch (err: ClassNotFoundException) {
         false
+    }
+
+    /**
+     * returns rotation of the device in degree.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
+     */
+    fun getDeviceRotateDegree(context: Context): Int {
+        val surfaceRotation = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+        return when (surfaceRotation) {
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            Surface.ROTATION_270 -> 270
+            else -> throw IllegalStateException("rotate[$surfaceRotation] is not supported")
+        }
     }
 
     /**
