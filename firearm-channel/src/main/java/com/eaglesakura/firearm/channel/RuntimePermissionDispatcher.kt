@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 /**
  * RuntimePermission Dispatcher with Channel.
  */
+@Suppress("unused")
 class RuntimePermissionDispatcher(
         private val getContext: () -> Context,
         private val requestPermissions: (permissions: Array<String>, requestCode: Int) -> Unit,

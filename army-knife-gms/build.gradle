@@ -60,14 +60,6 @@ dependencies {
     api project(':army-knife')
 
     /**
-     * Support Libraries
-     * https://developer.android.com/topic/libraries/architecture/adding-components
-     * https://developer.android.com/topic/libraries/support-library/refactor
-     */
-    androidTestImplementation 'androidx.multidex:multidex:2.0.0'
-    androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-
-    /**
      * Google Play Services
      */
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
@@ -75,21 +67,21 @@ dependencies {
     /**
      * Firebase
      */
-    api 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-auth:16.0.4'
-    implementation 'com.google.firebase:firebase-config:16.0.1'
-    implementation 'com.google.firebase:firebase-iid:17.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-config:16.1.0'
+    implementation 'com.google.firebase:firebase-iid:17.0.4'
 
     /**
-     * for Tests
+     * for Tests (or Android Tests)
      */
-    testImplementation project(':army-knife-junit')
-    testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'androidx.test:monitor:1.1.0-beta01'
-    testImplementation 'androidx.test:runner:1.1.0-beta01'
-    androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
+    testImplementation 'org.robolectric:robolectric:4.0'
+    androidTestImplementation 'androidx.multidex:multidex:2.0.0'
+    androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
+
+    testImplementation project(':army-knife-android-junit4')
+    androidTestImplementation project(':army-knife-android-junit4')
 
 }
 

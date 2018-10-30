@@ -91,7 +91,7 @@ dependencies {
     api "com.nhaarman:mockito-kotlin:1.6.0"
     api 'com.nhaarman:mockito-kotlin-kt1.1:1.6.0'
     api 'androidx.test.espresso:espresso-core:3.1.0'
-    compileOnly 'org.robolectric:robolectric:4.0-beta-1'
+    compileOnly 'org.robolectric:robolectric:4.0'
 
     /**
      * for Tests (or Android Tests)
