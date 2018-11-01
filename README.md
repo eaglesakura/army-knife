@@ -4,13 +4,7 @@ If You will go to battlefield of development then choose weapons from this repos
 
 |Version|Build Status| Feature |
 |----|----|----|
-|v0.1.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.1.x)| 1st release |
-|v0.2.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.2.x.svg?style=svg)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.2.x)| renamed package |
-|v0.3.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.3.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.3.x)| changed coroutines 0.26.x |
-|v0.4.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.4.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.4.x)| split module |
-|v0.5.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.5.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.5.x)| changed coroutines 0.30.x |
-|v0.6.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.6.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.6.x)| supported Kotlin 1.3-RC |
-|v0.7.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.7.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v0.7.x)| supported Kotlin 1.3, Coroutines 1.0.0-RC |
+|v1.0.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v1.0.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v1.0.x)| Kotlin 1.3 / Coroutines 1.0.0 supported |
 
 # how to implementation into your project
 
@@ -27,7 +21,9 @@ allprojects {
 dependencies {
     // check versions
     // https://github.com/eaglesakura/army-knife/releases
-    implementation 'com.eaglesakura:replace-library-name:replace-version'
+    // 'com.eaglesakura:${library name}:${release version}'
+    implementation 'com.eaglesakura:army-knife:1.0.0'
+    implementation 'com.eaglesakura:army-knife-reactivex:1.0.0'
 }
 ```
 
