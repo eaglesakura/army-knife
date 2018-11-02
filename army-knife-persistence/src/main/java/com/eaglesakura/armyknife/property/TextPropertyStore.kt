@@ -75,14 +75,15 @@ open class TextPropertyStore : PropertyStore {
      * テキストで保持されたプロパティ
      */
     protected class Property internal constructor(
-            /**
-             * データベース用のkey
-             */
-            internal val key: String,
-            /**
-             * 現在の値
-             */
-            internal var value: String) {
+        /**
+         * データベース用のkey
+         */
+        internal val key: String,
+        /**
+         * 現在の値
+         */
+        internal var value: String
+    ) {
 
         /**
          * デフォルト値

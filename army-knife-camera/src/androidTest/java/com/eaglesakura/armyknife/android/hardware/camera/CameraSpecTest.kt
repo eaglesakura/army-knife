@@ -43,7 +43,8 @@ class CameraSpecTest {
     @Test
     fun connectAndDisconnect() = compatibleBlockingTest {
         val specs = CameraSpec.getSpecs(targetContext, CameraApi.Default, CameraType.Back)
-        val controlManager = CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
+        val controlManager =
+            CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             assertTrue(controlManager is Camera2ControlManager)
@@ -51,9 +52,10 @@ class CameraSpecTest {
         assertFalse(controlManager.connected)
 
         controlManager.connect(
-                previewSurface = null,
-                previewRequest = null,
-                shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize))
+            previewSurface = null,
+            previewRequest = null,
+            shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
+        )
         try {
             assertTrue(controlManager.connected)
         } finally {
@@ -64,7 +66,8 @@ class CameraSpecTest {
     @Test
     fun startPreview() = compatibleBlockingTest {
         val specs = CameraSpec.getSpecs(targetContext, CameraApi.Default, CameraType.Back)
-        val controlManager = CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
+        val controlManager =
+            CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             assertTrue(controlManager is Camera2ControlManager)
@@ -72,9 +75,10 @@ class CameraSpecTest {
         assertFalse(controlManager.connected)
 
         controlManager.connect(
-                previewSurface = null,
-                previewRequest = CameraPreviewRequest(specs.minimumPreviewSize),
-                shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize))
+            previewSurface = null,
+            previewRequest = CameraPreviewRequest(specs.minimumPreviewSize),
+            shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
+        )
         try {
             assertTrue(controlManager.connected)
         } finally {
@@ -85,7 +89,8 @@ class CameraSpecTest {
     @Test
     fun takePicture() = compatibleBlockingTest {
         val specs = CameraSpec.getSpecs(targetContext, CameraApi.Default, CameraType.Back)
-        val controlManager = CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
+        val controlManager =
+            CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             assertTrue(controlManager is Camera2ControlManager)
@@ -93,21 +98,34 @@ class CameraSpecTest {
         assertFalse(controlManager.connected)
 
         controlManager.connect(
-                previewSurface = null,
-                previewRequest = null,
-                shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize))
+            previewSurface = null,
+            previewRequest = null,
+            shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
+        )
         try {
             assertTrue(controlManager.connected)
 
-            val picture = controlManager.takePicture(CameraEnvironmentRequest(FocusMode.SETTING_AUTO, Scene.SETTING_AUTO, WhiteBalance.SETTING_AUTO))
+            val picture = controlManager.takePicture(
+                CameraEnvironmentRequest(
+                    FocusMode.SETTING_AUTO,
+                    Scene.SETTING_AUTO,
+                    WhiteBalance.SETTING_AUTO
+                )
+            )
             assertTrue(picture.buffer.isNotEmpty())
             assertEquals(specs.fullJpegPictureSize.width, picture.width)
             assertEquals(specs.fullJpegPictureSize.height, picture.height)
 
             // decode ok
             picture.decodeImage().also { bitmap ->
-                assertEquals(Math.max(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height), Math.max(bitmap.width, bitmap.height))
-                assertEquals(Math.min(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height), Math.min(bitmap.width, bitmap.height))
+                assertEquals(
+                    Math.max(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height),
+                    Math.max(bitmap.width, bitmap.height)
+                )
+                assertEquals(
+                    Math.min(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height),
+                    Math.min(bitmap.width, bitmap.height)
+                )
             }
         } finally {
             controlManager.disconnect()

@@ -20,8 +20,10 @@ fun FirebaseRemoteConfig.setDebug(set: Boolean) {
 var FirebaseRemoteConfig.developerMode
     get() = info.configSettings.isDeveloperModeEnabled
     set(value) {
-        setConfigSettings(FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(value).build())
+        setConfigSettings(
+            FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(value).build()
+        )
     }
 
 /**
@@ -32,10 +34,10 @@ var FirebaseRemoteConfig.developerMode
  */
 fun FirebaseRemoteConfig.fetch(cacheTime: Long, cacheTimeUnit: TimeUnit): Task<Void> {
     val cacheTimeSec =
-            if (info.configSettings.isDeveloperModeEnabled) {
-                0
-            } else {
-                cacheTimeUnit.toSeconds(cacheTime)
-            }
+        if (info.configSettings.isDeveloperModeEnabled) {
+            0
+        } else {
+            cacheTimeUnit.toSeconds(cacheTime)
+        }
     return fetch(cacheTimeSec)
 }

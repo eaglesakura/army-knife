@@ -10,7 +10,10 @@ package com.eaglesakura.armyknife.android.extensions
  *      value == "Value"
  * }
  */
-@Deprecated("replace to package com.eaglesakura.armyknife.runtime.extensions", ReplaceWith("com.eaglesakura.armyknife.runtime.extensions.findKey"))
+@Deprecated(
+    "replace to package com.eaglesakura.armyknife.runtime.extensions",
+    ReplaceWith("com.eaglesakura.armyknife.runtime.extensions.findKey")
+)
 fun <K, V> Map<K, V>.findKey(selector: (value: V) -> Boolean): K? {
     this.entries.forEach {
         if (selector(it.value)) {

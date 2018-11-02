@@ -48,9 +48,9 @@ object ApplicationResources {
     @JvmStatic
     fun getDrawableUri(context: Context, resName: String): Uri {
         @DrawableRes val id = context.resources.getIdentifier(
-                resName,
-                "string",
-                context.packageName
+            resName,
+            "string",
+            context.packageName
         )
         return getDrawableUri(context, id)
     }
@@ -81,9 +81,9 @@ object ApplicationResources {
     fun getStringFromIdName(context: Context, resName: String): String? {
         return try {
             val id = context.resources.getIdentifier(
-                    resName,
-                    "string",
-                    context.packageName
+                resName,
+                "string",
+                context.packageName
             )
             context.resources.getString(id)
         } catch (e: Exception) {
@@ -102,9 +102,9 @@ object ApplicationResources {
     fun getStringFromIdName(context: Context, resName: String, vararg arg: Any): String? {
         return try {
             val id = context.resources.getIdentifier(
-                    resName,
-                    "string",
-                    context.packageName
+                resName,
+                "string",
+                context.packageName
             )
 
             context.resources.getString(id, *arg)
@@ -124,9 +124,9 @@ object ApplicationResources {
     fun getIntegerFromIdName(context: Context, resName: String): Int? {
         return try {
             val id = context.resources.getIdentifier(
-                    resName,
-                    "integer",
-                    context.packageName
+                resName,
+                "integer",
+                context.packageName
             )
             context.resources.getInteger(id)
         } catch (e: Exception) {

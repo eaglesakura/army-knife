@@ -8,10 +8,11 @@ import java.util.*
  * ホワイトバランス設定
  */
 data class FlashMode internal constructor(
-        /**
-         * API設定名
-         */
-        val rawName: String) {
+    /**
+     * API設定名
+     */
+    val rawName: String
+) {
 
     val permitFlash: Boolean = (rawName.toLowerCase() != "off")
 
@@ -21,7 +22,10 @@ data class FlashMode internal constructor(
      * @return 日本語での設定名
      */
     fun name(context: Context): String {
-        val result = ApplicationResources.getStringFromIdName(context, String.format("Camera.FlashMode.%s", rawName.replace("-".toRegex(), "_")))
+        val result = ApplicationResources.getStringFromIdName(
+            context,
+            String.format("Camera.FlashMode.%s", rawName.replace("-".toRegex(), "_"))
+        )
         return result ?: rawName
     }
 

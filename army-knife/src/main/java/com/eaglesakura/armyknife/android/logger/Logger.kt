@@ -26,13 +26,13 @@ object Logger {
     }
 
     private fun newImpl(printStack: Boolean): Impl =
-            if (ApplicationRuntime.ROBOLECTRIC) {
-                ConsoleLogger()
-            } else {
-                AndroidLogger().also {
-                    it.stackInfo = printStack
-                }
+        if (ApplicationRuntime.ROBOLECTRIC) {
+            ConsoleLogger()
+        } else {
+            AndroidLogger().also {
+                it.stackInfo = printStack
             }
+        }
 
     /**
      * if context is debuggable,

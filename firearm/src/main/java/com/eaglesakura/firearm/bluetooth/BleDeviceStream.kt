@@ -56,7 +56,11 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
             }
 
             if (!RuntimePermissions.hasAllRuntimePermissions(context, listOf(Manifest.permission.ACCESS_FINE_LOCATION))
-                    && !RuntimePermissions.hasAllRuntimePermissions(context, listOf(Manifest.permission.ACCESS_COARSE_LOCATION))) {
+                && !RuntimePermissions.hasAllRuntimePermissions(
+                    context,
+                    listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+                )
+            ) {
                 return false
             }
 

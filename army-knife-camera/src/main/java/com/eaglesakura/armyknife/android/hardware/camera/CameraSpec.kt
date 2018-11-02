@@ -13,45 +13,45 @@ import java.util.*
  * リアカメラ、フロントカメラごとのスペックを示したクラス
  */
 class CameraSpec internal constructor(
-        val type: CameraType,
+    val type: CameraType,
 
-        /**
-         * カメラのプレビューサイズ
-         */
-        /**
-         * プレビューサイズ一覧を取得
-         */
-        private val previewSizes: List<CaptureSize>,
+    /**
+     * カメラのプレビューサイズ
+     */
+    /**
+     * プレビューサイズ一覧を取得
+     */
+    private val previewSizes: List<CaptureSize>,
 
-        /**
-         * カメラの撮影サイズ
-         */
-        private val jpegPictureSizes: List<CaptureSize>,
+    /**
+     * カメラの撮影サイズ
+     */
+    private val jpegPictureSizes: List<CaptureSize>,
 
-        /**
-         * カメラの撮影サイズ
-         */
-        private val rawPictureSizes: List<CaptureSize>,
+    /**
+     * カメラの撮影サイズ
+     */
+    private val rawPictureSizes: List<CaptureSize>,
 
-        /**
-         * サポートしているシーン
-         */
-        private val sceneSpecs: List<Scene>,
+    /**
+     * サポートしているシーン
+     */
+    private val sceneSpecs: List<Scene>,
 
-        /**
-         * ホワイトバランス設定一覧
-         */
-        private val whiteBalanceSpecs: List<WhiteBalance>,
+    /**
+     * ホワイトバランス設定一覧
+     */
+    private val whiteBalanceSpecs: List<WhiteBalance>,
 
-        /**
-         * フォーカスモード一覧
-         */
-        private val focusModeSpecs: List<FocusMode>,
+    /**
+     * フォーカスモード一覧
+     */
+    private val focusModeSpecs: List<FocusMode>,
 
-        /**
-         * フラッシュモード一覧
-         */
-        private val flashModeSpecs: List<FlashMode>
+    /**
+     * フラッシュモード一覧
+     */
+    private val flashModeSpecs: List<FlashMode>
 ) {
 
 
@@ -152,7 +152,13 @@ class CameraSpec internal constructor(
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun chooseShotSize(targetSizes: List<CaptureSize>, width: Int, height: Int, minWidth: Int, minHeight: Int): CaptureSize {
+    private fun chooseShotSize(
+        targetSizes: List<CaptureSize>,
+        width: Int,
+        height: Int,
+        minWidth: Int,
+        minHeight: Int
+    ): CaptureSize {
         val requestLong = Math.max(minWidth, minHeight)
         val requestShort = Math.min(minWidth, minHeight)
 

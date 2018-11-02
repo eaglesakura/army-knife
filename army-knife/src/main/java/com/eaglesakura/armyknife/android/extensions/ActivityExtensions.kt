@@ -38,7 +38,10 @@ fun Activity.closeIME() {
  */
 fun Activity.closeIME(focus: View) {
     try {
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(focus.windowToken, 0)
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+            focus.windowToken,
+            0
+        )
     } catch (e: Exception) {
     }
 }

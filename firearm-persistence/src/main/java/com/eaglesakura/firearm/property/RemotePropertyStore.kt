@@ -26,7 +26,8 @@ class RemotePropertyStore(private val context: Context, uri: String = "") : Prop
     }
 
     override fun getStringProperty(key: String): String {
-        val buffer = PropertiesProviderDelegate.query(context, propertyUri, PropertyProviderHandler.COMMAND_GET, arrayOf(key))
+        val buffer =
+            PropertiesProviderDelegate.query(context, propertyUri, PropertyProviderHandler.COMMAND_GET, arrayOf(key))
         return if (buffer != null) {
             String(buffer)
         } else {

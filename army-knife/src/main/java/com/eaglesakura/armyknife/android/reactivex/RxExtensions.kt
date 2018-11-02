@@ -81,14 +81,16 @@ fun Disposable.with(lifecycle: Lifecycle): Disposable {
 /**
  * Subscribe value from any Observable with Lifecycle.
  */
-fun <T> Observable<T>.subscribe(lifecycle: Lifecycle,
-                                onNext: ((next: T) -> Unit)?,
-                                onError: ((err: Throwable) -> Unit)?,
-                                onComplete: (() -> Unit)?): Disposable {
+fun <T> Observable<T>.subscribe(
+    lifecycle: Lifecycle,
+    onNext: ((next: T) -> Unit)?,
+    onError: ((err: Throwable) -> Unit)?,
+    onComplete: (() -> Unit)?
+): Disposable {
     return subscribe(
-            { next -> onNext?.invoke(next) },
-            { err -> onError?.invoke(err) },
-            { onComplete?.invoke() }
+        { next -> onNext?.invoke(next) },
+        { err -> onError?.invoke(err) },
+        { onComplete?.invoke() }
     ).with(lifecycle)
 }
 

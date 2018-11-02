@@ -4,10 +4,11 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
  * カメラの回転角情報
  */
 data class Orientation internal constructor(
-        /**
-         * 回転角を取得する
-         */
-        val degree: Int) {
+    /**
+     * 回転角を取得する
+     */
+    val degree: Int
+) {
 
     /**
      * 縦向きである場合はtrue

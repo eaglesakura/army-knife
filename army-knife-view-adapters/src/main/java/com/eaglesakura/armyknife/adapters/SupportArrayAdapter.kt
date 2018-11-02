@@ -13,7 +13,8 @@ import androidx.annotation.LayoutRes
  *
  * Supported drop-down, selection.
  */
-class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private val itemLayoutId: Int, @LayoutRes private val dropdownViewId: Int) : BaseAdapter() {
+class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private val itemLayoutId: Int, @LayoutRes private val dropdownViewId: Int) :
+    BaseAdapter() {
     /**
      * Convert T to title.
      */
@@ -44,7 +45,7 @@ class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private va
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView
-                ?: LayoutInflater.from(context).inflate(dropdownViewId, parent, false)!!
+            ?: LayoutInflater.from(context).inflate(dropdownViewId, parent, false)!!
 
         @Suppress("UNCHECKED_CAST")
         dropdownViewMap(position, getItem(position), view)

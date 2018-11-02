@@ -28,7 +28,7 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
     private var refs = AtomicInteger()
 
     private fun validDatabase(): SupportSQLiteDatabase = db
-            ?: throw IllegalStateException("Database not open.")
+        ?: throw IllegalStateException("Database not open.")
 
     /**
      * Target file path to database path.
@@ -81,9 +81,9 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
      */
     fun get(key: String): KeyValueData? {
         val query = SupportSQLiteQueryBuilder.builder(TABLE_NAME)
-                .selection("$COLUMN_KEY=?", arrayOf(key))
-                .columns(arrayOf(COLUMN_VALUE, COLUMN_DATE))
-                .create()
+            .selection("$COLUMN_KEY=?", arrayOf(key))
+            .columns(arrayOf(COLUMN_VALUE, COLUMN_DATE))
+            .create()
 
         validDatabase().query(query).use { cursor ->
             return if (!cursor.moveToFirst()) {

@@ -96,7 +96,8 @@ class ApplicationProcess(val application: Application) {
         console("VersionName       [$oldVersionName] -> [$versionName]")
         console("API Level         [$oldSdkInt] -> [$sdkInt]")
 
-        _versionContext = VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
+        _versionContext =
+                VersionContext(oldVersionName, oldVersionCode, versionName, versionCode, Build.VERSION.SDK_INT)
         settings.transaction {
             settings.lastBootedAppVersionCode = versionCode
             settings.lastBootedAppVersionName = versionName

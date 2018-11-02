@@ -20,53 +20,53 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class DisplayInfo(
 
-        /**
-         * Display horizontal pixels
-         */
-        val widthPixel: Int,
+    /**
+     * Display horizontal pixels
+     */
+    val widthPixel: Int,
 
-        /**
-         * Display vertical pixels
-         */
-        val heightPixel: Int,
+    /**
+     * Display vertical pixels
+     */
+    val heightPixel: Int,
 
-        val deviceType: DeviceType,
+    val deviceType: DeviceType,
 
-        /**
-         * Display horizontal dp size.
-         */
-        val widthDp: Float,
+    /**
+     * Display horizontal dp size.
+     */
+    val widthDp: Float,
 
-        /**
-         * Display vertical dp size.
-         */
-        val heightDp: Float,
+    /**
+     * Display vertical dp size.
+     */
+    val heightDp: Float,
 
-        val widthInch: Float,
+    val widthInch: Float,
 
-        val heightInch: Float,
+    val heightInch: Float,
 
-        /**
-         * Display-size with round for user.
-         * Rounding off the 2nd decimal place.
-         *
-         * example.
-         * 4.65 inch display, returns "4.7".
-         * Inch(major=4, minor=7)
-         */
-        val diagonalRoundInch: Inch,
+    /**
+     * Display-size with round for user.
+     * Rounding off the 2nd decimal place.
+     *
+     * example.
+     * 4.65 inch display, returns "4.7".
+     * Inch(major=4, minor=7)
+     */
+    val diagonalRoundInch: Inch,
 
-        /**
-         * Dot per inch.
-         */
-        val dpi: Dpi,
+    /**
+     * Dot per inch.
+     */
+    val dpi: Dpi,
 
-        /**
-         * values-sw${smallestWidthDp}dp
-         */
-        val smallestWidthDp: Int,
+    /**
+     * values-sw${smallestWidthDp}dp
+     */
+    val smallestWidthDp: Int,
 
-        val diagonalInch: Float
+    val diagonalInch: Float
 ) : Parcelable {
 
     @Suppress("EnumEntryName")
@@ -153,17 +153,17 @@ data class DisplayInfo(
             val smallestWidthDp = Math.min(widthDp, heightDp).toInt() / 10 * 10
 
             return DisplayInfo(
-                    widthPixel = widthPixel,
-                    heightPixel = heightPixel,
-                    widthDp = widthDp,
-                    heightDp = heightDp,
-                    widthInch = widthInch,
-                    heightInch = heightInch,
-                    deviceType = deviceType,
-                    smallestWidthDp = smallestWidthDp,
-                    dpi = dpi,
-                    diagonalInch = diagonalInch,
-                    diagonalRoundInch = diagonalRoundInch
+                widthPixel = widthPixel,
+                heightPixel = heightPixel,
+                widthDp = widthDp,
+                heightDp = heightDp,
+                widthInch = widthInch,
+                heightInch = heightInch,
+                deviceType = deviceType,
+                smallestWidthDp = smallestWidthDp,
+                dpi = dpi,
+                diagonalInch = diagonalInch,
+                diagonalRoundInch = diagonalRoundInch
             )
         }
 

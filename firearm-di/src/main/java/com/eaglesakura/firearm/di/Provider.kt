@@ -9,7 +9,7 @@ import kotlin.concurrent.withLock
  * @see ProviderRegistry
  */
 class Provider<ReturnType, ArgumentType>(
-        private val provider: (ArgumentType.() -> ReturnType)
+    private val provider: (ArgumentType.() -> ReturnType)
 ) {
     private val lock = ReentrantLock()
 

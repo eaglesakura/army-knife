@@ -47,9 +47,9 @@ object GooglePlayService {
      */
     fun getOAuth2Token(context: Context, email: String, scope: String): String? {
         return GoogleAuthUtil.getToken(
-                context,
-                Account(email, "com.google"),
-                "oauth2:$scope"
+            context,
+            Account(email, "com.google"),
+            "oauth2:$scope"
         )
     }
 

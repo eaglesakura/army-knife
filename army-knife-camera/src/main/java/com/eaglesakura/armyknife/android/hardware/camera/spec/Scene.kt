@@ -8,10 +8,11 @@ import java.util.*
  * シーン情報
  */
 data class Scene internal constructor(
-        /**
-         * API設定名
-         */
-        val rawName: String) {
+    /**
+     * API設定名
+     */
+    val rawName: String
+) {
 
     /**
      * 設定名を取得する
@@ -19,7 +20,10 @@ data class Scene internal constructor(
      * @return 日本語での設定名
      */
     fun name(context: Context): String {
-        val result = ApplicationResources.getStringFromIdName(context, String.format("Camera.Scene.%s", rawName.replace("-".toRegex(), "_")))
+        val result = ApplicationResources.getStringFromIdName(
+            context,
+            String.format("Camera.Scene.%s", rawName.replace("-".toRegex(), "_"))
+        )
         return result ?: rawName
     }
 

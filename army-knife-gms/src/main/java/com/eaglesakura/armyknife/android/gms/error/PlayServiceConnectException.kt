@@ -12,7 +12,8 @@ import com.google.android.gms.common.ConnectionResult
  *
  * 参考: https://developers.google.com/android/reference/com/google/android/gms/common/ConnectionResult.html
  */
-open class PlayServiceConnectException(@Suppress("MemberVisibilityCanBePrivate") val connectionResult: ConnectionResult) : PlayServiceException() {
+open class PlayServiceConnectException(@Suppress("MemberVisibilityCanBePrivate") val connectionResult: ConnectionResult) :
+    PlayServiceException() {
 
     val errorCode: Int
         get() = connectionResult.errorCode

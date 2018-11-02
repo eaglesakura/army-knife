@@ -22,7 +22,8 @@ internal const val COLUMN_VALUE = "VALUE"
  */
 internal const val COLUMN_DATE = "DATE"
 
-internal class KeyValueStoreHelper(context: Context, path: String?) : SQLiteOpenHelper(context, path, null, DATABASE_VERSION) {
+internal class KeyValueStoreHelper(context: Context, path: String?) :
+    SQLiteOpenHelper(context, path, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_TABLE)

@@ -54,7 +54,10 @@ private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: Coroutine
  *      }
  * }
  */
-class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var entryPoint: AsyncTaskBuilder<T>.() -> Job) {
+class AsyncTaskBuilder<T>(
+    var semaphore: Semaphore = Semaphore.NonBlocking,
+    var entryPoint: AsyncTaskBuilder<T>.() -> Job
+) {
     @set:Deprecated("replace to onBackground()", ReplaceWith("onBackground {}"))
     lateinit var onBackground: suspend (CoroutineScope.() -> T)
 
@@ -125,14 +128,22 @@ class AsyncTaskBuilder<T>(var semaphore: Semaphore = Semaphore.NonBlocking, var 
  * "onBackground" function execute from CoroutineDispatcher thread in arguments.
  * "onSuccess", "onError", and "onCancel" functions are execute from Main-Thread.
  */
-fun <T> asyncTask(semaphore: Semaphore = Semaphore.NonBlocking, dispatcher: CoroutineDispatcher = Dispatchers.Default, builder: (AsyncTaskBuilder<T>.() -> Unit)): Job {
+fun <T> asyncTask(
+    semaphore: Semaphore = Semaphore.NonBlocking,
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+    builder: (AsyncTaskBuilder<T>.() -> Unit)
+): Job {
     return asyncTask(semaphore, { dispatcherEntry(this, dispatcher) }, builder);
 }
 
 /**
  * Start An async task with user-selection "EntryPoint" object.
  */
-fun <T> asyncTask(semaphore: Semaphore = Semaphore.NonBlocking, entryPoint: AsyncTaskBuilder<T>.() -> Job, builder: (AsyncTaskBuilder<T>.() -> Unit)): Job {
+fun <T> asyncTask(
+    semaphore: Semaphore = Semaphore.NonBlocking,
+    entryPoint: AsyncTaskBuilder<T>.() -> Job,
+    builder: (AsyncTaskBuilder<T>.() -> Unit)
+): Job {
     val context = AsyncTaskBuilder(semaphore, entryPoint)
     builder(context)
     return context.entryPoint(context)

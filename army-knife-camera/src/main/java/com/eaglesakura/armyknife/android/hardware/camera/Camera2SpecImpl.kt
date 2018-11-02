@@ -112,7 +112,10 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
 
     @Throws(CameraException::class)
     internal fun getPictureSizes(characteristics: CameraCharacteristics, format: CaptureFormat): List<CaptureSize> {
-        val sizes = characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(toImageFormatInt(format))
+        val sizes =
+            characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
+                toImageFormatInt(format)
+            )
                 ?: return listOf()
 
         val result = ArrayList<CaptureSize>()
@@ -127,7 +130,10 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
      */
     @Throws(CameraException::class)
     internal fun getPreviewSizes(characteristics: CameraCharacteristics): List<CaptureSize> {
-        val sizes = characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(SurfaceTexture::class.java)
+        val sizes =
+            characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
+                SurfaceTexture::class.java
+            )
                 ?: return listOf()
 
         val result = ArrayList<CaptureSize>()
@@ -184,7 +190,8 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
             sFlashModeMap[FlashMode.SETTING_AUTO] = CameraCharacteristics.CONTROL_AE_MODE_ON_AUTO_FLASH
 
             sFocusModeMap[FocusMode.SETTING_AUTO] = CameraCharacteristics.CONTROL_AF_MODE_AUTO
-            sFocusModeMap[FocusMode.SETTING_CONTINUOUS_PICTURE] = CameraCharacteristics.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+            sFocusModeMap[FocusMode.SETTING_CONTINUOUS_PICTURE] =
+                    CameraCharacteristics.CONTROL_AF_MODE_CONTINUOUS_PICTURE
             sFocusModeMap[FocusMode.SETTING_CONTINUOUS_VIDEO] = CameraCharacteristics.CONTROL_AF_MODE_CONTINUOUS_VIDEO
             sFocusModeMap[FocusMode.SETTING_MACRO] = CameraCharacteristics.CONTROL_AF_MODE_MACRO
             sFocusModeMap[FocusMode.SETTING_INFINITY] = CameraCharacteristics.CONTROL_AF_MODE_OFF
@@ -213,7 +220,8 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
             sWhiteBalanceMap[WhiteBalance.SETTING_INCANDESCENT] = CameraCharacteristics.CONTROL_AWB_MODE_INCANDESCENT
             sWhiteBalanceMap[WhiteBalance.SETTING_FLUORESCENT] = CameraCharacteristics.CONTROL_AWB_MODE_FLUORESCENT
             sWhiteBalanceMap[WhiteBalance.SETTING_DAYLIGHT] = CameraCharacteristics.CONTROL_AWB_MODE_DAYLIGHT
-            sWhiteBalanceMap[WhiteBalance.SETTING_CLOUDY_DAYLIGHT] = CameraCharacteristics.CONTROL_AWB_MODE_CLOUDY_DAYLIGHT
+            sWhiteBalanceMap[WhiteBalance.SETTING_CLOUDY_DAYLIGHT] =
+                    CameraCharacteristics.CONTROL_AWB_MODE_CLOUDY_DAYLIGHT
         }
 
         @Throws(CameraException::class)
@@ -222,14 +230,14 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
             val spec = impl.getCameraSpec(type)
 
             return CameraSpec(
-                    type = type,
-                    flashModeSpecs = impl.getFlashModes(spec),
-                    focusModeSpecs = impl.getFocusModes(spec),
-                    jpegPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Jpeg),
-                    rawPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Raw),
-                    previewSizes = impl.getPreviewSizes(spec),
-                    sceneSpecs = impl.getScenes(spec),
-                    whiteBalanceSpecs = impl.getWhiteBalances(spec)
+                type = type,
+                flashModeSpecs = impl.getFlashModes(spec),
+                focusModeSpecs = impl.getFocusModes(spec),
+                jpegPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Jpeg),
+                rawPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Raw),
+                previewSizes = impl.getPreviewSizes(spec),
+                sceneSpecs = impl.getScenes(spec),
+                whiteBalanceSpecs = impl.getWhiteBalances(spec)
             ).also {
                 it.init()
             }

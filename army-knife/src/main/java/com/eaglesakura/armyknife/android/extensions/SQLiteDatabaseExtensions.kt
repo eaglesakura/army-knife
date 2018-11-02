@@ -154,8 +154,10 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : 
 
     @Throws(SQLException::class)
     override fun insert(table: String, conflictAlgorithm: Int, values: ContentValues): Long {
-        return database.insertWithOnConflict(table, null, values,
-                conflictAlgorithm)
+        return database.insertWithOnConflict(
+            table, null, values,
+            conflictAlgorithm
+        )
     }
 
     override fun delete(table: String, whereClause: String, whereArgs: Array<Any>): Int {
@@ -166,7 +168,13 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : 
         return statement.executeUpdateDelete()
     }
 
-    override fun update(table: String, conflictAlgorithm: Int, values: ContentValues?, whereClause: String, whereArgs: Array<Any>?): Int {
+    override fun update(
+        table: String,
+        conflictAlgorithm: Int,
+        values: ContentValues?,
+        whereClause: String,
+        whereArgs: Array<Any>?
+    ): Int {
         // taken from SQLiteDatabase class.
         if (values == null || values.size() == 0) {
             throw IllegalArgumentException("Empty values")
@@ -272,7 +280,8 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : 
 
     companion object {
 
-        private val CONFLICT_VALUES = arrayOf("", " OR ROLLBACK ", " OR ABORT ", " OR FAIL ", " OR IGNORE ", " OR REPLACE ")
+        private val CONFLICT_VALUES =
+            arrayOf("", " OR ROLLBACK ", " OR ABORT ", " OR FAIL ", " OR IGNORE ", " OR REPLACE ")
         private val EMPTY_STRING_ARRAY = arrayOfNulls<String>(0)
 
         private fun isEmpty(input: String?): Boolean {

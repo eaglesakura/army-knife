@@ -28,18 +28,27 @@ object FlexibleThreadPoolDispatcher {
     /**
      * for Device input/output dispatcher.
      */
-    val IO = FlexibleThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS).asCoroutineDispatcher()
+    val IO = FlexibleThreadPoolExecutor(
+        Runtime.getRuntime().availableProcessors() * 2 + 1,
+        5,
+        TimeUnit.SECONDS
+    ).asCoroutineDispatcher()
 
     /**
      * for Network fetch dispatcher.
      */
-    val Network = FlexibleThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2 + 1, 5, TimeUnit.SECONDS).asCoroutineDispatcher()
+    val Network = FlexibleThreadPoolExecutor(
+        Runtime.getRuntime().availableProcessors() * 2 + 1,
+        5,
+        TimeUnit.SECONDS
+    ).asCoroutineDispatcher()
 }
 
 private class FlexibleThreadPoolExecutor(
-        maxThreads: Int,
-        keepAliveTime: Long,
-        keepAliveTimeUnit: TimeUnit) : ThreadPoolExecutor(0, maxThreads, keepAliveTime, keepAliveTimeUnit, LinkedBlockingDeque()) {
+    maxThreads: Int,
+    keepAliveTime: Long,
+    keepAliveTimeUnit: TimeUnit
+) : ThreadPoolExecutor(0, maxThreads, keepAliveTime, keepAliveTimeUnit, LinkedBlockingDeque()) {
     override fun execute(command: Runnable?) {
         try {
             corePoolSize = maximumPoolSize

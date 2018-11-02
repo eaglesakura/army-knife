@@ -9,7 +9,8 @@ import com.google.android.gms.common.GoogleApiAvailability
  *
  * 参考: https://developers.google.com/android/reference/com/google/android/gms/common/ConnectionResult.html
  */
-class PlayServiceNotAvailableException(private var apiAvailability: GoogleApiAvailability, private var errorCode: Int) : PlayServiceException() {
+class PlayServiceNotAvailableException(private var apiAvailability: GoogleApiAvailability, private var errorCode: Int) :
+    PlayServiceException() {
     val errorMessage: String
         get() = apiAvailability.getErrorString(errorCode)
 }

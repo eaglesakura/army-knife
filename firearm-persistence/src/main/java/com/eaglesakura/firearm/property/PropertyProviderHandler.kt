@@ -6,7 +6,8 @@ import android.net.Uri
 import com.eaglesakura.armyknife.property.TextDatabasePropertyStore
 
 class PropertyProviderHandler(context: Context) : UriHandler {
-    private val propertyStore: TextDatabasePropertyStore = TextDatabasePropertyStore(context, "com.eaglesakura.props_v5.db")
+    private val propertyStore: TextDatabasePropertyStore =
+        TextDatabasePropertyStore(context, "com.eaglesakura.props_v5.db")
 
     override fun query(uri: Uri, command: String, arguments: Array<String>): ByteArray? {
         if (COMMAND_GET == command) {

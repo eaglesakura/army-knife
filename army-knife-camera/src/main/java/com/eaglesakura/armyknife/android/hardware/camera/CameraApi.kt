@@ -1,8 +1,7 @@
 package com.eaglesakura.armyknife.android.hardware.camera
 
 import android.os.Build
-
-import java.util.Arrays
+import java.util.*
 
 enum class CameraApi {
     /**

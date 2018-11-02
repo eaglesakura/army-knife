@@ -29,8 +29,9 @@ import kotlin.coroutines.coroutineContext
 @SuppressLint("MissingPermission")
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 internal class Camera2ControlManager(
-        private val context: Context,
-        private val connectRequest: CameraConnectRequest) : CameraControlManager() {
+    private val context: Context,
+    private val connectRequest: CameraConnectRequest
+) : CameraControlManager() {
 
     private var camera: CameraDevice? = null
 
@@ -78,7 +79,11 @@ internal class Camera2ControlManager(
     override val connected: Boolean
         get() = camera != null
 
-    override suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?) {
+    override suspend fun connect(
+        previewSurface: CameraSurface?,
+        previewRequest: CameraPreviewRequest?,
+        shotRequest: CameraPictureShotRequest?
+    ) {
         processingHandler = AsyncHandler.newInstance("camera-processing-${hashCode()}")
 
         withContext(coroutineContext + Dispatchers.Main) {
@@ -164,9 +169,9 @@ internal class Camera2ControlManager(
 
         pictureShotRequest?.also { cameraPictureShotRequest ->
             imageReader = ImageReader.newInstance(
-                    cameraPictureShotRequest.captureSize.width, cameraPictureShotRequest.captureSize.height,
-                    if (cameraPictureShotRequest.format === CaptureFormat.Raw) ImageFormat.RAW_SENSOR else ImageFormat.JPEG,
-                    2
+                cameraPictureShotRequest.captureSize.width, cameraPictureShotRequest.captureSize.height,
+                if (cameraPictureShotRequest.format === CaptureFormat.Raw) ImageFormat.RAW_SENSOR else ImageFormat.JPEG,
+                2
             )
             surfaces.add(imageReader!!.surface)
         }
@@ -193,7 +198,7 @@ internal class Camera2ControlManager(
     @Throws(CameraAccessException::class)
     private fun newCaptureRequest(env: CameraEnvironmentRequest?, template: Int): CaptureRequest.Builder {
         val camera = camera
-                ?: throw throw CameraAccessException(CameraAccessException.CAMERA_ERROR, "connect() not called")
+            ?: throw throw CameraAccessException(CameraAccessException.CAMERA_ERROR, "connect() not called")
         val request = camera.createCaptureRequest(template)
 
         env?.apply {
@@ -230,27 +235,38 @@ internal class Camera2ControlManager(
 
             // プレビューを開始する
             val previewCaptureRequest = newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW).also { builder ->
-                builder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
+                builder.set(
+                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
+                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START
+                )
                 builder.addTarget(previewSurface!!.getSurface(previewRequest!!.previewSize))
             }
             previewSession.stopRepeating()
-            previewSession.setRepeatingRequest(previewCaptureRequest.build(), object : CameraCaptureSession.CaptureCallback() {
-                private var mOldAfState: Int? = null
+            previewSession.setRepeatingRequest(
+                previewCaptureRequest.build(),
+                object : CameraCaptureSession.CaptureCallback() {
+                    private var mOldAfState: Int? = null
 
-                private var mOldAeState: Int? = null
+                    private var mOldAeState: Int? = null
 
-                override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-                    val aeState = result.get(CaptureResult.CONTROL_AE_STATE)
-                    val afState = result.get(CaptureResult.CONTROL_AF_STATE)
+                    override fun onCaptureCompleted(
+                        session: CameraCaptureSession,
+                        request: CaptureRequest,
+                        result: TotalCaptureResult
+                    ) {
+                        val aeState = result.get(CaptureResult.CONTROL_AE_STATE)
+                        val afState = result.get(CaptureResult.CONTROL_AF_STATE)
 
-                    if (aeState != null && aeState != mOldAeState) {
-                        mOldAeState = aeState
+                        if (aeState != null && aeState != mOldAeState) {
+                            mOldAeState = aeState
+                        }
+                        if (afState != null && afState != mOldAfState) {
+                            mOldAfState = afState
+                        }
                     }
-                    if (afState != null && afState != mOldAfState) {
-                        mOldAfState = afState
-                    }
-                }
-            }, UIHandler)
+                },
+                UIHandler
+            )
 
             mFlags = mFlags or FLAG_NOW_PREVIEW
         } catch (e: CameraAccessException) {
@@ -300,13 +316,21 @@ internal class Camera2ControlManager(
 
             // 撮影コールバック
             val captureCallback = object : CameraCaptureSession.CaptureCallback() {
-                override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
+                override fun onCaptureCompleted(
+                    session: CameraCaptureSession,
+                    request: CaptureRequest,
+                    result: TotalCaptureResult
+                ) {
                     GlobalScope.launch(Dispatchers.Main) {
                         captureCompleted.send(true)
                     }
                 }
 
-                override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
+                override fun onCaptureFailed(
+                    session: CameraCaptureSession,
+                    request: CaptureRequest,
+                    failure: CaptureFailure
+                ) {
                     GlobalScope.launch(Dispatchers.Main) {
                         captureCompleted.cancel(PictureFailedException("Fail reason[${failure.reason}]"))
                     }

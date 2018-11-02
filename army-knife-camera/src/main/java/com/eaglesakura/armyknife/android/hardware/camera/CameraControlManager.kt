@@ -38,7 +38,11 @@ abstract class CameraControlManager {
      * @param shotRequest    Picture settings.
      */
     @Throws(CameraException::class)
-    abstract suspend fun connect(previewSurface: CameraSurface?, previewRequest: CameraPreviewRequest?, shotRequest: CameraPictureShotRequest?)
+    abstract suspend fun connect(
+        previewSurface: CameraSurface?,
+        previewRequest: CameraPreviewRequest?,
+        shotRequest: CameraPictureShotRequest?
+    )
 
     abstract suspend fun disconnect()
 

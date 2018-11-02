@@ -8,10 +8,11 @@ import java.util.*
  * フォーカス状態の設定を行う
  */
 data class FocusMode internal constructor(
-        /**
-         * API設定名
-         */
-        val rawName: String) {
+    /**
+     * API設定名
+     */
+    val rawName: String
+) {
 
 
     /**
@@ -20,7 +21,10 @@ data class FocusMode internal constructor(
      * @return 日本語での設定名
      */
     fun name(context: Context): String {
-        val result = ApplicationResources.getStringFromIdName(context, String.format("Camera.FocusMode.%s", rawName.replace("-".toRegex(), "_")))
+        val result = ApplicationResources.getStringFromIdName(
+            context,
+            String.format("Camera.FocusMode.%s", rawName.replace("-".toRegex(), "_"))
+        )
         return result ?: rawName
     }
 

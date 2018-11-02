@@ -18,4 +18,5 @@ suspend fun FirebaseAuth.awaitLogin(): FirebaseUser {
 /**
  * Syntax sugar to Sign-In with Google Account.
  */
-fun FirebaseAuth.signIn(account: GoogleSignInAccount) = signInWithCredential(GoogleAuthProvider.getCredential(account.idToken, null))
+fun FirebaseAuth.signIn(account: GoogleSignInAccount) =
+    signInWithCredential(GoogleAuthProvider.getCredential(account.idToken, null))

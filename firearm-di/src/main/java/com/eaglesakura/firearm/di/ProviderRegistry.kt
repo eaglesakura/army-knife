@@ -33,7 +33,8 @@ class ProviderRegistry {
     /**
      * Make provider from Interface.
      */
-    fun <ReturnType, ArgumentType> newProvider(defaultProvider: ProviderFunction<ReturnType, ArgumentType>): Provider<ReturnType, ArgumentType> = newProvider(defaultProvider.toFunction())
+    fun <ReturnType, ArgumentType> newProvider(defaultProvider: ProviderFunction<ReturnType, ArgumentType>): Provider<ReturnType, ArgumentType> =
+        newProvider(defaultProvider.toFunction())
 
     /**
      * Make provider.

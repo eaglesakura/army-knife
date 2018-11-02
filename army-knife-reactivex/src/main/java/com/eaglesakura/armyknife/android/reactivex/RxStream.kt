@@ -24,11 +24,15 @@ import kotlin.coroutines.CoroutineContext
  * RxStream use to event or snackbar-data or such one-shot data.
  */
 open class RxStream<T> private constructor(
-        private val subject: Subject<T>,
-        @Suppress("MemberVisibilityCanBePrivate") val observable: Observable<T>,
-        private val validator: ((T) -> Boolean)
+    private val subject: Subject<T>,
+    @Suppress("MemberVisibilityCanBePrivate") val observable: Observable<T>,
+    private val validator: ((T) -> Boolean)
 ) {
-    constructor(subject: Subject<T>, validator: (T) -> Boolean) : this(subject, subject.observeOn(AndroidSchedulers.mainThread()), validator)
+    constructor(subject: Subject<T>, validator: (T) -> Boolean) : this(
+        subject,
+        subject.observeOn(AndroidSchedulers.mainThread()),
+        validator
+    )
 
     @Suppress("unused")
     constructor(validator: (T) -> Boolean) : this(PublishSubject.create(), validator)

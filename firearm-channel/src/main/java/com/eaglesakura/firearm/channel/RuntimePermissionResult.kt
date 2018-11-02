@@ -6,20 +6,20 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class RuntimePermissionResult internal constructor(
-        /**
-         * Requested all permissions.
-         */
-        val permissions: List<String>,
+    /**
+     * Requested all permissions.
+     */
+    val permissions: List<String>,
 
-        /**
-         * Granted all permissions.
-         */
-        val grantResults: List<Int>,
+    /**
+     * Granted all permissions.
+     */
+    val grantResults: List<Int>,
 
-        /**
-         * Should show request rationale permissions.
-         */
-        val shouldShowRationalePermissions: List<String>
+    /**
+     * Should show request rationale permissions.
+     */
+    val shouldShowRationalePermissions: List<String>
 ) : Parcelable {
 
     @Suppress("unused")

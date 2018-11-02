@@ -89,7 +89,10 @@ fun localTest(action: () -> Unit) {
 /**
  * Test JVM only with Coroutines.
  */
-fun localBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend CoroutineScope.() -> Unit) {
+fun localBlockingTest(
+    dispatcher: CoroutineDispatcher = TestDispatchers.Default,
+    action: suspend CoroutineScope.() -> Unit
+) {
     beforeRobolectricTest()
 
     if (ROBOLECTRIC) {
@@ -115,7 +118,10 @@ fun instrumentationTest(action: () -> Unit) {
 /**
  * Test Android Device(or Emulator) only with Coroutines.
  */
-fun instrumentationBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend CoroutineScope.() -> Unit) {
+fun instrumentationBlockingTest(
+    dispatcher: CoroutineDispatcher = TestDispatchers.Default,
+    action: suspend CoroutineScope.() -> Unit
+) {
     beforeRobolectricTest()
 
     if (ROBOLECTRIC) {
@@ -140,7 +146,10 @@ fun compatibleTest(action: () -> Unit) {
  *
  * Architecture template created by @eaglesakura
  */
-fun compatibleBlockingTest(dispatcher: CoroutineDispatcher = TestDispatchers.Default, action: suspend CoroutineScope.() -> Unit) {
+fun compatibleBlockingTest(
+    dispatcher: CoroutineDispatcher = TestDispatchers.Default,
+    action: suspend CoroutineScope.() -> Unit
+) {
     beforeRobolectricTest()
 
     val job = GlobalScope.async(dispatcher) {

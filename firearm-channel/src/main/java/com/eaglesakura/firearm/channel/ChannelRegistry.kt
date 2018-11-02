@@ -92,9 +92,9 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
     }
 
     private class RegisteredChannel<T>(
-            private val key: Any,
-            origin: Channel<T>,
-            private val registry: ChannelRegistry
+        private val key: Any,
+        origin: Channel<T>,
+        private val registry: ChannelRegistry
     ) : DelegateChannel<T>(origin) {
 
         override fun cancel() {

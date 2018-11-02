@@ -18,7 +18,13 @@ import android.net.Uri
 class PropertiesProviderDelegate(private val context: Context, private val handler: UriHandler) {
 
     @Suppress("unused", "UNUSED_PARAMETER")
-    fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor {
+    fun query(
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        sortOrder: String?
+    ): Cursor {
         val buffer = handler.query(uri, selection!!, selectionArgs!!)
         return if (buffer != null) {
             ByteArrayCursor(buffer)

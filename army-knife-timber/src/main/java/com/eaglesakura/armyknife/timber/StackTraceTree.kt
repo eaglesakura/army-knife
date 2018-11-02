@@ -16,11 +16,11 @@ import timber.log.Timber
  * }
  */
 class StackTraceTree(
-        /**
-         * Back trace depth num.
-         * Default is [StackTraceTree][Timber][Console wrapper method] = 6 stack will popping.
-         */
-        private val popStack: Int = POP_STACK_DEFAULT
+    /**
+     * Back trace depth num.
+     * Default is [StackTraceTree][Timber][Console wrapper method] = 6 stack will popping.
+     */
+    private val popStack: Int = POP_STACK_DEFAULT
 ) : Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {

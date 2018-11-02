@@ -62,7 +62,8 @@ object ApplicationRuntime {
      * @link https://github.com/eaglesakura/army-knife
      */
     fun getDeviceRotateDegree(context: Context): Int {
-        val surfaceRotation = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+        val surfaceRotation =
+            (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
         return when (surfaceRotation) {
             Surface.ROTATION_0 -> 0
             Surface.ROTATION_90 -> 90

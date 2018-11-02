@@ -20,31 +20,32 @@ import kotlinx.coroutines.launch
  */
 @Suppress("unused")
 class RuntimePermissionDispatcher(
-        private val getContext: () -> Context,
-        private val requestPermissions: (permissions: Array<String>, requestCode: Int) -> Unit,
-        private val shouldShowRequestPermissionRationale: (permission: String) -> Boolean,
-        private val registry: ChannelRegistry
+    private val getContext: () -> Context,
+    private val requestPermissions: (permissions: Array<String>, requestCode: Int) -> Unit,
+    private val shouldShowRequestPermissionRationale: (permission: String) -> Boolean,
+    private val registry: ChannelRegistry
 ) {
 
     @Suppress("unused")
     constructor(fragment: Fragment, registry: ChannelRegistry) :
             this(
-                    { fragment.context!! },
-                    fragment::requestPermissions,
-                    fragment::shouldShowRequestPermissionRationale,
-                    registry
+                { fragment.context!! },
+                fragment::requestPermissions,
+                fragment::shouldShowRequestPermissionRationale,
+                registry
             )
 
     @Suppress("unused")
     constructor(activity: Activity, registry: ChannelRegistry) :
             this(
-                    { activity },
-                    { permissions, requestCode -> ActivityCompat.requestPermissions(activity, permissions, requestCode) },
-                    { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) },
-                    registry
+                { activity },
+                { permissions, requestCode -> ActivityCompat.requestPermissions(activity, permissions, requestCode) },
+                { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) },
+                registry
             )
 
-    private fun makeRequestCode(permissions: Collection<String>) = permissions.toHashSet().toString().hashCode() and 0x0000FFFF
+    private fun makeRequestCode(permissions: Collection<String>) =
+        permissions.toHashSet().toString().hashCode() and 0x0000FFFF
 
     private fun makeKey(requestCode: Int) = "permission@$requestCode"
 
@@ -100,11 +101,11 @@ class RuntimePermissionDispatcher(
                 // have all permissions
                 Log.d(TAG, "you have all permissions $permissions")
                 result.send(
-                        RuntimePermissionResult(
-                                permissions.toList(),
-                                permissions.map { PackageManager.PERMISSION_GRANTED },
-                                emptyList()
-                        )
+                    RuntimePermissionResult(
+                        permissions.toList(),
+                        permissions.map { PackageManager.PERMISSION_GRANTED },
+                        emptyList()
+                    )
                 )
             } else {
                 // request now.
@@ -135,11 +136,12 @@ class RuntimePermissionDispatcher(
 
             GlobalScope.launch(Dispatchers.Main) {
                 channel.send(
-                        RuntimePermissionResult(
-                                permissions.toList(),
-                                grantResults.toList(),
-                                shouldShowRationalePermissions
-                        ))
+                    RuntimePermissionResult(
+                        permissions.toList(),
+                        grantResults.toList(),
+                        shouldShowRationalePermissions
+                    )
+                )
             }
         } catch (e: Exception) {
             Log.e(TAG, "Channel not found, Activity or Fragment was might destroyed.")
@@ -163,7 +165,11 @@ class RuntimePermissionDispatcher(
          */
         @JvmStatic
         @Suppress("unused")
-        private fun getRuntimePermissionStatus(context: Context, shouldShowRequestPermissionRationale: (permission: String) -> Boolean, permissions: Collection<String>): RuntimePermissionResult {
+        private fun getRuntimePermissionStatus(
+            context: Context,
+            shouldShowRequestPermissionRationale: (permission: String) -> Boolean,
+            permissions: Collection<String>
+        ): RuntimePermissionResult {
             val shouldShowRationalePermissions = mutableListOf<String>()
             for (permission in permissions) {
                 if (shouldShowRequestPermissionRationale(permission)) {
@@ -172,9 +178,9 @@ class RuntimePermissionDispatcher(
             }
 
             return RuntimePermissionResult(
-                    permissions.toList(),
-                    permissions.map { permission -> ActivityCompat.checkSelfPermission(context, permission) },
-                    shouldShowRationalePermissions
+                permissions.toList(),
+                permissions.map { permission -> ActivityCompat.checkSelfPermission(context, permission) },
+                shouldShowRationalePermissions
             )
         }
 
@@ -183,7 +189,11 @@ class RuntimePermissionDispatcher(
          */
         @JvmStatic
         fun getRuntimePermissionStatus(fragment: Fragment, permissions: Collection<String>): RuntimePermissionResult {
-            return getRuntimePermissionStatus(fragment.context!!, fragment::shouldShowRequestPermissionRationale, permissions)
+            return getRuntimePermissionStatus(
+                fragment.context!!,
+                fragment::shouldShowRequestPermissionRationale,
+                permissions
+            )
         }
 
         /**
@@ -192,7 +202,11 @@ class RuntimePermissionDispatcher(
         @JvmStatic
         @Suppress("unused")
         fun getRuntimePermissionStatus(activity: Activity, permissions: Collection<String>): RuntimePermissionResult {
-            return getRuntimePermissionStatus(activity, { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) }, permissions)
+            return getRuntimePermissionStatus(
+                activity,
+                { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) },
+                permissions
+            )
         }
     }
 }

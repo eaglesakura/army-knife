@@ -4,15 +4,16 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
  * 撮影・プレビュー用のサイズを返す
  */
 data class CaptureSize(
-        /**
-         * The number of pixels for horizontal.
-         */
-        val width: Int,
+    /**
+     * The number of pixels for horizontal.
+     */
+    val width: Int,
 
-        /**
-         * The number of pixels for vertical.
-         */
-        val height: Int) {
+    /**
+     * The number of pixels for vertical.
+     */
+    val height: Int
+) {
 
     /**
      * the "Aspect ID" near by aspect ratio.
@@ -99,17 +100,17 @@ data class CaptureSize(
     }
 
     enum class Aspect(
-            /**
-             * 横ピクセル数 / 縦ピクセル数のアスペクト比を取得する
-             */
-            val aspect: Double,
+        /**
+         * 横ピクセル数 / 縦ピクセル数のアスペクト比を取得する
+         */
+        val aspect: Double,
 
-            /**
-             * アスペクト比のテキストを取得する
-             * <br></br>
-             * 例：16:9
-             */
-            val aspectText: String
+        /**
+         * アスペクト比のテキストを取得する
+         * <br></br>
+         * 例：16:9
+         */
+        val aspectText: String
     ) {
         /**
          * 縦横1:1

@@ -11,7 +11,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.coroutineContext
 
 @RunWith(AndroidJUnit4::class)
 class RuntimeExtensionsKtTest {
