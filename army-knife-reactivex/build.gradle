@@ -1,10 +1,5 @@
-apply from: "../army_knife_configure.gradle"
-def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
-        army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
-
-def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
-def BINTRAY_LABELS = ["android", "kotlin"]
-def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
+apply from: file("../armyknife.gradle")
+apply from: file("../library_standard.gradle")
 
 buildscript {
     repositories {
@@ -18,48 +13,6 @@ buildscript {
     }
 }
 
-repositories {
-    maven { url 'https://dl.bintray.com/eaglesakura/maven/' }
-}
-
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: "com.github.ben-manes.versions"   // dependencies version check
-
-android {
-    compileSdkVersion 28
-
-    // for *.java options
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    // for Kotlin-Android
-    androidExtensions {
-        experimental = true
-        features = ["parcelize"]
-    }
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        multiDexEnabled true
-        aaptOptions.cruncherEnabled false
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    sourceSets {
-        androidTest.java.srcDirs += ["src/test/java"]
-    }
-
-    packagingOptions {
-        exclude 'META-INF/**_debug.kotlin_module'
-    }
-}
-
 dependencies {
     api project(':army-knife')
 
@@ -68,90 +21,4 @@ dependencies {
      */
     api 'io.reactivex.rxjava2:rxkotlin:2.3.0'   // Reactive Extension
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'   // Reactive Extension
-
-    /**
-     * for Tests (or Android Tests)
-     */
-    testImplementation 'org.robolectric:robolectric:4.0'
-    androidTestImplementation 'androidx.multidex:multidex:2.0.0'
-    androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
-
-    testImplementation project(':army-knife-android-junit4')
-    androidTestImplementation project(':army-knife-android-junit4')
-
-}
-
-group = "com.eaglesakura"
-version = ARTIFACT_VERSION + {
-    String CIRCLE_TAG = System.env.CIRCLE_TAG
-
-    if (CIRCLE_TAG != null) {
-        // have CIRCLE_TAG(build on CircleCI)
-        return ""
-    }
-
-    try {
-        def BUILD_NUMBER_FILE = rootProject.file(".configs/secrets/build-number.env")
-        if (BUILD_NUMBER_FILE.file) {
-            return ".build-${BUILD_NUMBER_FILE.text as int}"
-        }
-    } catch (ignored) {
-    }
-    if (System.env.CIRCLE_BUILD_NUM != null) {
-        return ".build-${System.env.CIRCLE_BUILD_NUM}"
-    } else {
-        return ".snapshot"
-    }
-}().trim()
-
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'org.jetbrains.dokka-android'
-
-dokka {
-    outputFormat = 'javadoc'
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadocJar(type: Jar, dependsOn: dokka) {
-    from "$buildDir/dokka"
-    classifier = 'javadoc'
-}
-android.libraryVariants.all { variant ->
-    if ("release" != variant.name || "" == ARTIFACT_VERSION) {
-        return
-    }
-
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
-    }
-}
-
-bintray {
-    user = 'eaglesakura'
-    key = System.env.BINTRAY_API_KEY
-    publish = true
-    override = true
-    pkg {
-        repo = "maven"
-        name = BINTRAY_PACKAGE_NAME
-        vcsUrl = BINTRAY_VCS_URL
-        issueTrackerUrl = "${BINTRAY_VCS_URL}/issues"
-        licenses = ["MIT"]
-        labels = BINTRAY_LABELS
-        version {
-            name = project.version
-            released = new Date()
-            gpg {
-                sign = true
-                passphrase = System.env.BINTRAY_GPG_PASS
-            }
-        }
-    }
-    configurations = ['archives']
 }

@@ -1,0 +1,122 @@
+ext.artifact_version = System.env.CIRCLE_TAG == null ?
+        army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
+ext.bintray_package_name = file(".").absoluteFile.name
+ext.bintray_labels = ["android", "kotlin"]
+ext.bintray_vcs_url = "https://github.com/eaglesakura/army-knife"
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.ben-manes.versions'   // dependencies version check
+
+android {
+    compileSdkVersion 28
+
+    // for *.java options
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // for Kotlin-Android
+    androidExtensions {
+        experimental = true
+        features = ["parcelize"]
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        multiDexEnabled true
+        aaptOptions.cruncherEnabled false
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += ["src/test/java"]
+    }
+
+    packagingOptions {
+        exclude 'META-INF/**_debug.kotlin_module'
+    }
+}
+
+dependencies {
+}
+
+group = "com.eaglesakura"
+version = artifact_version + {
+    String CIRCLE_TAG = System.env.CIRCLE_TAG
+
+    if (CIRCLE_TAG != null) {
+        // have CIRCLE_TAG(build on CircleCI)
+        return ""
+    }
+
+    try {
+        def BUILD_NUMBER_FILE = rootProject.file(".configs/secrets/build-number.env")
+        if (BUILD_NUMBER_FILE.file) {
+            return ".build-${BUILD_NUMBER_FILE.text as int}"
+        }
+    } catch (ignored) {
+    }
+    if (System.env.CIRCLE_BUILD_NUM != null) {
+        return ".build-${System.env.CIRCLE_BUILD_NUM}"
+    } else {
+        return ".snapshot"
+    }
+}().trim()
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'  // Generate POM for bintray.
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    outputFormat = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: dokka) {
+    from "$buildDir/dokka"
+    classifier = 'javadoc'
+}
+android.libraryVariants.all { variant ->
+    if ("release" != variant.name || "" == artifact_version) {
+        return
+    }
+
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+}
+
+bintray {
+    user = 'eaglesakura'
+    key = System.env.BINTRAY_API_KEY
+    publish = true
+    override = true
+    pkg {
+        repo = "maven"
+        name = bintray_package_name
+        vcsUrl = bintray_vcs_url
+        issueTrackerUrl = "${bintray_vcs_url}/issues"
+        licenses = ["MIT"]
+        labels = bintray_labels
+        version {
+            name = project.version
+            released = new Date()
+            gpg {
+                sign = true
+                passphrase = System.env.BINTRAY_GPG_PASS
+            }
+        }
+    }
+    configurations = ['archives']
+}
+
+println "${bintray_package_name} : ${version}"

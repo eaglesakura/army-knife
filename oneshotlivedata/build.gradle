@@ -1,10 +1,5 @@
-apply from: "../army_knife_configure.gradle"
-def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
-        army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
-
-def BINTRAY_PACKAGE_NAME = file(".").absoluteFile.name
-def BINTRAY_LABELS = ["android", "kotlin"]
-def BINTRAY_VCS_URL = "https://github.com/eaglesakura/army-knife"
+apply from: file("../armyknife.gradle")
+apply from: file("../library_standard.gradle")
 
 buildscript {
     repositories {
@@ -16,40 +11,6 @@ buildscript {
         classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
-}
-
-repositories {
-    maven { url 'https://dl.bintray.com/eaglesakura/maven/' }
-}
-
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: "com.github.ben-manes.versions"   // dependencies version check
-
-android {
-    compileSdkVersion 28
-
-    // for *.java options
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    // for Kotlin-Android
-    androidExtensions {
-        experimental = true
-    }
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        multiDexEnabled true
-        aaptOptions.cruncherEnabled false
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
 }
 
 dependencies {
@@ -76,103 +37,4 @@ dependencies {
     compileOnly 'androidx.appcompat:appcompat:1.0.0'
     compileOnly "androidx.lifecycle:lifecycle-extensions:2.0.0"
     compileOnly 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
-
-    /**
-     * for Tests (or Android Tests)
-     */
-    testImplementation project(':army-knife-junit')
-    androidTestImplementation project(':army-knife-junit')
-    androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:4.0'
-    testImplementation 'androidx.test:core:1.0.0'
-    testImplementation 'androidx.test:monitor:1.1.0'
-    testImplementation 'androidx.test.ext:junit:1.0.0'
-    testImplementation "com.nhaarman:mockito-kotlin:1.6.0"
-    testImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.6.0'
-    testImplementation 'org.assertj:assertj-core:3.11.1'
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
-    androidTestImplementation "com.nhaarman:mockito-kotlin:1.6.0"
-    androidTestImplementation 'androidx.test:core:1.0.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.0.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
-    androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.6.0'
-    androidTestImplementation 'org.assertj:assertj-core:3.11.1'
-}
-
-group = "com.eaglesakura"
-version = ARTIFACT_VERSION + {
-    String CIRCLE_TAG = System.env.CIRCLE_TAG
-
-    if (CIRCLE_TAG != null) {
-        // have CIRCLE_TAG(build on CircleCI)
-        return ""
-    }
-
-    try {
-        def BUILD_NUMBER_FILE = rootProject.file(".configs/secrets/build-number.env")
-        if (BUILD_NUMBER_FILE.file) {
-            return ".build-${BUILD_NUMBER_FILE.text as int}"
-        }
-    } catch (ignored) {
-    }
-    if (System.env.CIRCLE_BUILD_NUM != null) {
-        return ".build-${System.env.CIRCLE_BUILD_NUM}"
-    } else {
-        return ".snapshot"
-    }
-}().trim()
-
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'org.jetbrains.dokka-android'
-
-dokka {
-    outputFormat = 'javadoc'
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadocJar(type: Jar, dependsOn: dokka) {
-    from "$buildDir/dokka"
-    classifier = 'javadoc'
-}
-android.libraryVariants.all { variant ->
-    if ("release" != variant.name || "" == ARTIFACT_VERSION) {
-        return
-    }
-
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
-    }
-}
-
-bintray {
-    user = 'eaglesakura'
-    key = System.env.BINTRAY_API_KEY
-    publish = true
-    override = true
-    pkg {
-        repo = "maven"
-        name = BINTRAY_PACKAGE_NAME
-        vcsUrl = BINTRAY_VCS_URL
-        issueTrackerUrl = "${BINTRAY_VCS_URL}/issues"
-        licenses = ["MIT"]
-        labels = BINTRAY_LABELS
-        version {
-            name = project.version
-            released = new Date()
-            gpg {
-                sign = true
-                passphrase = System.env.BINTRAY_GPG_PASS
-            }
-        }
-    }
-    configurations = ['archives']
 }
