@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.eaglesakura.armyknife.android.extensions.assertUIThread
 import com.eaglesakura.armyknife.android.junit4.TestDispatchers
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
+import com.eaglesakura.armyknife.runtime.extensions.use
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.consume
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
@@ -44,15 +44,15 @@ class RxStreamTest {
     @Test
     fun channel_multi() = compatibleBlockingTest(TestDispatchers.Main) {
         val stream = RxStream.create<String>()
-        stream.toChannel().consume {
+        stream.toChannel().use {
             stream.next("send1")
-            assertEquals("send1", receive())
+            assertEquals("send1", it.receive())
 
             stream.next("send2")
-            assertEquals("send2", receive())
+            assertEquals("send2", it.receive())
 
             stream.next("send3")
-            assertEquals("send3", receive())
+            assertEquals("send3", it.receive())
         }
     }
 
@@ -89,18 +89,18 @@ class RxStreamTest {
             }
         }.build()
 
-        stream.toChannel().consume {
+        stream.toChannel().use {
             stream.next("value1")
-            assertEquals("value1", receive())
+            assertEquals("value1", it.receive())
 
             stream.next("value2")
-            assertEquals("value2", receive())
+            assertEquals("value2", it.receive())
 
             // Do not receive
             stream.next("value2")
             try {
                 withTimeout(TimeUnit.SECONDS.toMillis(1)) {
-                    receive()
+                    it.receive()
                 }
                 fail("Do not receive.")
             } catch (err: TimeoutCancellationException) {
@@ -109,7 +109,7 @@ class RxStreamTest {
 
             // receive.
             stream.next("value1")
-            assertEquals("value1", receive())
+            assertEquals("value1", it.receive())
         }
     }
 }
