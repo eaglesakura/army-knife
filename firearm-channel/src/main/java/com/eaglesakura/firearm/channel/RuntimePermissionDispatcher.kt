@@ -1,5 +1,6 @@
 package com.eaglesakura.firearm.channel
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -12,12 +13,12 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.launch
 
 /**
  * RuntimePermission Dispatcher with Channel.
  */
+@SuppressLint("LogNotTimber")
 @Suppress("unused")
 class RuntimePermissionDispatcher(
     private val getContext: () -> Context,
@@ -55,8 +56,8 @@ class RuntimePermissionDispatcher(
      */
     @Suppress("unused")
     suspend fun requestPermissionsWithResult(permissions: Collection<String>): RuntimePermissionResult {
-        return requestPermissions(permissions).consume {
-            receive()
+        return requestPermissions(permissions).use {
+            it.receive()
         }
     }
 

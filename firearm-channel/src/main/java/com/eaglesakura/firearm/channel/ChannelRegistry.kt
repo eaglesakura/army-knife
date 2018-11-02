@@ -102,6 +102,7 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
             super.cancel()
         }
 
+        @Suppress("OverridingDeprecatedMember")
         override fun cancel(cause: Throwable?): Boolean {
             registry.unregister(key)
             return super.cancel(cause)

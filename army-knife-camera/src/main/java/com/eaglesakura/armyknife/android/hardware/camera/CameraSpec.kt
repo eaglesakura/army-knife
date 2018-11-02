@@ -1,11 +1,12 @@
 package com.eaglesakura.armyknife.android.hardware.camera
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraSpecNotFoundException
 import com.eaglesakura.armyknife.android.hardware.camera.spec.*
-import com.eaglesakura.armyknife.android.logger.Logger
 import java.util.*
 
 @Suppress("unused")
@@ -70,6 +71,7 @@ class CameraSpec internal constructor(
     /**
      * サイズの大きいものが若いインデックスになるように調整する
      */
+    @Suppress("JavaCollectionsStaticMethodOnImmutableList")
     internal fun init() {
         Collections.sort(jpegPictureSizes) { a, b -> -java.lang.Double.compare(a.megaPixel, b.megaPixel) }
         Collections.sort(rawPictureSizes) { a, b -> -java.lang.Double.compare(a.megaPixel, b.megaPixel) }
@@ -151,6 +153,7 @@ class CameraSpec internal constructor(
         return !flashModeSpecs.isEmpty()
     }
 
+    @SuppressLint("LogNotTimber")
     @Suppress("UNUSED_PARAMETER")
     private fun chooseShotSize(
         targetSizes: List<CaptureSize>,
@@ -170,7 +173,7 @@ class CameraSpec internal constructor(
             val captureLong = Math.max(size.width, size.height)
             val captureShort = Math.min(size.width, size.height)
             if (captureLong >= requestLong && captureShort >= requestShort) {
-                Logger.debug("Camera", "Choose [$captureLong x $captureShort] Req[$requestLong x $requestShort]")
+                Log.d("Camera", "Choose [$captureLong x $captureShort] Req[$requestLong x $requestShort]")
                 return size
             }
         }

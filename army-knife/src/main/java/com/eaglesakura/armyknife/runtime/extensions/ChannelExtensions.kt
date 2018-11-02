@@ -12,6 +12,9 @@ import kotlinx.coroutines.channels.ReceiveChannel
  *      val value = receive()
  *      // do something.
  * }    // close on exit.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 suspend fun <R, T> Channel<T>.use(block: suspend (channel: ReceiveChannel<T>) -> R): R {
     try {

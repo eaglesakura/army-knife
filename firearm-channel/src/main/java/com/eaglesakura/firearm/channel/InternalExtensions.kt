@@ -8,10 +8,31 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ChannelIterator
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.selects.SelectClause2
 
+/**
+ * Channel close on exit.
+ *
+ * e.g.)
+ * val channel: Channel<Int> = ...
+ * channel.use {
+ *      val value = receive()
+ *      // do something.
+ * }    // close on exit.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
+ */
+suspend fun <R, T> Channel<T>.use(block: suspend (channel: ReceiveChannel<T>) -> R): R {
+    try {
+        return block(this)
+    } finally {
+        close()
+    }
+}
 
 /**
  * Call function from UI-Thread in Android Device.

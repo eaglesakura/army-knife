@@ -28,20 +28,20 @@ object FlexibleThreadPoolDispatcher {
     /**
      * for Device input/output dispatcher.
      */
-    val IO = FlexibleThreadPoolExecutor(
+    val IO = newDispatcher(
         Runtime.getRuntime().availableProcessors() * 2 + 1,
         5,
         TimeUnit.SECONDS
-    ).asCoroutineDispatcher()
+    )
 
     /**
      * for Network fetch dispatcher.
      */
-    val Network = FlexibleThreadPoolExecutor(
+    val Network = newDispatcher(
         Runtime.getRuntime().availableProcessors() * 2 + 1,
         5,
         TimeUnit.SECONDS
-    ).asCoroutineDispatcher()
+    )
 }
 
 private class FlexibleThreadPoolExecutor(

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.eaglesakura.kerberus
 
 import kotlinx.coroutines.*
@@ -58,33 +60,28 @@ class AsyncTaskBuilder<T>(
     var semaphore: Semaphore = Semaphore.NonBlocking,
     var entryPoint: AsyncTaskBuilder<T>.() -> Job
 ) {
-    @set:Deprecated("replace to onBackground()", ReplaceWith("onBackground {}"))
     lateinit var onBackground: suspend (CoroutineScope.() -> T)
 
     /**
      * This property is finalize-handler after than "onBackground".
      * "T" is set from "onBackground" result value.
      */
-    @set:Deprecated("replace to onSuccess()", ReplaceWith("onSuccess {}"))
-    var onSuccess: ((value: T) -> Unit)? = null
+    internal var onSuccess: ((value: T) -> Unit)? = null
 
     /**
      * This property is error-handler to exception throws from "onBackground" method.
      */
-    @set:Deprecated("replace to onError()", ReplaceWith("onError {}"))
-    var onError: ((err: Exception) -> Unit)? = null
+    internal var onError: ((err: Exception) -> Unit)? = null
 
     /**
      * This property is cancel-handler to "onBackground" method.
      */
-    @set:Deprecated("replace to onCancel()", ReplaceWith("onCancel {}"))
-    var onCancel: ((err: CancellationException) -> Unit)? = null
+    internal var onCancel: ((err: CancellationException) -> Unit)? = null
 
     /**
      * This function will  always called.
      */
-    @set:Deprecated("replace to onFinalize()", ReplaceWith("onFinalize {}"))
-    var onFinalize: (() -> Unit)? = null
+    internal var onFinalize: (() -> Unit)? = null
 
     /**
      * Execute task main in selection dispatcher.
@@ -139,7 +136,7 @@ fun <T> asyncTask(
 /**
  * Start An async task with user-selection "EntryPoint" object.
  */
-fun <T> asyncTask(
+private fun <T> asyncTask(
     semaphore: Semaphore = Semaphore.NonBlocking,
     entryPoint: AsyncTaskBuilder<T>.() -> Job,
     builder: (AsyncTaskBuilder<T>.() -> Unit)
