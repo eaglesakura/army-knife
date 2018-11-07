@@ -63,6 +63,32 @@ object ProcedureServiceConnectionFactory {
      * Connect to server service.
      *
      * If service not created, then start service.
+     * CAUTION!!, this connection is Not two-way rpc.
+     */
+    suspend fun connect(
+        context: Context,
+        serviceIntent: Intent,
+        block: (builder: Builder) -> Unit = {}
+    ): ProcedureServiceConnection {
+        return connect(
+            context,
+            object : ProcedureServiceClientCallback {
+                override suspend fun execute(
+                    connection: ProcedureServiceConnection,
+                    path: String,
+                    arguments: Bundle
+                ): Bundle {
+                    return Bundle()
+                }
+            },
+            serviceIntent, block
+        )
+    }
+
+    /**
+     * Connect to server service.
+     *
+     * If service not created, then start service.
      */
     suspend fun connect(
         context: Context,
