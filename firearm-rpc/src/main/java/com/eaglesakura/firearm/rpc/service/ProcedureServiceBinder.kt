@@ -6,7 +6,7 @@ import android.os.IBinder
 import androidx.annotation.AnyThread
 import androidx.annotation.UiThread
 import com.eaglesakura.firearm.rpc.internal.console
-import com.eaglesakura.firearm.rpc.service.internal.IRemoteProcedureServerImpl
+import com.eaglesakura.firearm.rpc.service.internal.IRemoteProcedureServiceImpl
 import com.eaglesakura.firearm.rpc.service.internal.RemoteRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
@@ -27,14 +27,14 @@ import kotlin.concurrent.thread
  * }
  */
 class ProcedureServiceBinder(
-    context: Context,
+    @Suppress("UNUSED_PARAMETER") context: Context,
     callback: Callback,
     private val dispatcher: CoroutineDispatcher
 ) {
     /**
      *
      */
-    private val aidlImpl = IRemoteProcedureServerImpl(
+    private val aidlImpl = IRemoteProcedureServiceImpl(
         this,
         dispatcher,
         callback
@@ -48,7 +48,7 @@ class ProcedureServiceBinder(
 
     /**
      * Get all clients list.
-     * this property is thread-safe.
+     * this property is thread-safe, and returns copied list.
      */
     val allClients: List<RemoteClient>
         get() = aidlImpl.allClients
@@ -64,7 +64,7 @@ class ProcedureServiceBinder(
                     it.path = path
                     it.arguments = arguments
                 }.bundle
-                val result = client.aidl.requestFromServer(request)!!
+                val result = client.aidl.requestFromService(request)!!
                 GlobalScope.launch(dispatcher) {
                     channel.send(result)
                 }
@@ -78,13 +78,20 @@ class ProcedureServiceBinder(
     /**
      * Execute all remote client.
      */
-    suspend fun broadcast(path: String, arguments: Bundle): Map<String, Bundle> {
+    suspend fun broadcast(path: String, arguments: Bundle): List<BroadcastResult<Bundle>> {
         val clients = aidlImpl.allClients
-        val result = mutableMapOf<String, Bundle>()
+        val result = mutableListOf<BroadcastResult<Bundle>>()
         for (client in clients) {
             try {
-                result[client.id] = client.request(path, arguments)
+                result.add(
+                    BroadcastResult(
+                        client,
+                        client.request(path, arguments),
+                        null
+                    )
+                )
             } catch (e: Exception) {
+                result.add(BroadcastResult(client, null, e))
                 console("Broadcast failed client[${client.id}]")
             }
         }
@@ -106,6 +113,11 @@ class ProcedureServiceBinder(
 
         /**
          * Do something in your task.
+         * Call from client, run in service.
+         *
+         * @param client request sender.
+         * @param path rest path
+         * @param arguments optional, arguments for rest path.
          */
         @AnyThread
         suspend fun execute(client: RemoteClient, path: String, arguments: Bundle): Bundle

@@ -2,7 +2,7 @@ package com.eaglesakura.firearm.rpc.service.internal
 
 import android.os.Bundle
 import com.eaglesakura.firearm.aidl.IRemoteProcedureClient
-import com.eaglesakura.firearm.aidl.IRemoteProcedureServer
+import com.eaglesakura.firearm.aidl.IRemoteProcedureService
 import com.eaglesakura.firearm.rpc.internal.console
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceBinder
 import com.eaglesakura.firearm.rpc.service.RemoteClient
@@ -10,18 +10,18 @@ import kotlinx.coroutines.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-internal class IRemoteProcedureServerImpl(
+internal class IRemoteProcedureServiceImpl(
     private val parent: ProcedureServiceBinder,
     private val coroutineDispatcher: CoroutineDispatcher,
     private val callback: ProcedureServiceBinder.Callback
-) : IRemoteProcedureServer.Stub() {
+) : IRemoteProcedureService.Stub() {
     private val clients: MutableMap<String, RemoteClient> = mutableMapOf()
 
     private val lock = ReentrantLock()
 
     /**
      * Get all clients list.
-     * this property is thread-safe.
+     * this property is thread-safe, and returns copied list.
      */
     val allClients: List<RemoteClient>
         get() {

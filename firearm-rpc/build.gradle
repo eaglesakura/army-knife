@@ -15,7 +15,7 @@ buildscript {
 
 dependencies {
     implementation project(':army-knife')
-    implementation(project(':army-knife-persistence')) {
-        exclude group: "androidx.sqlite"
-    }
+//    implementation(project(':army-knife-persistence')) {
+//        exclude group: "androidx.sqlite"
+//    }
 }

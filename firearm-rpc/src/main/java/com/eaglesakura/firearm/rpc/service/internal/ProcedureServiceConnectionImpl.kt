@@ -8,10 +8,10 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import com.eaglesakura.firearm.aidl.IRemoteProcedureClient
-import com.eaglesakura.firearm.aidl.IRemoteProcedureServer
+import com.eaglesakura.firearm.aidl.IRemoteProcedureService
 import com.eaglesakura.firearm.rpc.ProcedureConnection
-import com.eaglesakura.firearm.rpc.service.client.ProcedureServiceClientCallback
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceConnection
+import com.eaglesakura.firearm.rpc.service.client.ProcedureServiceClientCallback
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlin.concurrent.thread
@@ -36,7 +36,7 @@ internal class ProcedureServiceConnectionImpl(
 
     private var name: ComponentName? = null
 
-    private var aidl: IRemoteProcedureServer? = null
+    private var aidl: IRemoteProcedureService? = null
 
     private var _clientId: String? = null
 
@@ -71,7 +71,7 @@ internal class ProcedureServiceConnectionImpl(
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         this.name = name
-        this.aidl = IRemoteProcedureServer.Stub.asInterface(service)
+        this.aidl = IRemoteProcedureService.Stub.asInterface(service)
     }
 
     /**
@@ -121,7 +121,7 @@ internal class ProcedureServiceConnectionImpl(
      * Request from server.
      * run client task.
      */
-    override fun requestFromServer(arguments: Bundle): Bundle {
+    override fun requestFromService(arguments: Bundle): Bundle {
         val request = RemoteRequest(arguments)
         val result = runBlocking(coroutineDispatcher) {
             // call client task.

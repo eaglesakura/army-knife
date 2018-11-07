@@ -1,10 +1,15 @@
 package com.eaglesakura.firearm.rpc.service.routers
 
 import android.os.Bundle
+import com.eaglesakura.firearm.rpc.service.BroadcastResult
+import com.eaglesakura.firearm.rpc.service.ProcedureServiceBinder
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceConnection
 import com.eaglesakura.firearm.rpc.service.RemoteClient
 import kotlinx.coroutines.CancellationException
 
+/**
+ * Procedure call from service, run in client.
+ */
 class RestfulClientProcedure<Arguments, ProcedureResult>(
     /**
      * Procedure path.
@@ -58,7 +63,7 @@ class RestfulClientProcedure<Arguments, ProcedureResult>(
     }
 
     /**
-     * Request server to client.
+     * Request service to client.
      * Execute in client.
      */
     suspend operator fun invoke(
@@ -72,5 +77,24 @@ class RestfulClientProcedure<Arguments, ProcedureResult>(
         } catch (err: Exception) {
             throw errorMap(err)
         }
+    }
+
+    /**
+     * Request service to all clients.
+     * Execute in all clients.
+     */
+    suspend operator fun invoke(
+        binder: ProcedureServiceBinder,
+        arguments: Arguments
+    ): List<BroadcastResult<ProcedureResult>> {
+        val result = mutableListOf<BroadcastResult<ProcedureResult>>()
+        for (client in binder.allClients) {
+            try {
+                result.add(BroadcastResult(client, invoke(client, arguments), null))
+            } catch (e: Exception) {
+                result.add(BroadcastResult(client, null, e))
+            }
+        }
+        return result.toList()
     }
 }

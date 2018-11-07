@@ -1,10 +1,10 @@
-// IRemoteProcedureServer.aidl
+// IRemoteProcedureService.aidl
 package com.eaglesakura.firearm.aidl;
 
 import android.os.Bundle;
 import com.eaglesakura.firearm.aidl.IRemoteProcedureClient;
 
-interface IRemoteProcedureServer {
+interface IRemoteProcedureService {
     /**
      * make a new session.
      */

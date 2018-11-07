@@ -1,14 +1,14 @@
 package com.eaglesakura.firearm.rpc.service.internal
 
 import android.os.Bundle
-import com.eaglesakura.armyknife.persistence.extensions.delegateBundleExtra
-import com.eaglesakura.armyknife.persistence.extensions.delegateStringExtra
 import com.eaglesakura.armyknife.runtime.Random
+import com.eaglesakura.firearm.rpc.internal.delegateBundleExtra
+import com.eaglesakura.firearm.rpc.internal.delegateStringExtra
 
 /**
  * Result at IRemoteProcedureServer.register()
  *
- * @see IRemoteProcedureServerImpl
+ * @see IRemoteProcedureServiceImpl
  */
 internal class RegisterResult internal constructor(
     internal val bundle: Bundle = Bundle()

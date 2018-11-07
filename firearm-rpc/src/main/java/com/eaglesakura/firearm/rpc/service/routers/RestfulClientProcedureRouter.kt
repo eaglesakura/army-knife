@@ -11,13 +11,13 @@ class RestfulClientProcedureRouter {
     ): RestfulClientProcedure<Arguments, ProcedureResult> {
         return RestfulClientProcedure<Arguments, ProcedureResult>(path)
             .also { proc ->
-            builder(proc)
-            require(proc.argumentsToBundle == proc.argumentsToBundle)
-            require(proc.bundleToArguments == proc.bundleToArguments)
-            require(proc.resultToBundle == proc.resultToBundle)
-            require(proc.bundleToResult == proc.bundleToResult)
-            table[path] = proc
-        }
+                builder(proc)
+                require(proc.argumentsToBundle == proc.argumentsToBundle)
+                require(proc.bundleToArguments == proc.bundleToArguments)
+                require(proc.resultToBundle == proc.resultToBundle)
+                require(proc.bundleToResult == proc.bundleToResult)
+                table[path] = proc
+            }
     }
 
     /**

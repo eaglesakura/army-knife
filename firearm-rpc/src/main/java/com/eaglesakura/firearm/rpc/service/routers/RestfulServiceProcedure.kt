@@ -5,6 +5,9 @@ import com.eaglesakura.firearm.rpc.service.ProcedureServiceConnection
 import com.eaglesakura.firearm.rpc.service.RemoteClient
 import kotlinx.coroutines.CancellationException
 
+/**
+ * Procedure call from client, run in service.
+ */
 class RestfulServiceProcedure<Arguments, ProcedureResult>(
     /**
      * Procedure path.

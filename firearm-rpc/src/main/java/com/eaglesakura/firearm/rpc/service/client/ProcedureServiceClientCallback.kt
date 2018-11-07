@@ -1,7 +1,6 @@
 package com.eaglesakura.firearm.rpc.service.client
 
 import android.os.Bundle
-import androidx.annotation.AnyThread
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceConnection
 
 /**
@@ -13,7 +12,6 @@ interface ProcedureServiceClientCallback {
      *
      * Call from Server, run in Client.
      */
-    @AnyThread
     suspend fun execute(
         /**
          * Sender connection.
