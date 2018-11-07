@@ -112,6 +112,12 @@ object RuntimePermissions {
 
     /**
      * If this app has permission for "usage stats access", this method returns true.
+     *
+     * Required, in AndroidManifest.xml
+     * <manifest>
+     *      <uses-permission android:name="android.permission.GET_TASKS"/>
+     *      <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
+     * </manifest>
      */
     fun hasAccessUsageStatusPermission(context: Context): Boolean {
         @Suppress("LiftReturnOrAssignment")
