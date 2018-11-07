@@ -1,7 +1,6 @@
 package com.eaglesakura.firearm.rpc.service.internal
 
 import android.os.Bundle
-import com.eaglesakura.armyknife.runtime.Random
 import com.eaglesakura.firearm.rpc.internal.delegateBundleExtra
 import com.eaglesakura.firearm.rpc.internal.delegateStringExtra
 
@@ -16,7 +15,7 @@ internal class RegisterResult internal constructor(
     /**
      * Unique id of your client.
      */
-    var clientId: String by bundle.delegateStringExtra("request.EXTRA_ID", Random.smallString())
+    var clientId: String by bundle.delegateStringExtra("request.EXTRA_ID", "")
 
     /**
      * Options in register.

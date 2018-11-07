@@ -35,6 +35,7 @@ internal class IRemoteProcedureServiceImpl(
      */
     override fun register(aidl: IRemoteProcedureClient, options: Bundle): Bundle {
         return lock.withLock {
+            // make new client.
             val client = RemoteClient(parent, aidl)
             clients[client.id] = client
 

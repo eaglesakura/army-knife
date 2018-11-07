@@ -96,6 +96,12 @@ object Random {
         }
     }
 
+    /**
+     * Returns random strings.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
+     */
     @JvmStatic
     fun string(length: Int = 32): String {
         val buffer = ByteArray(length)
@@ -105,11 +111,23 @@ object Random {
         return String(buffer)
     }
 
+    /**
+     * Returns random short strings(less than 10chars).
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
+     */
     @JvmStatic
     fun smallString(): String {
         return string(6) + (Random.uint16().toInt() and 0xFF)
     }
 
+    /**
+     * Returns random large strings(1024 chars).
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
+     */
     @JvmStatic
     fun largeString(): String {
         return string(4 * 256)
