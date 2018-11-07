@@ -1,14 +1,14 @@
 package com.eaglesakura.firearm.rpc.service
 
 import android.os.Bundle
-import com.eaglesakura.firearm.rpc.service.templates.RestfulProcedureRouter
+import com.eaglesakura.firearm.rpc.service.routers.RestfulClientProcedureRouter
 
 /**
  * Server to client api.
  * Call from server.
  */
 class ExampleProcedureClient {
-    val router = RestfulProcedureRouter()
+    val router = RestfulClientProcedureRouter()
 
     /**
      * Ping to client.

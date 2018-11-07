@@ -59,6 +59,6 @@ class ExampleRemoteProcedureServerService : LifecycleService(), ProcedureService
 
     override suspend fun execute(client: RemoteClient, path: String, arguments: Bundle): Bundle {
         console("Hello Remote Call!! [$path]")
-        return serverRouter.router.requestFrom(client, path, arguments)
+        return serverRouter.router(client, path, arguments)
     }
 }

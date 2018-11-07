@@ -9,9 +9,10 @@ import com.eaglesakura.firearm.rpc.ProcedureConnection
  * this object includes AIDL.
  *
  * e.g.)
- * val connection =  ProcedureServiceConnectionFactory.connect( /* arguments... */ )
- * connection.request("/path/to/proc", Bundle()) // request to service.
- * connection.disconnect() // unbind service.
+ *
+ *  val connection =  ProcedureServiceConnectionFactory.connect( /* arguments... */ )
+ *  connection.request("/path/to/proc", Bundle()) // request to service.
+ *  connection.disconnect() // unbind service.
  *
  * @see com.eaglesakura.firearm.rpc.service.ProcedureServiceBinder
  */

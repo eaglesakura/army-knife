@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceConnection
 import com.eaglesakura.firearm.rpc.service.internal.ProcedureServiceConnectionImpl
-import com.eaglesakura.firearm.rpc.service.templates.RestfulProcedureRouter
+import com.eaglesakura.firearm.rpc.service.routers.RestfulClientProcedureRouter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -66,7 +66,7 @@ object ProcedureServiceConnectionFactory {
      */
     suspend fun connect(
         context: Context,
-        router: RestfulProcedureRouter,
+        router: RestfulClientProcedureRouter,
         serviceIntent: Intent,
         block: (builder: Builder) -> Unit = {}
     ): ProcedureServiceConnection {
@@ -78,7 +78,7 @@ object ProcedureServiceConnectionFactory {
                     path: String,
                     arguments: Bundle
                 ): Bundle {
-                    return router.requestFrom(connection, path, arguments)
+                    return router(connection, path, arguments)
                 }
             },
             serviceIntent, block

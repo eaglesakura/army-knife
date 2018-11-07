@@ -1,4 +1,4 @@
-package com.eaglesakura.firearm.rpc.service.templates
+package com.eaglesakura.firearm.rpc.service.routers
 
 import android.content.Intent
 import android.os.Bundle
