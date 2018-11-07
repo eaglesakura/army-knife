@@ -14,6 +14,7 @@ include ':firearm-di'                       // alone
 include ':firearm-event'
 include ':firearm-material-resources'       // alone [Deprecated, Replace to https://github.com/DmitryMalkovich/material-design-dimens]
 include ':firearm-persistence'
+include ':firearm-rpc'
 
 include ':kerberus'                         // alone
 include ':oneshotlivedata'                  // alone [Deprecated, Replace to army-knife-reactivex]
