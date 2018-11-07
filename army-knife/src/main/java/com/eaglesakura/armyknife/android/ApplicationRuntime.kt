@@ -105,6 +105,17 @@ object ApplicationRuntime {
 
     /**
      * Returns an running application on top activity of this device.
+     *
+     * Required, in AndroidManifest.xml
+     * <manifest>
+     *      <uses-permission android:name="android.permission.GET_TASKS"/>
+     *      <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
+     * </manifest>
+     *
+     * Required, in Runtime Permission
+     * GrantPermissionRule.grant(Manifest.permission.PACKAGE_USAGE_STATS)!!
+     *
+     * @see RuntimePermissions.hasAccessUsageStatusPermission
      */
     @SuppressLint("WrongConstant")
     fun getTopApplicationPackage(context: Context): String {
