@@ -4,6 +4,9 @@ import com.eaglesakura.armyknife.runtime.Base64Impl
 
 /**
  * Byte array to base64 encoded string.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun ByteArray.encodeBase64(): String = Base64Impl.byteArrayToString(this)
 

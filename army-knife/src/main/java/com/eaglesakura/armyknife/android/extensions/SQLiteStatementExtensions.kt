@@ -5,10 +5,14 @@ import androidx.sqlite.db.SupportSQLiteStatement
 
 /**
  * SQLiteStatement to SupportSQLiteStatement.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun SQLiteStatement.asSupport(): SupportSQLiteStatement = SupportSqliteStatementImpl(this)
 
-private class SupportSqliteStatementImpl(private val mStatement: SQLiteStatement) : SupportSQLiteStatement {
+private class SupportSqliteStatementImpl(private val mStatement: SQLiteStatement) :
+    SupportSQLiteStatement {
     override fun execute() {
         mStatement.execute()
     }

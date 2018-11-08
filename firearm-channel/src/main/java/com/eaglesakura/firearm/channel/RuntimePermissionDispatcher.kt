@@ -17,10 +17,15 @@ import kotlinx.coroutines.launch
 
 /**
  * RuntimePermission Dispatcher with Channel.
+ *
+ * e.g.)
+ *
+ * val dispatcher = RuntimePermissionDispatcher(fragment, registry)
+ * val permissionResult = dispatcher.requestPermissionsWithResult( /* any permissions... */ )
  */
 @SuppressLint("LogNotTimber")
 @Suppress("unused")
-class RuntimePermissionDispatcher(
+class RuntimePermissionDispatcher internal constructor(
     private val getContext: () -> Context,
     private val requestPermissions: (permissions: Array<String>, requestCode: Int) -> Unit,
     private val shouldShowRequestPermissionRationale: (permission: String) -> Boolean,

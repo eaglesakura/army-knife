@@ -9,6 +9,9 @@ package com.eaglesakura.armyknife.android.extensions
  * val key = map.findKey { value ->
  *      value == "Value"
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Deprecated(
     "replace to package com.eaglesakura.armyknife.runtime.extensions",

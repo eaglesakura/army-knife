@@ -9,6 +9,9 @@ import com.eaglesakura.armyknife.android.view.SurfaceTextureHolder
 
 /**
  * convert a TextureView to SurfaceHolder.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun TextureView.toSurfaceHolder(): SurfaceTextureHolder = SurfaceTextureToSurfaceHolderBridge(this)
 

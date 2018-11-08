@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
  * e.g.)
  * val task: Task<Result> = ...
  * task.awaitWithSuspend()
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Deprecated("rename to awaitInCoroutines", ReplaceWith("awaitInCoroutines"))
 suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> = this.awaitInCoroutines()

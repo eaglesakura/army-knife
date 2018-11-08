@@ -17,6 +17,9 @@ import android.view.WindowManager
 
 /**
  * Utility for Application Runtime information.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 object ApplicationRuntime {
 
@@ -28,6 +31,13 @@ object ApplicationRuntime {
      */
     val pid: Int
         get() = android.os.Process.myPid()
+
+    /**
+     * Required Notification channel.
+     * it is not exist "NotificationChannelCompat" or such else.
+     * Should check SDK_INT, and register notification channel when it.
+     */
+    val requiredNotificationChannel: Boolean = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 
     /**
      * Kill self process.
@@ -140,7 +150,8 @@ object ApplicationRuntime {
                 }
             }
         } else {
-            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val activityManager =
+                context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             val processes = activityManager.runningAppProcesses
             for (info in processes) {
                 if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
@@ -160,7 +171,8 @@ object ApplicationRuntime {
      */
     fun <T : Service> isServiceRunning(context: Context, clazz: Class<T>): Boolean {
         try {
-            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val activityManager =
+                context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             val services = activityManager.getRunningServices(Integer.MAX_VALUE)
             for (info in services) {
                 if (clazz.name == info.service.className) {

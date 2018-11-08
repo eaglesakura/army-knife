@@ -19,11 +19,17 @@ import java.util.*
 /**
  * Cursor wrapper function for SupportSQLiteDatabase.
  * Example, Force cancel on "cursor.next()".
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 typealias CursorWrapper = (cursor: Cursor, signal: CancellationSignal?) -> Cursor
 
 /**
  * SQLiteDatabase to SupportSQLiteDatabase.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun SQLiteDatabase.asSupport(cursorWrapper: CursorWrapper? = null): SupportSQLiteDatabase {
     return SupportSQLiteDatabaseImpl(this).also {
@@ -33,9 +39,11 @@ fun SQLiteDatabase.asSupport(cursorWrapper: CursorWrapper? = null): SupportSQLit
     }
 }
 
-private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : SupportSQLiteDatabase {
+private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) :
+    SupportSQLiteDatabase {
 
-    var cursorWrapper: (cursor: Cursor, signal: CancellationSignal?) -> Cursor = { cursor, _ -> cursor }
+    var cursorWrapper: (cursor: Cursor, signal: CancellationSignal?) -> Cursor =
+        { cursor, _ -> cursor }
 
     override fun compileStatement(sql: String): SupportSQLiteStatement {
         return database.compileStatement(sql).asSupport()
@@ -50,7 +58,8 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : 
     }
 
     override fun beginTransactionWithListener(transactionListener: SQLiteTransactionListener) {
-        database.beginTransactionWithListener(object : android.database.sqlite.SQLiteTransactionListener {
+        database.beginTransactionWithListener(object :
+            android.database.sqlite.SQLiteTransactionListener {
             override fun onBegin() {
                 transactionListener.onBegin()
             }
@@ -66,7 +75,8 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : 
     }
 
     override fun beginTransactionWithListenerNonExclusive(transactionListener: SQLiteTransactionListener) {
-        database.beginTransactionWithListenerNonExclusive(object : android.database.sqlite.SQLiteTransactionListener {
+        database.beginTransactionWithListenerNonExclusive(object :
+            android.database.sqlite.SQLiteTransactionListener {
             override fun onBegin() {
                 transactionListener.onBegin()
             }
@@ -146,10 +156,14 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) : 
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
-    override fun query(supportQuery: SupportSQLiteQuery, cancellationSignal: CancellationSignal?): Cursor {
-        return database.rawQuery(supportQuery.sql, supportQuery.getBindArgs(), cancellationSignal).let {
-            return@let cursorWrapper(it, cancellationSignal)
-        }
+    override fun query(
+        supportQuery: SupportSQLiteQuery,
+        cancellationSignal: CancellationSignal?
+    ): Cursor {
+        return database.rawQuery(supportQuery.sql, supportQuery.getBindArgs(), cancellationSignal)
+            .let {
+                return@let cursorWrapper(it, cancellationSignal)
+            }
     }
 
     @Throws(SQLException::class)

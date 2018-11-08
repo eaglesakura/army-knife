@@ -12,6 +12,9 @@ package com.eaglesakura.armyknife.runtime.extensions
  * val key = map.findKey { value ->
  *      value == "Value"
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun <K, V> Map<K, V>.findKey(selector: (value: V) -> Boolean): K? {
     this.entries.forEach {

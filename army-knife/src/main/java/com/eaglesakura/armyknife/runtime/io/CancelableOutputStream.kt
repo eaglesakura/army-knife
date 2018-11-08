@@ -6,6 +6,9 @@ import java.io.OutputStream
 
 /**
  * add cancellation spec to OutputStream.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 class CancelableOutputStream(
     private val stream: OutputStream,

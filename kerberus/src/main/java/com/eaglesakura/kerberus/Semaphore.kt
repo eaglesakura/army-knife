@@ -7,9 +7,12 @@ import kotlinx.coroutines.channels.Channel
 import kotlin.coroutines.CoroutineContext
 
 /**
- * TaskQueueの制御等に用いるセマフォ.
+ * Semaphore for coroutines.
  *
- * ThreadPoolのような順番待ち処理を適切に行う.
+ * It is use to the TaskQueue or such else.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 interface Semaphore {
     @Throws(CancellationException::class)
@@ -38,14 +41,14 @@ interface Semaphore {
         val Queue: Semaphore = SemaphoreImpl(1)
 
         /**
-         * キューイング用のセマフォを生成する.
+         * new instance for Task Queue.
          */
         fun newQueue(): Semaphore {
             return newInstance(1)
         }
 
         /**
-         * 制御用のセマフォを生成する
+         * new instance with parallel.
          */
         @Suppress("MemberVisibilityCanBePrivate")
         fun newInstance(maxParallel: Int): Semaphore {
@@ -70,6 +73,7 @@ interface Semaphore {
     }
 }
 
+@Deprecated("Replace to com.eaglesakura.kerberus.CoroutineScope.launch", ReplaceWith(""))
 fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit): Job {
     val self = this
     return GlobalScope.launch(context) {
@@ -77,7 +81,11 @@ fun Semaphore.launch(context: CoroutineContext, block: suspend CoroutineScope.()
     }
 }
 
-suspend fun <T> Semaphore.runWith(context: CoroutineContext, block: suspend CoroutineScope.() -> T): T {
+@Deprecated("Replace to com.eaglesakura.kerberus.withSemaphore", ReplaceWith("withSemaphore"))
+suspend fun <T> Semaphore.runWith(
+    context: CoroutineContext,
+    block: suspend CoroutineScope.() -> T
+): T {
     return withContext(context) {
         block()
     }

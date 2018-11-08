@@ -13,7 +13,7 @@ aliases:
         - army-knife-persistence-test
         - army-knife-reactivex-test
         - army-knife-timber-test
-        - army-knife-view-adapters-test
+        - army-knife-widgets-test
         - firearm-test
         - firearm-channel-test
         - firearm-di-test
@@ -172,8 +172,8 @@ workflows:
       - local-unit-test:
           <<: *filter-for-assemble
           <<: *depends-from-tests
-          module: army-knife-view-adapters
-          name: army-knife-view-adapters-test
+          module: army-knife-widgets
+          name: army-knife-widgets-test
       - local-unit-test:
           <<: *filter-for-assemble
           <<: *depends-from-tests
@@ -265,8 +265,8 @@ workflows:
       - deploy-to-bintray:
           <<: *filter-for-assemble
           <<: *depends-from-deploy
-          module: army-knife-view-adapters
-          name: army-knife-view-adapters-deploy
+          module: army-knife-widgets
+          name: army-knife-widgets-deploy
       - deploy-to-bintray:
           <<: *filter-for-assemble
           <<: *depends-from-deploy

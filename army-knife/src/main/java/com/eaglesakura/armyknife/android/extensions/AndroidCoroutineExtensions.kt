@@ -41,6 +41,9 @@ fun <T> runBlockingInUI(context: CoroutineContext = Dispatchers.Default, block: 
 /**
  * Link to lifecycle.
  * When destroyed a lifecycle object then cancel coroutine.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun CoroutineContext.with(lifecycle: Lifecycle) {
     val context = this

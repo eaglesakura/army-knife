@@ -7,6 +7,9 @@ import androidx.lifecycle.Lifecycle
 /**
  * AlertDialog link to Lifecycle.
  * When lifecycle on destroy, then dismiss this dialog.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun AlertDialog.Builder.show(lifecycle: Lifecycle): AlertDialog {
     return show().also {

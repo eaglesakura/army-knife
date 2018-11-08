@@ -52,6 +52,9 @@ object RuntimePermissions {
     /**
      * This method returns Intent for Application settings.
      * User can change this application setting.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun newAppSettingIntent(context: Context): Intent {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -62,6 +65,9 @@ object RuntimePermissions {
     /**
      * This method returns Intent for Overlay setting.
      * User can change overlay settings.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @TargetApi(Build.VERSION_CODES.M)
     fun newAppOverlaySettingIntent(context: Context): Intent {
@@ -72,6 +78,9 @@ object RuntimePermissions {
 
     /**
      * This method returns Intent for "usage stats access permission".
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun newUsageStatusSettingIntent(@Suppress("UNUSED_PARAMETER") context: Context): Intent {
         return Intent("android.settings.USAGE_ACCESS_SETTINGS")
@@ -79,10 +88,17 @@ object RuntimePermissions {
 
     /**
      * If all permissions are granted, this method returns true.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun hasAllRuntimePermissions(context: Context, permissions: Iterable<String>): Boolean {
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }
@@ -91,6 +107,9 @@ object RuntimePermissions {
 
     /**
      * If this app has permission for draw on system-layer, this method returns true.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     @Deprecated("Replace to RuntimePermissions.canDrawOverlays()", ReplaceWith("canDrawOverlays"))
     fun hasDrawOverlayPermission(context: Context): Boolean {
@@ -103,6 +122,9 @@ object RuntimePermissions {
 
     /**
      * If this app has permission for draw on system-layer, this method returns true.
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun canDrawOverlays(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -118,6 +140,9 @@ object RuntimePermissions {
      *      <uses-permission android:name="android.permission.GET_TASKS"/>
      *      <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
      * </manifest>
+     *
+     * @author @eaglesakura
+     * @link https://github.com/eaglesakura/army-knife
      */
     fun hasAccessUsageStatusPermission(context: Context): Boolean {
         @Suppress("LiftReturnOrAssignment")
@@ -127,7 +152,8 @@ object RuntimePermissions {
         } else {
             val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
             val uid = android.os.Process.myUid()
-            val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, uid, context.packageName)
+            val mode =
+                appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, uid, context.packageName)
             return mode == AppOpsManager.MODE_ALLOWED
         }
     }

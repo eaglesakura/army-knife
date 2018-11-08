@@ -15,6 +15,9 @@ import kotlinx.android.parcel.Parcelize
  * e.g.)
  * val info = DisplayInfo.newInstance(context)
  * Log.d("DisplayInfo", "${info.widthPixel} x ${info.heightPixel}")
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Suppress("MemberVisibilityCanBePrivate")
 @Parcelize
@@ -108,7 +111,8 @@ data class DisplayInfo(
         @JvmStatic
         fun newInstance(context: Context): DisplayInfo {
 
-            val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+            val display =
+                (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
 
             val displayMetrics = DisplayMetrics()
             display.getMetrics(displayMetrics)
@@ -137,7 +141,8 @@ data class DisplayInfo(
             val dpi = toDpi(displayMetrics.xdpi, displayMetrics.ydpi)
 
 
-            val diagonalInch = Math.sqrt((widthInch * widthInch + heightInch * heightInch).toDouble()).toFloat()
+            val diagonalInch =
+                Math.sqrt((widthInch * widthInch + heightInch * heightInch).toDouble()).toFloat()
             val diagonal = (diagonalInch * 100.0f).toInt().let { (it + 5) / 10 }
             val diagonalRoundInch = Inch(diagonal / 10, diagonal % 10)
 

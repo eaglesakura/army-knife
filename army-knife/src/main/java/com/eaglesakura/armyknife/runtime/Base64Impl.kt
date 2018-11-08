@@ -18,7 +18,8 @@ internal object Base64Impl {
 
     private const val ANDROID_NO_CLOSE = 16
 
-    private const val ANDROID_FLAG = ANDROID_NO_CLOSE or ANDROID_NO_PADDING or ANDROID_NO_WRAP or ANDROID_URL_SAFE
+    private const val ANDROID_FLAG =
+        ANDROID_NO_CLOSE or ANDROID_NO_PADDING or ANDROID_NO_WRAP or ANDROID_URL_SAFE
 
     init {
         val runOnAndroid = try {
@@ -35,7 +36,8 @@ internal object Base64Impl {
         } else {
             // for JVM
             @RequiresApi(Build.VERSION_CODES.O)
-            byteArrayToString = { byteArray -> java.util.Base64.getEncoder().encodeToString(byteArray) }
+            byteArrayToString =
+                    { byteArray -> java.util.Base64.getEncoder().encodeToString(byteArray) }
             @RequiresApi(Build.VERSION_CODES.O)
             stringToByteArray = { str -> java.util.Base64.getDecoder().decode(str) }
         }

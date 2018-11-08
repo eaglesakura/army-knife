@@ -10,8 +10,12 @@ import kotlinx.coroutines.selects.SelectClause2
  * Delegate supported channel.
  *
  * If you want to the simple use case, then replace to "RendezvousChannel<T>".
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
-abstract class DelegateChannel<T>(protected val origin: Channel<T>) : Channel<T> {
+abstract class DelegateChannel<T>(@Suppress("MemberVisibilityCanBePrivate") protected val origin: Channel<T>) :
+    Channel<T> {
     override val isClosedForReceive: Boolean
         get() = origin.isClosedForReceive
 

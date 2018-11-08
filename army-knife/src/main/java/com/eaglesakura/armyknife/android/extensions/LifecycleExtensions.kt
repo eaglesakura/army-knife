@@ -4,11 +4,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 /**
@@ -20,6 +17,9 @@ import kotlinx.coroutines.withContext
  *          // do something.
  *      }
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
     this.addObserver(object : LifecycleObserver {
@@ -42,6 +42,9 @@ fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
  *          cancel() // cancel subscribe events.
  *      }
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () -> Unit) -> Unit) {
     val self = this
@@ -63,9 +66,13 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
  *
  *      // do something, fragment on resumed.
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
     withContext(Dispatchers.Main) {
+        yield()
         if (lifecycle.currentState == targetEvent) {
             return@withContext
         }

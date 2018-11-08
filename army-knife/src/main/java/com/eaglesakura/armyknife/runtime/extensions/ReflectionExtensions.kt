@@ -5,6 +5,9 @@ import kotlin.reflect.KClass
 
 /**
  * check any instance implemented `Class<>`.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Any.instanceOf(clazz: Class<*>): Boolean {
     return try {
@@ -16,5 +19,8 @@ fun Any.instanceOf(clazz: Class<*>): Boolean {
 
 /**
  * check any instance implemented `KClass<>`.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Any.instanceOf(clazz: KClass<*>): Boolean = instanceOf(clazz.java)

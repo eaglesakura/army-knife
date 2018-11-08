@@ -8,10 +8,14 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
 
 /**
  * SQLiteOpenHelper to SupportSQLiteOpenHelper.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun SQLiteOpenHelper.asSupport(): SupportSQLiteOpenHelper = SupportSQLiteOpenHelperImpl(this)
 
-private class SupportSQLiteOpenHelperImpl(private val helper: SQLiteOpenHelper) : SupportSQLiteOpenHelper {
+private class SupportSQLiteOpenHelperImpl(private val helper: SQLiteOpenHelper) :
+    SupportSQLiteOpenHelper {
     override fun getDatabaseName(): String = helper.databaseName
 
     override fun getWritableDatabase(): SupportSQLiteDatabase = helper.writableDatabase.asSupport()

@@ -1,10 +1,12 @@
-package com.eaglesakura.armyknife.adapters
+package com.eaglesakura.armyknife.widgets.view
 
+import android.R
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.annotation.ArrayRes
+import com.eaglesakura.armyknife.adapters.SpinnerAdapterBuilder
 
 /**
  * Spinner adapter with builder
@@ -55,8 +57,8 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
     private fun buildAdapter(): SupportArrayAdapter<T> {
         val adapter = SupportArrayAdapter<T>(
             context,
-            android.R.layout.simple_spinner_item,
-            android.R.layout.simple_spinner_dropdown_item
+            R.layout.simple_spinner_item,
+            R.layout.simple_spinner_dropdown_item
         )
         dropdownViewMap?.let { adapter.dropdownViewMap = it }
         selectionViewMap?.let { adapter.selectionViewMap = it }

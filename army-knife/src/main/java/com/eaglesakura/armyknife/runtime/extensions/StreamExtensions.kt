@@ -10,6 +10,9 @@ import java.io.InputStream
  * This method supported for Cancel in read process.
  *
  * If cancelCallback() returns true, then throw CancellationException in this function.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Throws(CancellationException::class, IOException::class)
 fun InputStream.readBytes(readOnce: Int, cancelCallback: CancelCallback): ByteArray {

@@ -6,6 +6,9 @@ import androidx.sqlite.db.SupportSQLiteProgram
 
 /**
  * SQLiteProgram to SupportSQLiteProgram.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun SQLiteProgram.asSupport(): SupportSQLiteProgram = SupportSQLiteProgramImpl(this)
 

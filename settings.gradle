@@ -6,7 +6,7 @@ include ':army-knife-junit'                 // alone
 include ':army-knife-persistence'
 include ':army-knife-reactivex'
 include ':army-knife-timber'                // alone
-include ':army-knife-view-adapters'         // alone
+include ':army-knife-widgets'         // alone
 
 include ':firearm'
 include ':firearm-channel'                  // alone

@@ -16,6 +16,9 @@ fun FirebaseRemoteConfig.setDebug(set: Boolean) {
 
 /**
  * Developer Mode option.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 var FirebaseRemoteConfig.developerMode
     get() = info.configSettings.isDeveloperModeEnabled
@@ -31,6 +34,9 @@ var FirebaseRemoteConfig.developerMode
  *
  * e.g.)
  * FirebaseRemoteConfig.getInstance().fetch(12, TimeUnit.HOURS)
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun FirebaseRemoteConfig.fetch(cacheTime: Long, cacheTimeUnit: TimeUnit): Task<Void> {
     val cacheTimeSec =

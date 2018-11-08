@@ -60,6 +60,17 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
     }
 
     /**
+     * Get channel from key.
+     * If channel not found then throws exception from function.
+     */
+    fun <T> find(key: Any): Channel<T>? {
+        return lock.withLock {
+            @Suppress("UNCHECKED_CAST")
+            channels[key] as? Channel<T>?
+        }
+    }
+
+    /**
      * Add channel to registry.
      * This function returns new channel for using, You should "close()" it.
      */

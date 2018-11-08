@@ -15,6 +15,9 @@ import androidx.annotation.WorkerThread
  * UIHandler.post {
  *      // do something on UI thread.
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 val UIHandler = Handler(Looper.getMainLooper())
 

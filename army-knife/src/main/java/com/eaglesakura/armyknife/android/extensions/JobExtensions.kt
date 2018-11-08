@@ -8,6 +8,9 @@ import kotlinx.coroutines.Job
 
 /**
  * When lifecycle on destroyed, then cancel job.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Job.with(lifecycle: Lifecycle) {
     val job = this

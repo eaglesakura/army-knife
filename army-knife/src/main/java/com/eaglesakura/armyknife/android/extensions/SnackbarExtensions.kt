@@ -11,6 +11,9 @@ import com.google.android.material.snackbar.Snackbar
  * val snackbar: Snackbar
  * val color: Int = Colors.RED
  * snackbar.setBackgroundColor(color)
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun Snackbar.setBackgroundColor(@ColorInt color: Int) {
@@ -24,6 +27,9 @@ inline fun Snackbar.setBackgroundColor(@ColorInt color: Int) {
  * val snackbar: Snackbar
  * val color: Int = Colors.RED
  * snackbar.setTextColor(color)
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun Snackbar.setTextColor(@ColorInt color: Int) {

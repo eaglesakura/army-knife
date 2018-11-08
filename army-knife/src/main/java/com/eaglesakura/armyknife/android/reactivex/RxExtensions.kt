@@ -14,6 +14,9 @@ import kotlinx.coroutines.channels.Channel
  *
  * LiveData calls "dispose()" method at Inactive event.
  * You should not call Disposable.dispose() method.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun <T> Observable<T>.toLiveData(): LiveData<T> {
     return RxLiveData(this)
@@ -33,6 +36,9 @@ fun <T> Observable<T>.toLiveData(): LiveData<T> {
  * observable.toChannel().consume {
  *      // something...
  * }    // Channel.close() on exit.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @CheckResult
 fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
@@ -47,6 +53,9 @@ fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
  *
  * If Call "Disposable.dispose()" function before than destroyed.
  * it is supported, you can it.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Disposable.with(lifecycle: Lifecycle): Disposable {
     var origin: Disposable? = this
@@ -80,6 +89,9 @@ fun Disposable.with(lifecycle: Lifecycle): Disposable {
 
 /**
  * Subscribe value from any Observable with Lifecycle.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun <T> Observable<T>.subscribe(
     lifecycle: Lifecycle,
@@ -98,6 +110,9 @@ fun <T> Observable<T>.subscribe(
  * Lifecycle to RxJava observable.
  *
  * Observable will call "onComplete()" function at lifecycle in "Event.ON_DESTROY".
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
     val result = PublishSubject.create<Lifecycle.Event>()

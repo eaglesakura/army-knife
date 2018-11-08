@@ -7,6 +7,9 @@ import java.io.InputStream
 
 /**
  * add cancellation spec to InputStream.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @Suppress("MemberVisibilityCanBePrivate")
 class CancelableInputStream(

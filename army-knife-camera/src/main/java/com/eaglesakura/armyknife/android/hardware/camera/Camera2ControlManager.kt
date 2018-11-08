@@ -9,9 +9,9 @@ import android.location.Location
 import android.media.ImageReader
 import android.os.Build
 import android.view.Surface
+import com.eaglesakura.armyknife.android.ApplicationRuntime
 import com.eaglesakura.armyknife.android.extensions.AsyncHandler
 import com.eaglesakura.armyknife.android.extensions.UIHandler
-import com.eaglesakura.armyknife.android.extensions.deviceRotateDegree
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraAccessFailedException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraSecurityException
@@ -37,7 +37,8 @@ internal class Camera2ControlManager(
 
     private val spec: Camera2SpecImpl = Camera2SpecImpl(context)
 
-    private val characteristics: CameraCharacteristics = spec.getCameraSpec(connectRequest.cameraType)
+    private val characteristics: CameraCharacteristics =
+        spec.getCameraSpec(connectRequest.cameraType)
 
     /**
      * 撮影用セッション
@@ -94,30 +95,34 @@ internal class Camera2ControlManager(
                 this@Camera2ControlManager.previewRequest = previewRequest
                 this@Camera2ControlManager.previewSurface = previewSurface
 
-                spec.cameraManager.openCamera(spec.cameraId!!, object : CameraDevice.StateCallback() {
-                    override fun onOpened(cameraDevice: CameraDevice) {
-                        launch(Dispatchers.Main) {
-                            channel.send(cameraDevice)
-                        }
-                    }
-
-                    override fun onDisconnected(cameraDevice: CameraDevice) {
-                        launch(Dispatchers.Main) {
-                            disconnect()
-                        }
-                    }
-
-                    override fun onError(cameraDevice: CameraDevice, error: Int) {
-                        launch(Dispatchers.Main) {
-                            if (error == CameraDevice.StateCallback.ERROR_CAMERA_IN_USE) {
-                                // すでに使われている
+                spec.cameraManager.openCamera(
+                    spec.cameraId!!,
+                    object : CameraDevice.StateCallback() {
+                        override fun onOpened(cameraDevice: CameraDevice) {
+                            launch(Dispatchers.Main) {
                                 channel.send(cameraDevice)
-                            } else {
-                                channel.cancel(CameraSecurityException("Error[$error]"))
                             }
                         }
-                    }
-                }, UIHandler)
+
+                        override fun onDisconnected(cameraDevice: CameraDevice) {
+                            launch(Dispatchers.Main) {
+                                disconnect()
+                            }
+                        }
+
+                        override fun onError(cameraDevice: CameraDevice, error: Int) {
+                            launch(Dispatchers.Main) {
+                                if (error == CameraDevice.StateCallback.ERROR_CAMERA_IN_USE) {
+                                    // すでに使われている
+                                    channel.send(cameraDevice)
+                                } else {
+                                    channel.cancel(CameraSecurityException("Error[$error]"))
+                                }
+                            }
+                        }
+                    },
+                    UIHandler
+                )
 
                 camera = channel.receive()
             } catch (err: SecurityException) {
@@ -169,7 +174,8 @@ internal class Camera2ControlManager(
 
         pictureShotRequest?.also { cameraPictureShotRequest ->
             imageReader = ImageReader.newInstance(
-                cameraPictureShotRequest.captureSize.width, cameraPictureShotRequest.captureSize.height,
+                cameraPictureShotRequest.captureSize.width,
+                cameraPictureShotRequest.captureSize.height,
                 if (cameraPictureShotRequest.format === CaptureFormat.Raw) ImageFormat.RAW_SENSOR else ImageFormat.JPEG,
                 2
             )
@@ -196,9 +202,15 @@ internal class Camera2ControlManager(
     }
 
     @Throws(CameraAccessException::class)
-    private fun newCaptureRequest(env: CameraEnvironmentRequest?, template: Int): CaptureRequest.Builder {
+    private fun newCaptureRequest(
+        env: CameraEnvironmentRequest?,
+        template: Int
+    ): CaptureRequest.Builder {
         val camera = camera
-            ?: throw throw CameraAccessException(CameraAccessException.CAMERA_ERROR, "connect() not called")
+            ?: throw throw CameraAccessException(
+                CameraAccessException.CAMERA_ERROR,
+                "connect() not called"
+            )
         val request = camera.createCaptureRequest(template)
 
         env?.apply {
@@ -234,13 +246,14 @@ internal class Camera2ControlManager(
             val previewSession = getSession()
 
             // プレビューを開始する
-            val previewCaptureRequest = newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW).also { builder ->
-                builder.set(
-                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
-                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START
-                )
-                builder.addTarget(previewSurface!!.getSurface(previewRequest!!.previewSize))
-            }
+            val previewCaptureRequest =
+                newCaptureRequest(env, CameraDevice.TEMPLATE_PREVIEW).also { builder ->
+                    builder.set(
+                        CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
+                        CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START
+                    )
+                    builder.addTarget(previewSurface!!.getSurface(previewRequest!!.previewSize))
+                }
             previewSession.stopRepeating()
             previewSession.setRepeatingRequest(
                 previewCaptureRequest.build(),
@@ -288,7 +301,7 @@ internal class Camera2ControlManager(
 
     private fun getJpegOrientation(): Int {
         val sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)!!
-        val deviceRotateDegree = context.deviceRotateDegree
+        val deviceRotateDegree = ApplicationRuntime.getDeviceRotateDegree(context)
         val jpegOrientation: Int
 
         // (360 * 2)を加算しているのは、最大で-270-270の角度を正の値に補正するためである
@@ -361,7 +374,10 @@ internal class Camera2ControlManager(
             }
 
             if (FocusMode.SETTING_AUTO == env?.focusMode) {
-                builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                builder.set(
+                    CaptureRequest.CONTROL_AF_MODE,
+                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                )
                 builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
             }
 

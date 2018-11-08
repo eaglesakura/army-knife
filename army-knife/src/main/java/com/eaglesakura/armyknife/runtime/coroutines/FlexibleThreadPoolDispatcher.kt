@@ -15,14 +15,25 @@ import java.util.concurrent.TimeUnit
  * e.g.)
  *
  * val dispatcher = FlexibleThreadPoolDispatcher.newDispatcher(4, 1, TimeUnit.SECONDS)  // 4thread, 1seconds auto-scale dispatcher.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 object FlexibleThreadPoolDispatcher {
 
     /**
      * Returns new auto-scale coroutine dispatcher.
      */
-    fun newDispatcher(maxThreads: Int, keepAliveTime: Long, keepAliveTimeUnit: TimeUnit): CoroutineDispatcher {
-        return FlexibleThreadPoolExecutor(maxThreads, keepAliveTime, keepAliveTimeUnit).asCoroutineDispatcher()
+    fun newDispatcher(
+        maxThreads: Int,
+        keepAliveTime: Long,
+        keepAliveTimeUnit: TimeUnit
+    ): CoroutineDispatcher {
+        return FlexibleThreadPoolExecutor(
+            maxThreads,
+            keepAliveTime,
+            keepAliveTimeUnit
+        ).asCoroutineDispatcher()
     }
 
     /**

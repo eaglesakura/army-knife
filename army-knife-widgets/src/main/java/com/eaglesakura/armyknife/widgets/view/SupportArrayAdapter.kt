@@ -1,4 +1,4 @@
-package com.eaglesakura.armyknife.adapters
+package com.eaglesakura.armyknife.widgets.view
 
 import android.content.Context
 import android.view.LayoutInflater

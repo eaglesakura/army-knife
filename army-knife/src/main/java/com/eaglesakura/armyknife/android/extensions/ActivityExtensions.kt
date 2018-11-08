@@ -11,6 +11,9 @@ import androidx.fragment.app.FragmentActivity
 /**
  * Find interface by Activity and children.
  * If it has many interfaces then returns 1st hit object.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 inline fun <reified T> FragmentActivity.findInterface(): T? {
     if (this is T) {
@@ -28,6 +31,9 @@ inline fun <reified T> FragmentActivity.findInterface(): T? {
 
 /**
  * Force closing Input Method.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Activity.closeIME() {
     closeIME(currentFocus ?: return)
@@ -35,6 +41,9 @@ fun Activity.closeIME() {
 
 /**
  * Force closing Input Method.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun Activity.closeIME(focus: View) {
     try {

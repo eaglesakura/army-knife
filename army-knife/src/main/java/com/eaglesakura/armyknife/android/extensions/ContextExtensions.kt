@@ -11,10 +11,14 @@ import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
 
-@Deprecated("replace to ApplicationRuntime", ReplaceWith("ApplicationRuntime.getDeviceRotateDegree(context)"))
+@Deprecated(
+    "replace to ApplicationRuntime",
+    ReplaceWith("ApplicationRuntime.getDeviceRotateDegree(context)")
+)
 val Context.deviceRotateDegree: Int
     get() {
-        val surfaceRotation = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+        val surfaceRotation =
+            (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
         when (surfaceRotation) {
             Surface.ROTATION_0 -> return 0
             Surface.ROTATION_90 -> return 90
@@ -27,6 +31,9 @@ val Context.deviceRotateDegree: Int
 /**
  * If this app debugging now,
  * This property returns true,
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 val Context.debugMode: Boolean
     get() = packageManager.getApplicationInfo(packageName, 0)?.let { appInfo ->
@@ -58,6 +65,9 @@ val Context.developerModeDevice: Boolean
 
 /**
  * This method returns true when android-device connected to network.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 @SuppressLint("MissingPermission")
 fun Context.isConnectedNetwork(): Boolean {

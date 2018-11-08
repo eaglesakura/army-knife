@@ -24,6 +24,9 @@ import androidx.lifecycle.Observer
  *          // this message "NOT" receive on pausing.
  *      }
  * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
 fun <T> LiveData<T>.observeAlive(owner: LifecycleOwner, observer: Observer<T>) {
     observeForever(observer)
