@@ -2,6 +2,8 @@ package com.eaglesakura.firearm.channel
 
 import androidx.annotation.CheckResult
 import androidx.annotation.UiThread
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.channels.Channel
@@ -16,7 +18,7 @@ import kotlin.concurrent.withLock
  * ChannelRegistry use to  an activity with short time or check to the runtime permission.
  * DON'T USE LONG TIME ACTIVITY.
  */
-class ChannelRegistry(private val owner: LifecycleOwner) {
+class ChannelRegistry {
     /**
      * Did register channels.
      *
@@ -25,12 +27,18 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
 
     private val lock = ReentrantLock()
 
-    init {
+    constructor(owner: LifecycleOwner) {
         owner.lifecycle.subscribe {
             if (it == Lifecycle.Event.ON_DESTROY) {
-                onDestroy()
+                destroy()
             }
         }
+    }
+
+    /**
+     * for ChannelRegistryViewModel
+     */
+    internal constructor() {
     }
 
     /**
@@ -89,7 +97,7 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
     }
 
     @UiThread
-    private fun onDestroy() {
+    internal fun destroy() {
         lock.withLock {
             for (item in channels) {
                 try {
@@ -123,5 +131,20 @@ class ChannelRegistry(private val owner: LifecycleOwner) {
             registry.unregister(key)
             return super.close(cause)
         }
+    }
+
+    companion object {
+        /**
+         * Get channel registry from Activity.
+         */
+        fun get(activity: FragmentActivity): ChannelRegistry =
+            ChannelRegistryViewModel.get(activity)
+
+        /**
+         * Get channel registry from Fragment.
+         * ChannelRegistry attach to Activity.
+         * All Fragments and an Activity has same instance.
+         */
+        fun get(fragment: Fragment): ChannelRegistry = ChannelRegistryViewModel.get(fragment)
     }
 }
