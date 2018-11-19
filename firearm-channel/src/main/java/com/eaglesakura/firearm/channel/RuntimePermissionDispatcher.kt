@@ -10,6 +10,7 @@ import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
  *
  * e.g.)
  *
- * val dispatcher = RuntimePermissionDispatcher(fragment, registry)
+ * val dispatcher = RuntimePermissionDispatcher(fragment)
  * val permissionResult = dispatcher.requestPermissionsWithResult( /* any permissions... */ )
  */
 @SuppressLint("LogNotTimber")
@@ -29,25 +30,65 @@ class RuntimePermissionDispatcher internal constructor(
     private val getContext: () -> Context,
     private val requestPermissions: (permissions: Array<String>, requestCode: Int) -> Unit,
     private val shouldShowRequestPermissionRationale: (permission: String) -> Boolean,
-    private val registry: ChannelRegistry
+    private val getRegistry: () -> ChannelRegistry
 ) {
 
     @Suppress("unused")
     constructor(fragment: Fragment, registry: ChannelRegistry) :
             this(
-                { fragment.context!! },
-                fragment::requestPermissions,
-                fragment::shouldShowRequestPermissionRationale,
-                registry
+                getContext = { fragment.context!! },
+                requestPermissions = fragment::requestPermissions,
+                shouldShowRequestPermissionRationale = fragment::shouldShowRequestPermissionRationale,
+                getRegistry = { registry }
             )
 
     @Suppress("unused")
     constructor(activity: Activity, registry: ChannelRegistry) :
             this(
-                { activity },
-                { permissions, requestCode -> ActivityCompat.requestPermissions(activity, permissions, requestCode) },
-                { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) },
-                registry
+                getContext = { activity },
+                requestPermissions = { permissions, requestCode ->
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        permissions,
+                        requestCode
+                    )
+                },
+                shouldShowRequestPermissionRationale = { permission ->
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        activity,
+                        permission
+                    )
+                },
+                getRegistry = { registry }
+            )
+
+    @Suppress("unused")
+    constructor(fragment: Fragment) :
+            this(
+                getContext = { fragment.context!! },
+                requestPermissions = fragment::requestPermissions,
+                shouldShowRequestPermissionRationale = fragment::shouldShowRequestPermissionRationale,
+                getRegistry = { ChannelRegistry.get(fragment) }
+            )
+
+    @Suppress("unused")
+    constructor(activity: FragmentActivity) :
+            this(
+                getContext = { activity },
+                requestPermissions = { permissions, requestCode ->
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        permissions,
+                        requestCode
+                    )
+                },
+                shouldShowRequestPermissionRationale = { permission ->
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        activity,
+                        permission
+                    )
+                },
+                getRegistry = { ChannelRegistry.get(activity) }
             )
 
     private fun makeRequestCode(permissions: Collection<String>) =
@@ -101,7 +142,7 @@ class RuntimePermissionDispatcher internal constructor(
             }
         }
 
-        val result = registry.register(key, Channel<RuntimePermissionResult>())
+        val result = getRegistry().register(key, Channel<RuntimePermissionResult>())
         GlobalScope.launch(Dispatchers.Main) {
             if (requestPermissions.isEmpty()) {
                 // have all permissions
@@ -126,12 +167,16 @@ class RuntimePermissionDispatcher internal constructor(
      */
     @Suppress("unused")
     @UiThread
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         assertUIThread()
 
         val key = makeKey(requestCode)
         try {
-            val channel = registry.get<RuntimePermissionResult>(key)
+            val channel = getRegistry().get<RuntimePermissionResult>(key)
 
             val shouldShowRationalePermissions = mutableListOf<String>()
             for (permission in permissions) {
@@ -160,7 +205,11 @@ class RuntimePermissionDispatcher internal constructor(
      */
     @Suppress("unused")
     fun getRuntimePermissionStatus(permissions: Collection<String>): RuntimePermissionResult {
-        return getRuntimePermissionStatus(getContext(), shouldShowRequestPermissionRationale, permissions)
+        return getRuntimePermissionStatus(
+            getContext(),
+            shouldShowRequestPermissionRationale,
+            permissions
+        )
     }
 
     companion object {
@@ -185,7 +234,12 @@ class RuntimePermissionDispatcher internal constructor(
 
             return RuntimePermissionResult(
                 permissions.toList(),
-                permissions.map { permission -> ActivityCompat.checkSelfPermission(context, permission) },
+                permissions.map { permission ->
+                    ActivityCompat.checkSelfPermission(
+                        context,
+                        permission
+                    )
+                },
                 shouldShowRationalePermissions
             )
         }
@@ -194,7 +248,10 @@ class RuntimePermissionDispatcher internal constructor(
          * Returns runtime permission status, just now.
          */
         @JvmStatic
-        fun getRuntimePermissionStatus(fragment: Fragment, permissions: Collection<String>): RuntimePermissionResult {
+        fun getRuntimePermissionStatus(
+            fragment: Fragment,
+            permissions: Collection<String>
+        ): RuntimePermissionResult {
             return getRuntimePermissionStatus(
                 fragment.context!!,
                 fragment::shouldShowRequestPermissionRationale,
@@ -207,10 +264,18 @@ class RuntimePermissionDispatcher internal constructor(
          */
         @JvmStatic
         @Suppress("unused")
-        fun getRuntimePermissionStatus(activity: Activity, permissions: Collection<String>): RuntimePermissionResult {
+        fun getRuntimePermissionStatus(
+            activity: Activity,
+            permissions: Collection<String>
+        ): RuntimePermissionResult {
             return getRuntimePermissionStatus(
                 activity,
-                { permission -> ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) },
+                { permission ->
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        activity,
+                        permission
+                    )
+                },
                 permissions
             )
         }
