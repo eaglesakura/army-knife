@@ -21,8 +21,8 @@ inline fun <reified T> FragmentActivity.findInterface(): T? {
     }
 
     supportFragmentManager.fragments.forEach { fragment ->
-        if (fragment is T) {
-            return fragment
+        fragment.findInterface<T>()?.also {
+            return it
         }
     }
 
