@@ -37,23 +37,33 @@ executors:
     working_directory: /home/circleci/project
     docker:
       - image: google/cloud-sdk
+    environment:
+      TZ: Asia/Tokyo
   android-build:
     working_directory: /home/circleci/project
     docker:
       - image: circleci/android:api-28-alpha
     environment:
+      TZ: Asia/Tokyo
       _JAVA_OPTIONS: -Dfile.encoding=UTF-8
       GRADLE_OPTS: "-Xmx3500m"
-      TZ: Asia/Tokyo
 commands:
+  internal-checkout:
+    steps:
+      - checkout
+      - run:
+          name: generate-cache-key
+          command: |
+            echo "${CIRCLE_SHA1}-${CIRCLE_BRANCH:-nil}-${CIRCLE_TAG:-nil}-`date "+%Y%m%d"`" > .cachekey
+            cat .cachekey
   module-checkout:
     parameters:
       module:
         type: string
     steps:
-      - checkout
+      - internal-checkout
       - restore_cache:
-          key: configs-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+          key: configs-{{ checksum ".cachekey" }}
       - restore_cache:
           key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
   module-save-cache:
@@ -71,7 +81,7 @@ jobs:
     executor:
       name: android-build
     steps:
-      - checkout
+      - internal-checkout
       - run:
           name: snapshot-build-number
           command: |
@@ -79,7 +89,7 @@ jobs:
       - save_cache:
           paths:
             - .configs/secrets
-          key: configs-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+          key: configs-{{ checksum ".cachekey" }}
   ##############################################
   # unit-test in parameters.module
   ##############################################

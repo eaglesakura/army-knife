@@ -15,6 +15,16 @@ import java.util.concurrent.TimeUnit
 @RunWith(AndroidJUnit4::class)
 class RuntimeExtensionsKtTest {
 
+    @Test
+    fun Channel_close() = compatibleBlockingTest(TestDispatchers.Default) {
+        val chan = Channel<Unit>()
+        chan.close()
+        GlobalScope.async {
+            chan.close(CancellationException())
+        }.await()
+//        chan.receive()
+    }
+
     @Test(expected = CancellationException::class)
     fun Channel_cancel_in_poll() = compatibleBlockingTest {
         val chan = Channel<Unit>()

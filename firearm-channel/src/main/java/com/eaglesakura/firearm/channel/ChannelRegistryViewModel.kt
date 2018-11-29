@@ -12,15 +12,11 @@ import androidx.lifecycle.ViewModelProviders
 internal class ChannelRegistryViewModel : ViewModel() {
     val registry: ChannelRegistry = ChannelRegistry()
 
-    override fun onCleared() {
-        super.onCleared()
-        registry.destroy()
-    }
-
     companion object {
         fun get(activity: FragmentActivity) =
             ViewModelProviders.of(activity).get(ChannelRegistryViewModel::class.java).registry
 
-        fun get(fragment: Fragment) = get(fragment.activity!!)
+        fun get(fragment: Fragment) =
+            ViewModelProviders.of(fragment).get(ChannelRegistryViewModel::class.java).registry
     }
 }
