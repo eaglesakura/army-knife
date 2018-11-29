@@ -1,10 +1,8 @@
 package com.eaglesakura.firearm.channel
 
 import androidx.annotation.CheckResult
-import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.channels.Channel
 import java.util.concurrent.locks.ReentrantLock
@@ -27,19 +25,10 @@ class ChannelRegistry {
 
     private val lock = ReentrantLock()
 
-    constructor(owner: LifecycleOwner) {
-        owner.lifecycle.subscribe {
-            if (it == Lifecycle.Event.ON_DESTROY) {
-                destroy()
-            }
-        }
-    }
+    @Deprecated("this constructor will be deleted.", ReplaceWith("ChannelRegistry()"))
+    constructor(lifecycle: LifecycleOwner)
 
-    /**
-     * for ChannelRegistryViewModel
-     */
-    internal constructor() {
-    }
+    constructor()
 
     /**
      * Returns channel num.
@@ -50,9 +39,9 @@ class ChannelRegistry {
             channels.size
         }
 
-    internal fun unregister(key: Any) {
-        lock.withLock {
-            channels.remove(key)
+    internal fun unregister(key: Any): Boolean {
+        return lock.withLock {
+            channels.remove(key) != null
         }
     }
 
@@ -89,47 +78,8 @@ class ChannelRegistry {
             if (old != null) {
                 throw IllegalArgumentException("Registry contains key[$key]")
             }
-
-            val result = RegisteredChannel(key, channel, this)
-            channels[key] = result
-            return result
-        }
-    }
-
-    @UiThread
-    internal fun destroy() {
-        lock.withLock {
-            for (item in channels) {
-                try {
-                    item.value.close()
-                } catch (err: Exception) {
-                }
-            }
-
-            channels.clear()
-        }
-    }
-
-    private class RegisteredChannel<T>(
-        private val key: Any,
-        origin: Channel<T>,
-        private val registry: ChannelRegistry
-    ) : DelegateChannel<T>(origin) {
-
-        override fun cancel() {
-            registry.unregister(key)
-            super.cancel()
-        }
-
-        @Suppress("OverridingDeprecatedMember")
-        override fun cancel(cause: Throwable?): Boolean {
-            registry.unregister(key)
-            return super.cancel(cause)
-        }
-
-        override fun close(cause: Throwable?): Boolean {
-            registry.unregister(key)
-            return super.close(cause)
+            channels[key] = channel
+            return channel
         }
     }
 

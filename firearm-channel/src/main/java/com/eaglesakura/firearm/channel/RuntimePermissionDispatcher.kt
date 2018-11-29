@@ -32,6 +32,7 @@ class RuntimePermissionDispatcher internal constructor(
     private val shouldShowRequestPermissionRationale: (permission: String) -> Boolean,
     private val getRegistry: () -> ChannelRegistry
 ) {
+    private val registry: ChannelRegistry by lazy { getRegistry() }
 
     @Suppress("unused")
     constructor(fragment: Fragment, registry: ChannelRegistry) :
@@ -100,10 +101,22 @@ class RuntimePermissionDispatcher internal constructor(
      * Show runtime permission dialog, with await.
      * You shouldn't keep channel, and "close()" channel.
      */
-    @Suppress("unused")
+    @Deprecated("Replace to requestPermissions()", ReplaceWith("requestPermissions"))
     suspend fun requestPermissionsWithResult(permissions: Collection<String>): RuntimePermissionResult {
-        return requestPermissions(permissions).use {
-            it.receive()
+        return requestPermissions(permissions)
+    }
+
+    /**
+     * Show runtime permission dialog, with await.
+     * You shouldn't keep channel, and "close()" channel.
+     */
+    @Suppress("unused")
+    suspend fun requestPermissions(permissions: Collection<String>): RuntimePermissionResult {
+        try {
+            val channel = requestPermissionsImpl(permissions)
+            return channel.receive()
+        } finally {
+            registry.unregister(makeKey(makeRequestCode(permissions)))
         }
     }
 
@@ -115,7 +128,7 @@ class RuntimePermissionDispatcher internal constructor(
      */
     @CheckResult
     @UiThread
-    fun requestPermissions(permissions: Collection<String>): Channel<RuntimePermissionResult> {
+    private fun requestPermissionsImpl(permissions: Collection<String>): Channel<RuntimePermissionResult> {
         assertUIThread()
 
         if (permissions.isEmpty()) {
@@ -142,7 +155,7 @@ class RuntimePermissionDispatcher internal constructor(
             }
         }
 
-        val result = getRegistry().register(key, Channel<RuntimePermissionResult>())
+        val result = registry.register(key, Channel<RuntimePermissionResult>())
         GlobalScope.launch(Dispatchers.Main) {
             if (requestPermissions.isEmpty()) {
                 // have all permissions
@@ -176,7 +189,7 @@ class RuntimePermissionDispatcher internal constructor(
 
         val key = makeKey(requestCode)
         try {
-            val channel = getRegistry().get<RuntimePermissionResult>(key)
+            val channel = registry.get<RuntimePermissionResult>(key)
 
             val shouldShowRationalePermissions = mutableListOf<String>()
             for (permission in permissions) {

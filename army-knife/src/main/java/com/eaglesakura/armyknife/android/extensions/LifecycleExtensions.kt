@@ -4,8 +4,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 
 /**
@@ -90,7 +93,7 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
 
             if (event == Lifecycle.Event.ON_DESTROY) {
                 // do not receive!!
-                channel.cancel(CancellationException("Lifecycle was deleted, do not resume."))
+                channel.cancel()
             }
         }
         channel.receive()
