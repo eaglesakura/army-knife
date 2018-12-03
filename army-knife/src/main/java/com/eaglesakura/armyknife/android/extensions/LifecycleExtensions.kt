@@ -4,11 +4,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
 
 
 /**
@@ -76,6 +73,11 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
 suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
     withContext(Dispatchers.Main) {
         yield()
+
+        if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
+            throw CancellationException("Lifecycle was destroyed")
+        }
+
         if (lifecycle.currentState == targetEvent) {
             return@withContext
         }
@@ -93,7 +95,9 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
 
             if (event == Lifecycle.Event.ON_DESTROY) {
                 // do not receive!!
-                channel.cancel()
+                launch(Dispatchers.Main) {
+                    channel.close(CancellationException("Lifecycle on destroy"))
+                }
             }
         }
         channel.receive()

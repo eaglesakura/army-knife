@@ -26,7 +26,7 @@ class ChannelRegistry {
     private val lock = ReentrantLock()
 
     @Deprecated("this constructor will be deleted.", ReplaceWith("ChannelRegistry()"))
-    constructor(lifecycle: LifecycleOwner)
+    constructor(owner: LifecycleOwner)
 
     constructor()
 
