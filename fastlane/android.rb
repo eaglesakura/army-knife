@@ -21,6 +21,10 @@ platform :android do
     end
   end
 
+  lane :install_snapshot do
+    gradle(task: "--parallel -Pinstall_snapshot assembleRelease uploadArchives")
+  end
+
 end
 
 

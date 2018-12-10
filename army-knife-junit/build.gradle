@@ -14,7 +14,8 @@ buildscript {
 }
 
 dependencies {
-    implementation 'junit:junit:4.12'
+    api 'junit:junit:4.12'
+    api 'org.assertj:assertj-core:3.11.1'
 
     /**
      * Kotlin support
@@ -22,6 +23,4 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
-    api 'org.assertj:assertj-core:3.11.1'
-    api 'junit:junit:4.12'
 }

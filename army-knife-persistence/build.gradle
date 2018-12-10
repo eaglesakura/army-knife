@@ -23,5 +23,5 @@ dependencies {
      */
     api 'androidx.sqlite:sqlite:2.0.0'
     api 'androidx.sqlite:sqlite-ktx:2.0.0'
-    api 'androidx.core:core-ktx:1.0.0'
+    api 'androidx.core:core-ktx:1.0.1'
 }

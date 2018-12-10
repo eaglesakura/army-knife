@@ -4,7 +4,7 @@ If You will go to battlefield of development then choose weapons from this repos
 
 |Version|Build Status| Feature |
 |----|----|----|
-|v1.0.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v1.0.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v1.0.x)| Kotlin 1.3 / Coroutines 1.0.0 supported |
+|v1.1.x|[![CircleCI](https://circleci.com/gh/eaglesakura/army-knife/tree/v1.0.x.svg?style=svg&circle-token=a26b28c5daa1b5160b87c3501747f8ae21990295)](https://circleci.com/gh/eaglesakura/army-knife/tree/v1.0.x)| Kotlin 1.3 / Coroutines 1.0.0 supported |
 
 # how to implementation into your project
 
@@ -22,8 +22,8 @@ dependencies {
     // check versions
     // https://github.com/eaglesakura/army-knife/releases
     // 'com.eaglesakura:${library name}:${release version}'
-    implementation 'com.eaglesakura:army-knife:1.0.0'
-    implementation 'com.eaglesakura:army-knife-reactivex:1.0.0'
+    implementation 'com.eaglesakura:army-knife:1.1.0'
+    implementation 'com.eaglesakura:army-knife-reactivex:1.1.0'
 }
 ```
 
@@ -105,3 +105,18 @@ If you love java, use the [Cerberus](https://github.com/eaglesakura/cerberus) li
 ~~But, SnackBar will require one-shot data, not required not-modified data.~~
 
 ~~e.g. LiveData's Observer will subscribe not-modified data on "onResume" function. OneshotLiveData's Observer will `not` subscribe it.~~
+
+# Dev / LocalInstall
+
+```sh
+fastlane android install_snapshot
+```
+
+```groovy
+repositories {
+    maven { url "file:${System.getProperty('user.home')}/.m2_snapshots/repository" }
+}
+
+// replace version("major.minor.99999")
+implementation 'com.eaglesakura:army-knife:1.1.99999'
+```
