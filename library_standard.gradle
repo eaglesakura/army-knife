@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 ext.artifact_version = System.env.CIRCLE_TAG == null ?
         army_knife_version : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
 ext.bintray_package_name = file(".").absoluteFile.name
@@ -46,7 +48,7 @@ dependencies {
     /**
      * for Tests (or Android Tests)
      */
-    testImplementation 'org.robolectric:robolectric:4.0.1'
+    testImplementation 'org.robolectric:robolectric:4.0.2'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
@@ -71,7 +73,11 @@ version = artifact_version + {
         }
     } catch (ignored) {
     }
-    if (System.env.CIRCLE_BUILD_NUM != null) {
+
+    if (project.hasProperty("install_snapshot")) {
+//        return ".${new SimpleDateFormat("yyyyMMddhhmmss").format(build_date)}"
+        return ".99999"
+    } else if (System.env.CIRCLE_BUILD_NUM != null) {
         return ".build-${System.env.CIRCLE_BUILD_NUM}"
     } else {
         return ".snapshot"
@@ -129,4 +135,13 @@ bintray {
     configurations = ['archives']
 }
 
-println "${bintray_package_name} : ${version}"
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file:${System.getProperty('user.home')}/.m2_snapshots/repository")
+        }
+    }
+}
+
+println ":${project.name}:bintrayUpload  -> ${bintray_package_name} : ${version}"
+println ":${project.name}:uploadArchives -> file:${System.getProperty('user.home')}/.m2_snapshots/repository : ${version}"

@@ -15,30 +15,6 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-## project
-### project doctor
-```
-fastlane project doctor
-```
-
-### project docker_pull
-```
-fastlane project docker_pull
-```
-
-### project docker_push
-```
-fastlane project docker_push
-```
-
-### project docker_build
-```
-fastlane project docker_build
-```
-
-
-----
-
 ## Android
 ### android clean
 ```
@@ -53,6 +29,11 @@ fastlane android test
 ### android assemble
 ```
 fastlane android assemble
+```
+
+### android install_snapshot
+```
+fastlane android install_snapshot
 ```
 
 

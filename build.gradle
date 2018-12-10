@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.3.0'
-    ext.kotlin_coroutines_version = '1.0.0'
+    ext.kotlin_version = '1.3.11'
+    ext.kotlin_coroutines_version = '1.0.1'
     repositories {
         google()
         jcenter()
@@ -26,3 +26,5 @@ task clean(type: Delete) {
 if (file("private/configs.gradle").file) {
     apply(from: "private/configs.gradle")
 }
+
+ext.build_date = new Date()
