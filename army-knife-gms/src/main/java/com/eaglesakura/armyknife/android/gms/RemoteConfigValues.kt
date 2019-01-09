@@ -7,7 +7,7 @@ object RemoteConfigValues {
     private val config: FirebaseRemoteConfig?
         get() = try {
             FirebaseRemoteConfig.getInstance()
-        } catch (err: ClassNotFoundException) {
+        } catch (err: Throwable) {
             null
         }
 
