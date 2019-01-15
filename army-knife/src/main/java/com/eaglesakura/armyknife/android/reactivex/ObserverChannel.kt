@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 internal class ObserverChannel<T>(private val dispatcher: CoroutineDispatcher = Dispatchers.Main) :
-    DelegateChannel<T>(Channel<T>()), Observer<T> {
+    DelegateChannel<T>(Channel<T>(Channel.UNLIMITED)), Observer<T> {
     private var disposable: Disposable? = null
 
     private val lock = ReentrantLock()
