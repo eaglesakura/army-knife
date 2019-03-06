@@ -46,10 +46,10 @@ dependencies {
     /**
      * for Tests (or Android Tests)
      */
-    testImplementation 'org.robolectric:robolectric:4.1'
+    testImplementation 'org.robolectric:robolectric:4.2'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1'
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.21.0'
 
     testImplementation project(':army-knife-android-junit4')
     androidTestImplementation project(':army-knife-android-junit4')

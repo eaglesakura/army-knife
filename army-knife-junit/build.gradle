@@ -15,7 +15,7 @@ buildscript {
 
 dependencies {
     api 'junit:junit:4.12'
-    api 'org.assertj:assertj-core:3.11.1'
+    api 'org.assertj:assertj-core:3.12.1'
 
     /**
      * Kotlin support

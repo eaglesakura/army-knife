@@ -34,14 +34,14 @@ dependencies {
     /**
      * Test Tools.
      */
-    api 'org.assertj:assertj-core:3.11.1'
+    api 'org.assertj:assertj-core:3.12.1'
     api 'junit:junit:4.12'
-    api 'androidx.test:core:1.0.0'
-    api 'androidx.test:monitor:1.1.0'
-    api 'androidx.test.ext:junit:1.0.0'
-    api 'androidx.test:rules:1.1.0'
+    api 'androidx.test:core:1.1.0'
+    api 'androidx.test:monitor:1.1.1'
+    api 'androidx.test.ext:junit:1.1.0'
+    api 'androidx.test:rules:1.1.1'
     api "com.nhaarman:mockito-kotlin:1.6.0"
     api 'com.nhaarman:mockito-kotlin-kt1.1:1.6.0'
-    api 'androidx.test.espresso:espresso-core:3.1.0'
+    api 'androidx.test.espresso:espresso-core:3.1.1'
     compileOnly 'org.robolectric:robolectric:4.0.2'
 }
