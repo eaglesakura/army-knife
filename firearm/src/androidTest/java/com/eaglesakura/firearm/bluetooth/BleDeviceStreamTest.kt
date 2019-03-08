@@ -9,10 +9,12 @@ import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTes
 import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
 import kotlinx.coroutines.*
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
+@Ignore
 @RunWith(AndroidJUnit4::class)
 class BleDeviceStreamTest {
 

@@ -24,13 +24,14 @@ $projects=[
     "army-knife-persistence",
     "army-knife-reactivex",
     "army-knife-timber",
-    "army-knife-view-adapters",
+    "army-knife-widgets",
     "firearm",
     "firearm-channel",
     "firearm-di",
     "firearm-event",
     "firearm-material-resources",
     "firearm-persistence",
+    "firearm-rpc",
     "kerberus",
     "oneshotlivedata"
     ]
