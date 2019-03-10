@@ -65,7 +65,7 @@ commands:
       - restore_cache:
           key: configs-{{ checksum ".cachekey" }}
       - restore_cache:
-          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
+          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "<< parameters.module >>/build.gradle.kts" }}
   module-save-cache:
     parameters:
       module:
@@ -75,7 +75,7 @@ commands:
           paths:
             - ~/.gradle
             - ~/.m2
-          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "<< parameters.module >>/build.gradle" }}
+          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "<< parameters.module >>/build.gradle.kts" }}
 jobs:
   configure:
     executor:
