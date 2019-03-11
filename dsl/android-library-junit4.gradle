@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+    // for *.java options
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // for Kotlin-Android
+    androidExtensions {
+        experimental = true
+        features = ["parcelize"]
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        multiDexEnabled true
+        aaptOptions.cruncherEnabled false
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += ["src/test/java"]
+    }
+
+    packagingOptions {
+        exclude 'META-INF/**_debug.kotlin_module'
+    }
+}
+
+dependencies {
+}
