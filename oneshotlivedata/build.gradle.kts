@@ -2,10 +2,7 @@ apply(from = "../dsl/armyknife.gradle.kts")
 apply(from = "../dsl/android-library.gradle")
 apply(from = "../dsl/bintray.gradle")
 
-val kotlin_version
-    get() = rootProject.extra["kotlin_version"] as String
-val kotlin_coroutines_version
-    get() = rootProject.extra["kotlin_coroutines_version"] as String
+val extras = Extras(this)
 
 dependencies {
     /**
@@ -17,10 +14,10 @@ dependencies {
     /**
      * Kotlin support
      */
-    "compileOnly"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
-    "compileOnly"("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
-    "compileOnly"("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
-    "compileOnly"("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version")
+    "compileOnly"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${extras.kotlin.version}")
+    "compileOnly"("org.jetbrains.kotlin:kotlin-reflect:${extras.kotlin.version}")
+    "compileOnly"("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extras.kotlin.coroutinesVersion}")
+    "compileOnly"("org.jetbrains.kotlinx:kotlinx-coroutines-android:${extras.kotlin.coroutinesVersion}")
 
     /**
      * Support Libraries
