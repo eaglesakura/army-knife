@@ -12,13 +12,17 @@ import android.os.Build
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraAccessFailedException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraNotFoundException
-import com.eaglesakura.armyknife.android.hardware.camera.spec.*
+import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
+import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
+import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureSize
+import com.eaglesakura.armyknife.android.hardware.camera.spec.FlashMode
+import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
+import com.eaglesakura.armyknife.android.hardware.camera.spec.Scene
+import com.eaglesakura.armyknife.android.hardware.camera.spec.WhiteBalance
 import com.eaglesakura.armyknife.runtime.extensions.findKey
-import java.util.*
 
 @SuppressLint("NewApi")
 internal class Camera2SpecImpl internal constructor(context: Context) {
-
 
     private val mContext: Context
 
@@ -77,12 +81,10 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
                 return autoCharacteristics!!
             }
 
-
             throw CameraNotFoundException("type :: $type")
         } catch (e: CameraAccessException) {
             throw CameraAccessFailedException(e)
         }
-
     }
 
     @Throws(CameraException::class)
@@ -113,10 +115,10 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
     @Throws(CameraException::class)
     internal fun getPictureSizes(characteristics: CameraCharacteristics, format: CaptureFormat): List<CaptureSize> {
         val sizes =
-            characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
-                toImageFormatInt(format)
-            )
-                ?: return listOf()
+                characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
+                        toImageFormatInt(format)
+                )
+                        ?: return listOf()
 
         val result = ArrayList<CaptureSize>()
         for (size in sizes) {
@@ -131,10 +133,10 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
     @Throws(CameraException::class)
     internal fun getPreviewSizes(characteristics: CameraCharacteristics): List<CaptureSize> {
         val sizes =
-            characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
-                SurfaceTexture::class.java
-            )
-                ?: return listOf()
+                characteristics.get<StreamConfigurationMap>(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
+                        SurfaceTexture::class.java
+                )
+                        ?: return listOf()
 
         val result = ArrayList<CaptureSize>()
         for (size in sizes) {
@@ -196,7 +198,6 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
             sFocusModeMap[FocusMode.SETTING_MACRO] = CameraCharacteristics.CONTROL_AF_MODE_MACRO
             sFocusModeMap[FocusMode.SETTING_INFINITY] = CameraCharacteristics.CONTROL_AF_MODE_OFF
 
-
             sSceneModeMap[Scene.SETTING_OFF] = CameraCharacteristics.CONTROL_MODE_OFF
             sSceneModeMap[Scene.SETTING_AUTO] = CameraCharacteristics.CONTROL_MODE_AUTO
             sSceneModeMap[Scene.SETTING_PORTRAIT] = CameraCharacteristics.CONTROL_SCENE_MODE_PORTRAIT
@@ -230,14 +231,14 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
             val spec = impl.getCameraSpec(type)
 
             return CameraSpec(
-                type = type,
-                flashModeSpecs = impl.getFlashModes(spec),
-                focusModeSpecs = impl.getFocusModes(spec),
-                jpegPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Jpeg),
-                rawPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Raw),
-                previewSizes = impl.getPreviewSizes(spec),
-                sceneSpecs = impl.getScenes(spec),
-                whiteBalanceSpecs = impl.getWhiteBalances(spec)
+                    type = type,
+                    flashModeSpecs = impl.getFlashModes(spec),
+                    focusModeSpecs = impl.getFocusModes(spec),
+                    jpegPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Jpeg),
+                    rawPictureSizes = impl.getPictureSizes(spec, CaptureFormat.Raw),
+                    previewSizes = impl.getPreviewSizes(spec),
+                    sceneSpecs = impl.getScenes(spec),
+                    whiteBalanceSpecs = impl.getWhiteBalances(spec)
             ).also {
                 it.init()
             }
@@ -263,5 +264,4 @@ internal class Camera2SpecImpl internal constructor(context: Context) {
             return sCaptureFormatMap[format]!!
         }
     }
-
 }

@@ -51,7 +51,6 @@ class CancelableOutputStream(
             if (length < bufferSize) {
                 stream.write(bytes, cursor, length)
                 return
-
             } else {
                 stream.write(bytes, cursor, bufferSize)
                 cursor += bufferSize

@@ -16,8 +16,8 @@ dependencies {
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    "compileOnly"("androidx.sqlite:sqlite:2.0.0")
-    "compileOnly"("androidx.sqlite:sqlite-ktx:2.0.0")
+    "compileOnly"("androidx.sqlite:sqlite:2.0.1")
+    "compileOnly"("androidx.sqlite:sqlite-ktx:2.0.1")
 
     "testImplementation"(project(":army-knife-android-junit4"))
     "androidTestImplementation"(project(":army-knife-android-junit4"))

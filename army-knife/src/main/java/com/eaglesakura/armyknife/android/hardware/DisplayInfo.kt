@@ -140,7 +140,6 @@ data class DisplayInfo(
             val heightInch = heightPixel.toFloat() / displayMetrics.ydpi
             val dpi = toDpi(displayMetrics.xdpi, displayMetrics.ydpi)
 
-
             val diagonalInch =
                 Math.sqrt((widthInch * widthInch + heightInch * heightInch).toDouble()).toFloat()
             val diagonal = (diagonalInch * 100.0f).toInt().let { (it + 5) / 10 }
@@ -172,7 +171,6 @@ data class DisplayInfo(
             )
         }
 
-
         private fun toDpi(xdpi: Float, ydpi: Float): DisplayInfo.Dpi {
             val dpi = Math.min(xdpi, ydpi)
 
@@ -199,8 +197,6 @@ data class DisplayInfo(
             return if (dpi > 120) {
                 DisplayInfo.Dpi.mdpi
             } else DisplayInfo.Dpi.ldpi
-
         }
     }
-
 }

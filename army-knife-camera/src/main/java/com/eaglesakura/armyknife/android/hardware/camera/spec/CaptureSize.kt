@@ -163,8 +163,8 @@ data class CaptureSize(
      * CaptureSizeの縦横比を満たし、かつminWidth/minHeight以上の大きさを返却する
      *
      * @param flipOrientation 縦横サイズを入れ替えている場合はtrue
-     * @param minWidth        最小限の幅
-     * @param minHeight       最小限の高さ
+     * @param minWidth 最小限の幅
+     * @param minHeight 最小限の高さ
      * @return 新しい縦横サイズ
      */
     @Suppress("unused")

@@ -58,7 +58,6 @@ class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private va
         return view
     }
 
-
     override fun getCount(): Int {
         return items.size
     }
@@ -70,5 +69,4 @@ class SupportArrayAdapter<T>(private val context: Context, @LayoutRes private va
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
 }

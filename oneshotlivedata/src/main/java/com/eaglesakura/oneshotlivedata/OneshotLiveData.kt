@@ -42,5 +42,4 @@ open class OneshotLiveData<T> : LiveData<DataState<T>>() {
     open fun postOneshot(data: T) {
         GlobalScope.launch(Dispatchers.Main) { setOneshot(data) }
     }
-
 }

@@ -16,6 +16,6 @@ data class CameraPictureShotRequest(
     val longitude: Double? = null
 ) {
     val hasLocation: Boolean
-        get() = latitude != null && longitude != null
-                && latitude != 0.0 && longitude != 0.0
+        get() = latitude != null && longitude != null &&
+                latitude != 0.0 && longitude != 0.0
 }

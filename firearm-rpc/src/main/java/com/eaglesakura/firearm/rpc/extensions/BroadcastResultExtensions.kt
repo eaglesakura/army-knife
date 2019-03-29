@@ -2,7 +2,6 @@ package com.eaglesakura.firearm.rpc.extensions
 
 import com.eaglesakura.firearm.rpc.service.BroadcastResult
 
-
 /**
  * Check broadcast completed.
  */

@@ -5,8 +5,13 @@ import com.eaglesakura.armyknife.android.extensions.assertUIThread
 import com.eaglesakura.armyknife.android.junit4.TestDispatchers
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
 import com.eaglesakura.armyknife.runtime.extensions.use
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.yield
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
@@ -39,7 +44,6 @@ class RxStreamTest {
         }
         channel.close()
     }
-
 
     @Test
     fun channel_multi() = compatibleBlockingTest(TestDispatchers.Main) {
@@ -77,7 +81,7 @@ class RxStreamTest {
         stream.next("send3")
         stream.next("send_finish")
 
-        channel.receive()  // await.
+        channel.receive() // await.
         disposable.dispose()
     }
 

@@ -4,7 +4,14 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.ImageFormat
-import android.hardware.camera2.*
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCaptureSession
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CaptureFailure
+import android.hardware.camera2.CaptureRequest
+import android.hardware.camera2.CaptureResult
+import android.hardware.camera2.TotalCaptureResult
 import android.location.Location
 import android.media.ImageReader
 import android.os.Build
@@ -20,11 +27,13 @@ import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
-import java.util.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.coroutineContext
-
 
 @SuppressLint("MissingPermission")
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -306,11 +315,11 @@ internal class Camera2ControlManager(
 
         // (360 * 2)を加算しているのは、最大で-270-270の角度を正の値に補正するためである
         jpegOrientation =
-                if (connectRequest.cameraType == CameraType.Back) {
-                    (180 - (sensorOrientation + deviceRotateDegree) + 360 * 2) % 360
-                } else {
-                    (sensorOrientation + deviceRotateDegree + 360 * 2) % 360
-                }
+            if (connectRequest.cameraType == CameraType.Back) {
+                (180 - (sensorOrientation + deviceRotateDegree) + 360 * 2) % 360
+            } else {
+                (sensorOrientation + deviceRotateDegree + 360 * 2) % 360
+            }
         return jpegOrientation
     }
 
@@ -384,7 +393,6 @@ internal class Camera2ControlManager(
             builder.addTarget(imageReader.surface)
             session.stopRepeating()
             session.capture(builder.build(), captureCallback, UIHandler)
-
 
             // receive all messages.
             captureCompleted.receive()

@@ -3,7 +3,6 @@ package com.eaglesakura.armyknife.android.extensions
 import android.graphics.Rect
 import android.view.View
 
-
 /**
  * This method returns absolute view area of Android device display.
  *

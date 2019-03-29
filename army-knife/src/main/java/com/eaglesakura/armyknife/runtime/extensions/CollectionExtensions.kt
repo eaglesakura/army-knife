@@ -25,7 +25,6 @@ fun <K, V> Map<K, V>.findKey(selector: (value: V) -> Boolean): K? {
     return null
 }
 
-
 /**
  * Returns true, if it was null or empty.
  */

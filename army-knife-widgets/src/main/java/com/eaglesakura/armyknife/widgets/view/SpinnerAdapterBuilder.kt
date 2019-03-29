@@ -91,7 +91,6 @@ class SpinnerAdapterBuilder<T>(private var context: Context, var spinner: Spinne
             return SpinnerAdapterBuilder(context, spinner)
         }
 
-
         @Suppress("unused")
         fun fromStringArray(spinner: Spinner, context: Context, @ArrayRes resId: Int): SpinnerAdapterBuilder<String> {
             return SpinnerAdapterBuilder<String>(context, spinner).also {

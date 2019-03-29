@@ -35,7 +35,7 @@ data class Orientation internal constructor(
         fun fromDegree(degree: Int): Orientation {
             var rotate = degree
             rotate = normalizeDegree(rotate)
-            rotate = rotate / 90 * 90    // 90度区切りに修正する
+            rotate = rotate / 90 * 90 // 90度区切りに修正する
             return when (rotate) {
                 0 -> ROTATE_0
                 90 -> ROTATE_90

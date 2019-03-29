@@ -11,7 +11,7 @@ import com.eaglesakura.armyknife.android.hardware.camera.spec.WhiteBalance
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
 import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.*
+import org.junit.Assert.* // ktlint-disable no-wildcard-imports
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,7 +44,7 @@ class CameraSpecTest {
     fun connectAndDisconnect() = compatibleBlockingTest {
         val specs = CameraSpec.getSpecs(targetContext, CameraApi.Default, CameraType.Back)
         val controlManager =
-            CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
+                CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             assertTrue(controlManager is Camera2ControlManager)
@@ -52,9 +52,9 @@ class CameraSpecTest {
         assertFalse(controlManager.connected)
 
         controlManager.connect(
-            previewSurface = null,
-            previewRequest = null,
-            shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
+                previewSurface = null,
+                previewRequest = null,
+                shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
         )
         try {
             assertTrue(controlManager.connected)
@@ -67,7 +67,7 @@ class CameraSpecTest {
     fun startPreview() = compatibleBlockingTest {
         val specs = CameraSpec.getSpecs(targetContext, CameraApi.Default, CameraType.Back)
         val controlManager =
-            CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
+                CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             assertTrue(controlManager is Camera2ControlManager)
@@ -75,9 +75,9 @@ class CameraSpecTest {
         assertFalse(controlManager.connected)
 
         controlManager.connect(
-            previewSurface = null,
-            previewRequest = CameraPreviewRequest(specs.minimumPreviewSize),
-            shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
+                previewSurface = null,
+                previewRequest = CameraPreviewRequest(specs.minimumPreviewSize),
+                shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
         )
         try {
             assertTrue(controlManager.connected)
@@ -90,7 +90,7 @@ class CameraSpecTest {
     fun takePicture() = compatibleBlockingTest {
         val specs = CameraSpec.getSpecs(targetContext, CameraApi.Default, CameraType.Back)
         val controlManager =
-            CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
+                CameraControlManager.newInstance(targetContext, CameraApi.Default, CameraConnectRequest(CameraType.Back))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             assertTrue(controlManager is Camera2ControlManager)
@@ -98,19 +98,19 @@ class CameraSpecTest {
         assertFalse(controlManager.connected)
 
         controlManager.connect(
-            previewSurface = null,
-            previewRequest = null,
-            shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
+                previewSurface = null,
+                previewRequest = null,
+                shotRequest = CameraPictureShotRequest(specs.fullJpegPictureSize)
         )
         try {
             assertTrue(controlManager.connected)
 
             val picture = controlManager.takePicture(
-                CameraEnvironmentRequest(
-                    FocusMode.SETTING_AUTO,
-                    Scene.SETTING_AUTO,
-                    WhiteBalance.SETTING_AUTO
-                )
+                    CameraEnvironmentRequest(
+                            FocusMode.SETTING_AUTO,
+                            Scene.SETTING_AUTO,
+                            WhiteBalance.SETTING_AUTO
+                    )
             )
             assertTrue(picture.buffer.isNotEmpty())
             assertEquals(specs.fullJpegPictureSize.width, picture.width)
@@ -119,12 +119,12 @@ class CameraSpecTest {
             // decode ok
             picture.decodeImage().also { bitmap ->
                 assertEquals(
-                    Math.max(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height),
-                    Math.max(bitmap.width, bitmap.height)
+                        Math.max(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height),
+                        Math.max(bitmap.width, bitmap.height)
                 )
                 assertEquals(
-                    Math.min(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height),
-                    Math.min(bitmap.width, bitmap.height)
+                        Math.min(specs.fullJpegPictureSize.width, specs.fullJpegPictureSize.height),
+                        Math.min(bitmap.width, bitmap.height)
                 )
             }
         } finally {

@@ -3,7 +3,6 @@ package com.eaglesakura.armyknife.android.extensions
 import android.database.sqlite.SQLiteProgram
 import androidx.sqlite.db.SupportSQLiteProgram
 
-
 /**
  * SQLiteProgram to SupportSQLiteProgram.
  *

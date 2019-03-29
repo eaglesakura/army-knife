@@ -9,7 +9,7 @@ import androidx.sqlite.db.transaction
 import com.eaglesakura.armyknife.android.extensions.asSupport
 import java.io.Closeable
 import java.io.File
-import java.util.*
+import java.util.Date
 import java.util.concurrent.atomic.AtomicInteger
 
 typealias DatabaseOpenFunction = (context: Context, filePath: String?) -> SupportSQLiteDatabase
@@ -107,7 +107,6 @@ class TextKeyValueStore(private val context: Context, internal val path: File?) 
         if (refs.incrementAndGet() != 1) {
             return this
         }
-
 
         db = function(context, fileToPath(path))
         return this

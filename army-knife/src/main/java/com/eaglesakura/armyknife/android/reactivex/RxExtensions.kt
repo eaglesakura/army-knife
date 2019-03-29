@@ -1,7 +1,11 @@
 package com.eaglesakura.armyknife.android.reactivex
 
 import androidx.annotation.CheckResult
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.OnLifecycleEvent
 import com.eaglesakura.armyknife.android.extensions.subscribeWithCancel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -100,9 +104,9 @@ fun <T> Observable<T>.subscribe(
     onComplete: (() -> Unit)?
 ): Disposable {
     return subscribe(
-        { next -> onNext?.invoke(next) },
-        { err -> onError?.invoke(err) },
-        { onComplete?.invoke() }
+            { next -> onNext?.invoke(next) },
+            { err -> onError?.invoke(err) },
+            { onComplete?.invoke() }
     ).with(lifecycle)
 }
 

@@ -7,7 +7,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.RequiresDevice
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
 import com.eaglesakura.armyknife.android.junit4.extensions.targetContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test

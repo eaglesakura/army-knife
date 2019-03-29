@@ -66,7 +66,6 @@ object ApplicationRuntime {
         false
     }
 
-
     /**
      * Run on JUnit test case.
      */
@@ -138,7 +137,8 @@ object ApplicationRuntime {
      * }
      */
     fun runIn(
-        @RuntimeFlag flag: Int, @RuntimeFlag vararg flags: Int
+        @RuntimeFlag flag: Int,
+        @RuntimeFlag vararg flags: Int
     ): Boolean {
         var allFlags = flag
         flags.forEach { flg ->
@@ -264,7 +264,6 @@ object ApplicationRuntime {
             }
             return false
         } catch (e: Exception) {
-
         }
 
         return false

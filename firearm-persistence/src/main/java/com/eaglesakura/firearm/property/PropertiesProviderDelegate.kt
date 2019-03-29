@@ -45,9 +45,9 @@ class PropertiesProviderDelegate(private val context: Context, private val handl
         /**
          * 対応したContentProviderと接続し、byte配列を得る
          *
-         * @param context  context
-         * @param uri      target URI
-         * @param command  実行コマンド
+         * @param context context
+         * @param uri target URI
+         * @param command 実行コマンド
          * @param argments 実行引数
          */
         @SuppressLint("NewApi")
@@ -64,9 +64,9 @@ class PropertiesProviderDelegate(private val context: Context, private val handl
         /**
          * 対応したContentProviderに命令を送る
          *
-         * @param uri     target URI
+         * @param uri target URI
          * @param command 実行コマンド
-         * @param values  実行引数
+         * @param values 実行引数
          */
         fun insert(context: Context, uri: Uri, command: String, values: ContentValues?) {
             var putValues = values

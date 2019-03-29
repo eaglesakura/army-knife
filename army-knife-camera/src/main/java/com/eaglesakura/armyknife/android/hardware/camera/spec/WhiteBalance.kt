@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
 
 import android.content.Context
 import com.eaglesakura.armyknife.android.ApplicationResources
-import java.util.*
 
 /**
  * ホワイトバランス設定
@@ -21,8 +20,8 @@ data class WhiteBalance internal constructor(
      */
     fun name(context: Context): String {
         val result = ApplicationResources.getStringFromIdName(
-            context,
-            String.format("Camera.WhiteBalance.%s", rawName.replace("-".toRegex(), "_"))
+                context,
+                String.format("Camera.WhiteBalance.%s", rawName.replace("-".toRegex(), "_"))
         )
         return result ?: rawName
     }

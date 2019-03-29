@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
 
 import android.content.Context
 import com.eaglesakura.armyknife.android.ApplicationResources
-import java.util.*
 
 /**
  * ホワイトバランス設定
@@ -84,5 +83,4 @@ data class FlashMode internal constructor(
             return result
         }
     }
-
 }

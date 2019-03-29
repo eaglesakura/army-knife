@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
 
 import android.content.Context
 import com.eaglesakura.armyknife.android.ApplicationResources
-import java.util.*
 
 /**
  * シーン情報
@@ -21,14 +20,13 @@ data class Scene internal constructor(
      */
     fun name(context: Context): String {
         val result = ApplicationResources.getStringFromIdName(
-            context,
-            String.format("Camera.Scene.%s", rawName.replace("-".toRegex(), "_"))
+                context,
+                String.format("Camera.Scene.%s", rawName.replace("-".toRegex(), "_"))
         )
         return result ?: rawName
     }
 
     companion object {
-
 
         private val gSceneSpecMap: MutableMap<String, Scene>
 

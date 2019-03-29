@@ -1,6 +1,6 @@
 package com.eaglesakura.firearm.rpc.internal
 
-import java.util.*
+import java.util.UUID
 
 internal object InternalUtils {
 

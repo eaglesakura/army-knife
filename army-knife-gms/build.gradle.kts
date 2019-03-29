@@ -13,10 +13,10 @@ dependencies {
     /**
      * Firebase
      */
-    "implementation"("com.google.firebase:firebase-core:16.0.7")
-    "implementation"("com.google.firebase:firebase-auth:16.1.0")
-    "implementation"("com.google.firebase:firebase-config:16.3.0")
-    "implementation"("com.google.firebase:firebase-iid:17.1.0")
+    "implementation"("com.google.firebase:firebase-core:16.0.8")
+    "implementation"("com.google.firebase:firebase-auth:16.2.0")
+    "implementation"("com.google.firebase:firebase-config:16.4.1")
+    "implementation"("com.google.firebase:firebase-iid:17.1.1")
 
     "testImplementation"(project(":army-knife-android-junit4"))
     "androidTestImplementation"(project(":army-knife-android-junit4"))

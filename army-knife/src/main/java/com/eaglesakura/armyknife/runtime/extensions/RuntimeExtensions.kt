@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.runtime.extensions
 
 import androidx.core.os.CancellationSignal
 
-
 /**
  * Cancellation-signal function.
  * You want to cancel, this function returns "true".

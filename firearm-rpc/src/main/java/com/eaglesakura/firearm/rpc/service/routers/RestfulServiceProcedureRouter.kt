@@ -7,7 +7,8 @@ class RestfulServiceProcedureRouter {
     private val table = mutableMapOf<String, RestfulServiceProcedure<*, *>>()
 
     fun <Arguments, ProcedureResult> procedure(
-        path: String, builder: (procedure: RestfulServiceProcedure<Arguments, ProcedureResult>) -> Unit
+        path: String,
+        builder: (procedure: RestfulServiceProcedure<Arguments, ProcedureResult>) -> Unit
     ):
             RestfulServiceProcedure<Arguments, ProcedureResult> {
         return RestfulServiceProcedure<Arguments, ProcedureResult>(path)

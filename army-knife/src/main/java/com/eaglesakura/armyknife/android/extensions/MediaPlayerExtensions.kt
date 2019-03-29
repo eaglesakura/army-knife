@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.media.AudioAttributesCompat
 
-
 /**
  * Set attributes with appcompat.
  *

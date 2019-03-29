@@ -1,9 +1,13 @@
 package com.eaglesakura.kerberus
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
-
 
 /**
  * Launch coroutine with semaphore.
@@ -22,7 +26,7 @@ fun CoroutineScope.launch(
     timeUnit: TimeUnit,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return GlobalScope.launch(context) {
+    return launch(context) {
         withTimeout(timeUnit.toMillis(duration)) {
             block()
         }
@@ -46,7 +50,7 @@ fun <T> CoroutineScope.async(
     timeUnit: TimeUnit,
     block: suspend CoroutineScope.() -> T
 ): Deferred<T> {
-    return GlobalScope.async(context) {
+    return async(context = context) {
         withTimeout(timeUnit.toMillis(duration)) {
             block()
         }

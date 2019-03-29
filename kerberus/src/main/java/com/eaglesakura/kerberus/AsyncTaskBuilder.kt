@@ -2,7 +2,14 @@
 
 package com.eaglesakura.kerberus
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private fun <T> dispatcherEntry(task: AsyncTaskBuilder<T>, dispatcher: CoroutineDispatcher): Job {
     return GlobalScope.launch(dispatcher) {
@@ -130,7 +137,7 @@ fun <T> asyncTask(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     builder: (AsyncTaskBuilder<T>.() -> Unit)
 ): Job {
-    return asyncTask(semaphore, { dispatcherEntry(this, dispatcher) }, builder);
+    return asyncTask(semaphore, { dispatcherEntry(this, dispatcher) }, builder)
 }
 
 /**

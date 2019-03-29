@@ -1,11 +1,21 @@
 package com.eaglesakura.armyknife.android.gms.extensions
 
 import android.os.Bundle
-import com.eaglesakura.armyknife.android.gms.error.*
+import com.eaglesakura.armyknife.android.gms.error.DeveloperImplementFailedException
+import com.eaglesakura.armyknife.android.gms.error.PlayServiceConnectException
+import com.eaglesakura.armyknife.android.gms.error.PlayServiceException
+import com.eaglesakura.armyknife.android.gms.error.RequireRetryConnectException
+import com.eaglesakura.armyknife.android.gms.error.SignInFailedException
+import com.eaglesakura.armyknife.android.gms.error.SignInRequiredException
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * GoogleApiClient build with awaitWithSuspend.
@@ -13,9 +23,9 @@ import kotlinx.coroutines.channels.Channel
  * @see GoogleApiClient.SIGN_IN_MODE_OPTIONAL
  */
 @Throws(
-    DeveloperImplementFailedException::class,
-    RequireRetryConnectException::class,
-    PlayServiceException::class
+        DeveloperImplementFailedException::class,
+        RequireRetryConnectException::class,
+        PlayServiceException::class
 )
 suspend fun GoogleApiClient.Builder.connect(mode: Int): GoogleApiClient {
     return when (mode) {
@@ -36,18 +46,18 @@ suspend fun GoogleApiClient.Builder.connect(mode: Int): GoogleApiClient {
  * GoogleApiClient build with awaitWithSuspend.
  */
 @Throws(
-    DeveloperImplementFailedException::class,
-    RequireRetryConnectException::class,
-    PlayServiceException::class
+        DeveloperImplementFailedException::class,
+        RequireRetryConnectException::class,
+        PlayServiceException::class
 )
 suspend fun GoogleApiClient.Builder.connect(): GoogleApiClient {
     return connectImpl(0x00FF00FF)
 }
 
 @Throws(
-    DeveloperImplementFailedException::class,
-    RequireRetryConnectException::class,
-    PlayServiceException::class
+        DeveloperImplementFailedException::class,
+        RequireRetryConnectException::class,
+        PlayServiceException::class
 )
 private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiClient {
     val channel = Channel<Pair<Bundle?, Exception?>>(1)
@@ -67,12 +77,12 @@ private suspend fun GoogleApiClient.Builder.connectImpl(mode: Int): GoogleApiCli
         override fun onConnectionFailed(result: ConnectionResult) {
             GlobalScope.launch(Dispatchers.Main) {
                 channel.send(
-                    when (result.errorCode) {
-                        ConnectionResult.DEVELOPER_ERROR -> null to DeveloperImplementFailedException(result)
-                        ConnectionResult.SIGN_IN_REQUIRED -> null to SignInRequiredException(result)
-                        ConnectionResult.SIGN_IN_FAILED -> null to SignInFailedException(result)
-                        else -> null to PlayServiceConnectException(result)
-                    }
+                        when (result.errorCode) {
+                            ConnectionResult.DEVELOPER_ERROR -> null to DeveloperImplementFailedException(result)
+                            ConnectionResult.SIGN_IN_REQUIRED -> null to SignInRequiredException(result)
+                            ConnectionResult.SIGN_IN_FAILED -> null to SignInFailedException(result)
+                            else -> null to PlayServiceConnectException(result)
+                        }
                 )
             }
         }

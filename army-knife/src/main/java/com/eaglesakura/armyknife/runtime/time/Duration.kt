@@ -4,7 +4,6 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.concurrent.TimeUnit
 
-
 /**
  * between duration of time to time.
  */

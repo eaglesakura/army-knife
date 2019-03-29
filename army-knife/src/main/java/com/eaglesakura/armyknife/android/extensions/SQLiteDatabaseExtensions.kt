@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteStatement
 import java.io.IOException
-import java.util.*
+import java.util.Locale
 
 /**
  * Cursor wrapper function for SupportSQLiteDatabase.
@@ -149,7 +149,6 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) :
         return query(SimpleSQLiteQuery(query, bindArgs))
     }
 
-
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun query(query: SupportSQLiteQuery): Cursor {
         return query(query, null)
@@ -175,8 +174,8 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) :
     }
 
     override fun delete(table: String, whereClause: String, whereArgs: Array<Any>): Int {
-        val query = ("DELETE FROM " + table
-                + if (isEmpty(whereClause)) "" else " WHERE $whereClause")
+        val query = ("DELETE FROM " + table +
+                if (isEmpty(whereClause)) "" else " WHERE $whereClause")
         val statement = compileStatement(query)
         SimpleSQLiteQuery.bind(statement, whereArgs)
         return statement.executeUpdateDelete()

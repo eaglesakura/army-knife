@@ -6,7 +6,6 @@ import com.eaglesakura.armyknife.runtime.extensions.instanceOf
 import com.eaglesakura.firearm.viewmodel.ViewModelOwner
 import kotlin.reflect.KClass
 
-
 /**
  * Find interface from ViewModelOwner, and cast to "T".
  */
