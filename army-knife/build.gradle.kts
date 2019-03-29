@@ -27,6 +27,8 @@ dependencies {
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
+    "api"("androidx.annotation:annotation:1.0.2")
+    "api"("androidx.core:core:1.0.1")
     "api"("androidx.core:core-ktx:1.0.1")
     "api"("androidx.collection:collection-ktx:1.0.0")
     "api"("androidx.fragment:fragment-ktx:1.0.0")
@@ -36,8 +38,8 @@ dependencies {
     "api"("androidx.lifecycle:lifecycle-runtime:2.0.0")
     "api"("com.google.android.material:material:1.0.0") // Material components
 
-    "compileOnly"("androidx.sqlite:sqlite:2.0.0")
-    "compileOnly"("androidx.sqlite:sqlite-ktx:2.0.0")
+    "compileOnly"("androidx.sqlite:sqlite:2.0.1")
+    "compileOnly"("androidx.sqlite:sqlite-ktx:2.0.1")
 
     /**
      * Google Play Services
@@ -47,8 +49,8 @@ dependencies {
     /**
      * Firebase
      */
-    "compileOnly"("com.google.firebase:firebase-core:16.0.7")
-    "compileOnly"("com.google.firebase:firebase-auth:16.1.0")
-    "compileOnly"("com.google.firebase:firebase-config:16.3.0")
-    "compileOnly"("com.google.firebase:firebase-iid:17.1.0")
+    "compileOnly"("com.google.firebase:firebase-core:16.0.8")
+    "compileOnly"("com.google.firebase:firebase-auth:16.2.0")
+    "compileOnly"("com.google.firebase:firebase-config:16.4.1")
+    "compileOnly"("com.google.firebase:firebase-iid:17.1.1")
 }

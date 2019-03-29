@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.android.hardware.camera.spec
 
 import android.content.Context
 import com.eaglesakura.armyknife.android.ApplicationResources
-import java.util.*
 
 /**
  * フォーカス状態の設定を行う
@@ -14,7 +13,6 @@ data class FocusMode internal constructor(
     val rawName: String
 ) {
 
-
     /**
      * 設定名を取得する
      *
@@ -22,8 +20,8 @@ data class FocusMode internal constructor(
      */
     fun name(context: Context): String {
         val result = ApplicationResources.getStringFromIdName(
-            context,
-            String.format("Camera.FocusMode.%s", rawName.replace("-".toRegex(), "_"))
+                context,
+                String.format("Camera.FocusMode.%s", rawName.replace("-".toRegex(), "_"))
         )
         return result ?: rawName
     }

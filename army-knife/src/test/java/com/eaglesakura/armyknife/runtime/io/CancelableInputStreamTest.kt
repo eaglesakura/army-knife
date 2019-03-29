@@ -35,7 +35,7 @@ class CancelableInputStreamTest {
         val stream = CancelableInputStream(ByteArrayInputStream(ByteArray(1024)), { true }).also {
             it.bufferSize = 128
         }
-        stream.read()   // throw exception in function.
+        stream.read() // throw exception in function.
         fail()
     }
 }

@@ -13,7 +13,13 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.eaglesakura.armyknife.android.RuntimePermissions
 import com.eaglesakura.firearm.event.EventStream
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @SuppressLint("MissingPermission")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -55,11 +61,11 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
                 return false
             }
 
-            if (!RuntimePermissions.hasAllRuntimePermissions(context, listOf(Manifest.permission.ACCESS_FINE_LOCATION))
-                && !RuntimePermissions.hasAllRuntimePermissions(
-                    context,
-                    listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
-                )
+            if (!RuntimePermissions.hasAllRuntimePermissions(context, listOf(Manifest.permission.ACCESS_FINE_LOCATION)) &&
+                    !RuntimePermissions.hasAllRuntimePermissions(
+                            context,
+                            listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    )
             ) {
                 return false
             }
@@ -122,7 +128,7 @@ class BleDeviceStream(private val context: Context) : LiveData<List<ScanResult>>
             try {
                 while (isActive) {
                     delay(1000 * 5)
-                    async(Dispatchers.Main) { cleanUp() }.await()
+                    withContext(Dispatchers.Main) { cleanUp() }
                 }
             } finally {
                 Log.d(TAG, "Scan clean up abort.")

@@ -157,7 +157,6 @@ private class ActivityCallbackImpl(private val event: RxStream<EventId>) : Appli
         }
     }
 
-
     override fun onActivityCreated(activity: Activity?, state: Bundle?) {
     }
 
@@ -184,6 +183,4 @@ private class ActivityCallbackImpl(private val event: RxStream<EventId>) : Appli
 
     override fun onActivityDestroyed(activity: Activity?) {
     }
-
-
 }

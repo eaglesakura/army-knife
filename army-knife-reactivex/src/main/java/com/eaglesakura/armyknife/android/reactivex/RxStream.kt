@@ -85,7 +85,6 @@ open class RxStream<T> private constructor(
         return observable.subscribe(observer)
     }
 
-
     @Suppress("MemberVisibilityCanBePrivate")
     fun subscribe(observer: (value: T) -> Unit): Disposable {
         return observable.subscribe {

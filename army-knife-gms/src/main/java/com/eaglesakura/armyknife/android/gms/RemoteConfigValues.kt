@@ -119,5 +119,4 @@ object RemoteConfigValues {
             return config?.getString(key) ?: defMap[key] as String
         }
     }
-
 }

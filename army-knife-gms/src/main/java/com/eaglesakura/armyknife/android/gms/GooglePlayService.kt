@@ -27,7 +27,7 @@ object GooglePlayService {
      *
      * 既にログイン済みの場合、アクセスを一旦signOutして再度ログインを促すようにする
      *
-     * @param builder        ログイン対象のAPI
+     * @param builder ログイン対象のAPI
      * @return ログイン用intent
      */
     @Throws(PlayServiceException::class)
@@ -42,8 +42,8 @@ object GooglePlayService {
     }
 
     /**
-     * @param email       UserEmail
-     * @param scope       Access scope.
+     * @param email UserEmail
+     * @param scope Access scope.
      */
     fun getOAuth2Token(context: Context, email: String, scope: String): String? {
         return GoogleAuthUtil.getToken(

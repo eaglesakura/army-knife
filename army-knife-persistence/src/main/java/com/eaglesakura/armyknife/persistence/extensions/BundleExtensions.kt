@@ -4,7 +4,15 @@ package com.eaglesakura.armyknife.persistence.extensions
 
 import android.os.Bundle
 import android.os.Parcelable
-import com.eaglesakura.armyknife.android.os.*
+import com.eaglesakura.armyknife.android.os.BundleByteArrayExtra
+import com.eaglesakura.armyknife.android.os.BundleDoubleExtra
+import com.eaglesakura.armyknife.android.os.BundleExtra
+import com.eaglesakura.armyknife.android.os.BundleFloatExtra
+import com.eaglesakura.armyknife.android.os.BundleInBundleExtra
+import com.eaglesakura.armyknife.android.os.BundleIntExtra
+import com.eaglesakura.armyknife.android.os.BundleLongExtra
+import com.eaglesakura.armyknife.android.os.BundleParcelableExtra
+import com.eaglesakura.armyknife.android.os.BundleStringExtra
 
 /**
  * Bundle to kotlin delegate.
@@ -17,7 +25,7 @@ import com.eaglesakura.armyknife.android.os.*
  * }
  */
 fun Bundle.delegateIntExtra(key: String, defValue: Int): BundleExtra<Int> =
-    BundleIntExtra(this, key, defValue)
+        BundleIntExtra(this, key, defValue)
 
 /**
  * Bundle to kotlin delegate.
@@ -30,7 +38,7 @@ fun Bundle.delegateIntExtra(key: String, defValue: Int): BundleExtra<Int> =
  * }
  */
 fun Bundle.delegateLongExtra(key: String, defValue: Long): BundleExtra<Long> =
-    BundleLongExtra(this, key, defValue)
+        BundleLongExtra(this, key, defValue)
 
 /**
  * Bundle to kotlin delegate.
@@ -43,7 +51,7 @@ fun Bundle.delegateLongExtra(key: String, defValue: Long): BundleExtra<Long> =
  * }
  */
 fun Bundle.delegateFloatExtra(key: String, defValue: Float): BundleExtra<Float> =
-    BundleFloatExtra(this, key, defValue)
+        BundleFloatExtra(this, key, defValue)
 
 /**
  * Bundle to kotlin delegate.
@@ -56,7 +64,7 @@ fun Bundle.delegateFloatExtra(key: String, defValue: Float): BundleExtra<Float> 
  * }
  */
 fun Bundle.delegateDoubleExtra(key: String, defValue: Double): BundleExtra<Double> =
-    BundleDoubleExtra(this, key, defValue)
+        BundleDoubleExtra(this, key, defValue)
 
 /**
  * Bundle to kotlin delegate.
@@ -69,7 +77,7 @@ fun Bundle.delegateDoubleExtra(key: String, defValue: Double): BundleExtra<Doubl
  * }
  */
 fun Bundle.delegateStringExtra(key: String, defValue: String): BundleExtra<String> =
-    BundleStringExtra(this, key, defValue)
+        BundleStringExtra(this, key, defValue)
 
 /**
  * Bundle to kotlin delegate.
@@ -82,7 +90,7 @@ fun Bundle.delegateStringExtra(key: String, defValue: String): BundleExtra<Strin
  * }
  */
 fun Bundle.delegateByteArrayExtra(key: String): BundleExtra<ByteArray?> =
-    BundleByteArrayExtra(this, key)
+        BundleByteArrayExtra(this, key)
 
 /**
  * Bundle to kotlin delegate.

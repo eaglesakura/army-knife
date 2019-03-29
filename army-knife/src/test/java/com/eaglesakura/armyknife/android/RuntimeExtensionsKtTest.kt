@@ -4,9 +4,20 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.eaglesakura.armyknife.android.junit4.TestDispatchers
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
 import com.eaglesakura.armyknife.runtime.extensions.asCancelCallback
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
-import org.junit.Assert.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.yield
+import org.junit.Assert.* // ktlint-disable no-wildcard-imports
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -44,7 +55,7 @@ class RuntimeExtensionsKtTest {
     fun Channel_cancel_in_receive() = compatibleBlockingTest {
         val chan = Channel<Unit>()
         GlobalScope.launch { chan.close(CancellationException()) }
-        chan.receive()  // assert cancel in receive() function.
+        chan.receive() // assert cancel in receive() function.
 
         // do not it.
         fail()
@@ -126,5 +137,4 @@ class RuntimeExtensionsKtTest {
         }
         fail()
     }
-
 }

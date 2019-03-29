@@ -18,7 +18,6 @@ internal class RemoteRequest internal constructor(
      */
     var arguments: Bundle? by bundle.delegateBundleExtra("request.EXTRA_ARGUMENTS")
 
-
     internal class Result(
         val bundle: Bundle = Bundle()
     ) {

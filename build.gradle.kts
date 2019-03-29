@@ -12,7 +12,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:3.3.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${extra["kotlin_version"]}")
         classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17") // kotlin-docs
-        classpath("com.github.ben-manes:gradle-versions-plugin:0.20.0") // version checking plugin
+        classpath("com.github.ben-manes:gradle-versions-plugin:0.21.0") // version checking plugin
 
         // deploy to bintray
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
@@ -26,6 +26,10 @@ allprojects {
         jcenter()
         mavenCentral()
     }
+}
+
+subprojects {
+    apply(from = rootProject.file("dsl/ktlint.gradle"))
 }
 
 task("clean", Delete::class) {
@@ -43,6 +47,6 @@ extra["army_knife_version"] =
         "1.1"
     }
 
-if (file("private/configs.gradle").isFile) {
-    apply(from = "private/configs.gradle")
+if (file("private/configs.gradle.kts").isFile) {
+    apply(from = "private/configs.gradle.kts")
 }

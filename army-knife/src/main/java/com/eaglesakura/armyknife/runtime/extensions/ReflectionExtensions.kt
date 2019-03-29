@@ -2,7 +2,6 @@ package com.eaglesakura.armyknife.runtime.extensions
 
 import kotlin.reflect.KClass
 
-
 /**
  * check any instance implemented `Class<>`.
  *

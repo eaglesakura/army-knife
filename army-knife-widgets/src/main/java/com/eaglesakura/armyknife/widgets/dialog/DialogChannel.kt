@@ -104,7 +104,6 @@ class AlertDialogChannelBuilder internal constructor(
     val context: Context
         get() = builder.context
 
-
     /**
      * Get string from resource.
      * delegate to Context.getString()
@@ -138,7 +137,6 @@ class AlertDialogChannelBuilder internal constructor(
             builder.setMessage(value)
             field = value
         }
-
 
     /**
      * Cancelable flag.

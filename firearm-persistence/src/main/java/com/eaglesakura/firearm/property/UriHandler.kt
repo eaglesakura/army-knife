@@ -10,8 +10,8 @@ interface UriHandler {
     /**
      * get操作を行う
      *
-     * @param uri      対象URI
-     * @param command  対象コマンド
+     * @param uri 対象URI
+     * @param command 対象コマンド
      * @param arguments 引数リスト
      * @return Cursorとして返すデータ
      */
@@ -20,9 +20,9 @@ interface UriHandler {
     /**
      * 挿入操作を行う
      *
-     * @param uri     対象URI
+     * @param uri 対象URI
      * @param command 対象コマンド
-     * @param values  送信されてきたデータ
+     * @param values 送信されてきたデータ
      */
     fun insert(uri: Uri, command: String, values: ContentValues)
 }

@@ -47,7 +47,6 @@ val Handler.currentIsHandlerThread: Boolean
 val onUiThread: Boolean
     get() = Thread.currentThread() == UIHandler.looper.thread
 
-
 /**
  * robolectric runtime is true.
  *
@@ -105,7 +104,6 @@ fun assertWorkerThread() {
         throw Error("Thread[${Thread.currentThread()}] is UI")
     }
 }
-
 
 /**
  * When call this method in handler thread, Call "action()" soon.

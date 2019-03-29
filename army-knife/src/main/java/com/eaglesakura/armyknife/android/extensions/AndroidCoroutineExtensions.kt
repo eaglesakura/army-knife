@@ -1,9 +1,13 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.Lifecycle
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-
 
 /**
  * Run suspend-block in Android UI thread.

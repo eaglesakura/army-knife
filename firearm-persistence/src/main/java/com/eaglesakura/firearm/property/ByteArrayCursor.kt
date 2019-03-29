@@ -6,7 +6,7 @@ import com.eaglesakura.armyknife.runtime.extensions.decodeBase64
 import com.eaglesakura.armyknife.runtime.extensions.encodeBase64
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.util.*
+import java.util.Arrays
 
 /**
  * Cursorに乗せて送信する
@@ -35,7 +35,6 @@ internal class ByteArrayCursor(buffer: ByteArray) : AbstractCursor() {
             }
         }
     }
-
 
     override fun getCount(): Int {
         //        SlothLog.INSTANCE.cursor(StringUtil.format("ByteArrayCursor.getCount[%d]", serializedData.size()));
@@ -111,7 +110,6 @@ internal class ByteArrayCursor(buffer: ByteArray) : AbstractCursor() {
             } catch (e: IOException) {
                 throw IllegalStateException(e)
             }
-
         }
     }
 }

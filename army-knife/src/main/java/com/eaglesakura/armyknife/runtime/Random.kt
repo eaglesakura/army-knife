@@ -1,6 +1,5 @@
 package com.eaglesakura.armyknife.runtime
 
-
 /**
  * Returns random value.
  *

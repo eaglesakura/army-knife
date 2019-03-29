@@ -1,6 +1,6 @@
 package com.eaglesakura.armyknife.android.db
 
-import java.util.*
+import java.util.Date
 
 /**
  * Key-Value row in TextKeyValueStore.

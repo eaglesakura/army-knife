@@ -12,22 +12,28 @@ import com.eaglesakura.firearm.aidl.IRemoteProcedureService
 import com.eaglesakura.firearm.rpc.ProcedureConnection
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceConnection
 import com.eaglesakura.firearm.rpc.service.client.ProcedureServiceClientCallback
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.yield
 import kotlin.concurrent.thread
 import kotlin.coroutines.coroutineContext
 
 internal class ProcedureServiceConnectionImpl(
     private val context: Context,
     /**
-     * Intent for connect to service.
-     */
-    private val intent: Intent,
+ * Intent for connect to service.
+ */
+private val intent: Intent,
 
     /**
-     * Background dispatcher.
-     */
-    private val coroutineDispatcher: CoroutineDispatcher,
+ * Background dispatcher.
+ */
+private val coroutineDispatcher: CoroutineDispatcher,
 
     private val callback: ProcedureServiceClientCallback
 

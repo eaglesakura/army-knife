@@ -82,4 +82,3 @@ inline fun notificationToStatusBar(
     notificationManager.notify(tag, notificationId, notification)
     return notification
 }
-

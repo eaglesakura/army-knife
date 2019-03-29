@@ -1,7 +1,5 @@
 package com.eaglesakura.armyknife.property
 
-import java.util.*
-
 /**
  * Text Key-Valueのプロパティを保持する
  */
@@ -70,7 +68,6 @@ open class TextPropertyStore : PropertyStore {
 
     override fun load() {}
 
-
     /**
      * テキストで保持されたプロパティ
      */
@@ -94,6 +91,5 @@ open class TextPropertyStore : PropertyStore {
          * 読み込み後、値を更新していたらtrue
          */
         internal var modified = false
-
     }
 }

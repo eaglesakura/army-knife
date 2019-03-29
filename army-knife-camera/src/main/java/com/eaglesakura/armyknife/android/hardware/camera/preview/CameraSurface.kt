@@ -6,7 +6,6 @@ import android.view.Surface
 
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureSize
 
-
 class CameraSurface {
     private var nativeSurface: Surface? = null
 
@@ -33,7 +32,6 @@ class CameraSurface {
 
         return nativeSurface!!
     }
-
 
     fun getSurfaceTexture(previewSize: CaptureSize): SurfaceTexture {
         return surfaceTexture!!.also { surfaceTexture ->

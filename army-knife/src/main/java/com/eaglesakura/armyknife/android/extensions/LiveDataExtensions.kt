@@ -7,7 +7,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
-
 /**
  * Observe data when Lifecycle alive.
  * This method call observe always(Example, Activity/Fragment paused and more).

@@ -6,8 +6,13 @@ import android.os.Build
 import android.util.Log
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraException
 import com.eaglesakura.armyknife.android.hardware.camera.error.CameraSpecNotFoundException
-import com.eaglesakura.armyknife.android.hardware.camera.spec.*
-import java.util.*
+import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
+import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureSize
+import com.eaglesakura.armyknife.android.hardware.camera.spec.FlashMode
+import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
+import com.eaglesakura.armyknife.android.hardware.camera.spec.Scene
+import com.eaglesakura.armyknife.android.hardware.camera.spec.WhiteBalance
+import java.util.Collections
 
 @Suppress("unused")
 /**
@@ -16,9 +21,9 @@ import java.util.*
 class CameraSpec internal constructor(
     val type: CameraType,
 
-    /**
-     * カメラのプレビューサイズ
-     */
+        /**
+         * カメラのプレビューサイズ
+         */
     /**
      * プレビューサイズ一覧を取得
      */
@@ -55,7 +60,6 @@ class CameraSpec internal constructor(
     private val flashModeSpecs: List<FlashMode>
 ) {
 
-
     /**
      * サポートしているプレビューサイズのうち、最も小さいサイズを返却する
      */
@@ -81,9 +85,9 @@ class CameraSpec internal constructor(
     /**
      * CaptureSizeの縦横比を満たし、かつminWidth/minHeight以上の大きさを返却する
      *
-     * @param minWidth  最小限の幅
+     * @param minWidth 最小限の幅
      * @param minHeight 最小限の高さ
-     * @param size      計算するアスペクト比
+     * @param size 計算するアスペクト比
      * @return 新しい縦横サイズ
      */
     fun getViewSize(minWidth: Int, minHeight: Int, size: CaptureSize): IntArray {
@@ -192,7 +196,6 @@ class CameraSpec internal constructor(
         }
         throw CameraSpecNotFoundException(id)
     }
-
 
     /**
      * IDから撮影サイズを逆引きする

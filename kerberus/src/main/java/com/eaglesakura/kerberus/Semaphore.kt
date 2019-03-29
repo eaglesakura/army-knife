@@ -2,8 +2,14 @@
 
 package com.eaglesakura.kerberus
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -55,7 +61,6 @@ interface Semaphore {
             return SemaphoreImpl(maxParallel)
         }
     }
-
 
     private class SemaphoreImpl(maxParallel: Int) : Semaphore {
         private val channel: Channel<Unit> = Channel(maxParallel)

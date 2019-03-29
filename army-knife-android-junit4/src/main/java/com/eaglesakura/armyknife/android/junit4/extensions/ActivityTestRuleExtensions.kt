@@ -6,7 +6,6 @@ import androidx.test.rule.ActivityTestRule
 import com.eaglesakura.armyknife.android.junit4.TestDispatchers
 import kotlinx.coroutines.withContext
 
-
 /**
  * launchOrGet Activity with after Launch(or cached).
  */

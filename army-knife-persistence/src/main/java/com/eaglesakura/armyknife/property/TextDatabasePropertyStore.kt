@@ -3,7 +3,6 @@ package com.eaglesakura.armyknife.property
 import android.content.Context
 import com.eaglesakura.armyknife.android.db.TextKeyValueStore
 import java.io.File
-import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -36,7 +35,6 @@ class TextDatabasePropertyStore(private val context: Context, private val databa
                 kvs.transaction { _ ->
                     commitValues.forEach { entry ->
                         kvs.put(entry.key, entry.value)
-
                     }
                 }
 

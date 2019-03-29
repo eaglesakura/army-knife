@@ -8,7 +8,7 @@ import com.eaglesakura.armyknife.runtime.extensions.decodeBase64
 import com.eaglesakura.armyknife.runtime.extensions.encodeBase64
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.*
+import java.util.Date
 
 /**
  * 簡易設定用のプロパティを保持するためのクラス
@@ -111,6 +111,5 @@ class Properties(private val propertyStore: PropertyStore) {
         } catch (e: Exception) {
             null
         }
-
     }
 }

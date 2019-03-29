@@ -29,7 +29,10 @@ android {
     sourceSets {
         androidTest.java.srcDirs += ["src/test/java"]
     }
-
+    lintOptions {
+        // workaround for "net.bytebuddy/byte-buddy-agent/1.8.5"
+        disable "InvalidPackage"
+    }
     packagingOptions {
         exclude 'META-INF/**_debug.kotlin_module'
     }

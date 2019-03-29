@@ -6,7 +6,11 @@ import com.eaglesakura.firearm.aidl.IRemoteProcedureService
 import com.eaglesakura.firearm.rpc.internal.console
 import com.eaglesakura.firearm.rpc.service.ProcedureServiceBinder
 import com.eaglesakura.firearm.rpc.service.RemoteClient
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -66,9 +70,9 @@ internal class IRemoteProcedureServiceImpl(
 
         val result = runBlocking(coroutineDispatcher) {
             return@runBlocking callback.execute(
-                client,
-                remoteRequest.path,
-                remoteRequest.arguments!!
+                    client,
+                    remoteRequest.path,
+                    remoteRequest.arguments!!
             )
         }
         return RemoteRequest.Result().also {

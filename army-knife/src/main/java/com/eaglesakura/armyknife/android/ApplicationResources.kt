@@ -55,7 +55,6 @@ object ApplicationResources {
         return getDrawableUri(context, id)
     }
 
-
     /**
      * Load drawable resource with set tint color to it.
      *
@@ -89,7 +88,6 @@ object ApplicationResources {
         } catch (e: Exception) {
             null
         }
-
     }
 
     /**
@@ -111,7 +109,6 @@ object ApplicationResources {
         } catch (e: Exception) {
             null
         }
-
     }
 
     /**
@@ -132,7 +129,5 @@ object ApplicationResources {
         } catch (e: Exception) {
             null
         }
-
     }
-
 }
