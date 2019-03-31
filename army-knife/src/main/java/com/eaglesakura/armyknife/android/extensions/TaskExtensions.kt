@@ -36,7 +36,9 @@ suspend fun <T> Task<T>.awaitInCoroutines(): Task<T> {
         }
     }
     addOnCanceledListener {
-        channel.close(CancellationException())
+        GlobalScope.launch(Dispatchers.Main) {
+            channel.close(CancellationException())
+        }
     }
     channel.receive()
     return this

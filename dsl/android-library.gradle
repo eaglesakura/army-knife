@@ -30,6 +30,11 @@ android {
         androidTest.java.srcDirs += ["src/test/java"]
     }
 
+    lintOptions {
+        // workaround for "io.grpc/grpc-core/1.16.1"
+        disable "InvalidPackage"
+    }
+
     packagingOptions {
         exclude 'META-INF/**_debug.kotlin_module'
     }
@@ -46,7 +51,7 @@ dependencies {
     /**
      * for Tests (or Android Tests)
      */
-    testImplementation 'org.robolectric:robolectric:4.2'
+    testImplementation 'org.robolectric:robolectric:4.2.1'
     androidTestImplementation 'androidx.multidex:multidex:2.0.0'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.21.0'

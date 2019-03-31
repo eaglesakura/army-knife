@@ -125,7 +125,13 @@ jobs:
         command: ./gradlew ":<< parameters.module >>:<< parameters.lintTask >>"
     - run:
         name: format
-        command: ./gradlew ":<< parameters.module >>:<< parameters.formatTask >>"
+        command: |
+          ./gradlew ":<< parameters.module >>:<< parameters.formatTask >>"
+          if [ "`git status | grep '.kt'`" != "" ]; then
+            echo "kotlin format error."
+            echo "run -> ./gradlew format"
+            exit 1
+          fi
     - module-save-cache:
         module: << parameters.module >>
   ##############################################
