@@ -5,7 +5,7 @@ extra["artifact_version"] = System.getenv("CIRCLE_TAG").let { CIRCLE_TAG ->
     val majorMinor = if (CIRCLE_TAG.isNullOrEmpty()) {
         rootProject.extra["army_knife_version"] as String
     } else {
-        CIRCLE_TAG.substring(CIRCLE_TAG.indexOf('v') + 1)
+        return@let CIRCLE_TAG.substring(CIRCLE_TAG.indexOf('v') + 1)
     }
 
     val buildNumberFile = rootProject.file(".configs/secrets/build-number.env")
