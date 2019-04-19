@@ -101,6 +101,7 @@ object Firebase {
     @Suppress("MemberVisibilityCanBePrivate")
     val remoteConfig: FirebaseRemoteConfig? by lazy {
         try {
+            app!!
             FirebaseRemoteConfig.getInstance()
         } catch (e: Throwable) {
             null

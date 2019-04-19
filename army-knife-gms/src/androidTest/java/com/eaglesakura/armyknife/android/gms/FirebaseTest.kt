@@ -10,6 +10,7 @@ import com.google.firebase.iid.InstanceIdResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -69,5 +70,11 @@ class FirebaseTest {
                 "Date='${snapshot.date}', User='${snapshot.user?.uid}', Token='${snapshot.token?.token}'"
             )
         })
+    }
+
+    @Test
+    fun remoteConfig() = instrumentationBlockingTest(Dispatchers.Main) {
+        Firebase.remoteConfig!!.fetchAndActivate().awaitInCoroutines()
+        assertEquals("hello_world", Firebase.remoteConfig!!.getString("example"))
     }
 }
