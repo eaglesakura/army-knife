@@ -1,5 +1,6 @@
 package com.eaglesakura.armyknife.runtime.extensions
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -36,3 +37,55 @@ fun <E> SendChannel<E>.send(dispatcher: CoroutineDispatcher, element: E) {
         send(element)
     }
 }
+
+/**
+ * Cancel channel by Error.
+ *
+ * e.g.)
+ * val channel = Channel<String>()
+ *
+ * doInCoroutines {
+ *      try {
+ *          channel.send("Done")
+ *      } catch(e: Throwable) {
+ *          channel.cancelByError(e)
+ *      }
+ * }
+ *
+ * channel.receiveOrError()
+ *
+ * @see Channel.receiveOrError
+ */
+fun <E> Channel<E>.cancelByError(e: Throwable) {
+    cancel(ErrorCancelException(e))
+}
+
+/**
+ * Cancel channel by Error.
+ *
+ * e.g.)
+ * val channel = Channel<String>()
+ *
+ * doInCoroutines {
+ *      try {
+ *          channel.send("Done")
+ *      } catch(e: Throwable) {
+ *          channel.cancelByError(e)
+ *      }
+ * }
+ *
+ * channel.receiveOrError()
+ *
+ * @see Channel.cancelByError
+ */
+suspend fun <E> Channel<E>.receiveOrError(): E {
+    try {
+        return receive()
+    } catch (e: ErrorCancelException) {
+        throw e.cause
+    }
+}
+
+internal class ErrorCancelException(
+    override val cause: Throwable
+) : CancellationException()

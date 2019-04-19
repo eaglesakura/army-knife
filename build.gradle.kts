@@ -1,8 +1,8 @@
-import java.util.*
+import java.util.Date
 
 buildscript {
-    extra["kotlin_version"] = "1.3.21"
-    extra["kotlin_coroutines_version"] = "1.1.1"
+    extra["kotlin_version"] = "1.3.30"
+    extra["kotlin_coroutines_version"] = "1.2.0"
     repositories {
         google()
         jcenter()
@@ -40,12 +40,7 @@ task("clean", Delete::class) {
 // Register extras.
 extra["build_date"] = Date()
 extra["android_studio"] = hasProperty("devBuild")
-extra["army_knife_version"] =
-    if (hasProperty("army_knife_version")) {
-        "${properties["army_knife_version"]}"
-    } else {
-        "1.1"
-    }
+extra["army_knife_version"] = "1.2"
 
 if (file("private/configs.gradle.kts").isFile) {
     apply(from = "private/configs.gradle.kts")

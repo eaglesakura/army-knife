@@ -10,12 +10,12 @@ extra["artifact_version"] = System.getenv("CIRCLE_TAG").let { CIRCLE_TAG ->
 
     val buildNumberFile = rootProject.file(".configs/secrets/build-number.env")
     if (buildNumberFile.isFile) {
-        return@let "$majorMinor.${buildNumberFile.readText(Charset.forName("UTF-8"))}"
+        return@let "$majorMinor.build-${buildNumberFile.readText(Charset.forName("UTF-8"))}"
     }
 
     return@let when {
         hasProperty("install_snapshot") -> "$majorMinor.99999"
-        System.getenv("CIRCLE_BUILD_NUM") != null -> "$majorMinor.${System.getenv("CIRCLE_BUILD_NUM")}"
+        System.getenv("CIRCLE_BUILD_NUM") != null -> "$majorMinor.build-${System.getenv("CIRCLE_BUILD_NUM")}"
         else -> "$majorMinor.snapshot"
     }
 }.trim()

@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ChannelIterator
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -62,8 +63,15 @@ internal fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
  * Delegate supported channel.
  *
  * If you want to the simple use case, then replace to "RendezvousChannel<T>".
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
  */
-internal abstract class DelegateChannel<T>(private val origin: Channel<T>) : Channel<T> {
+abstract class DelegateChannel<T>(
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val origin: Channel<T>
+) :
+    Channel<T> {
     override val isClosedForReceive: Boolean
         get() = origin.isClosedForReceive
 
@@ -74,7 +82,7 @@ internal abstract class DelegateChannel<T>(private val origin: Channel<T>) : Cha
         get() = origin.isEmpty
 
     override val isFull: Boolean
-        get() = origin.isFull
+        get() = false
 
     override val onReceive: SelectClause1<T>
         get() = origin.onReceive
@@ -85,9 +93,14 @@ internal abstract class DelegateChannel<T>(private val origin: Channel<T>) : Cha
     override val onSend: SelectClause2<T, SendChannel<T>>
         get() = origin.onSend
 
-    override fun cancel(): Unit = origin.cancel()
+    override fun cancel() = origin.cancel()
 
-    override fun cancel(cause: Throwable?): Boolean = origin.cancel(cause)
+    override fun cancel(cause: CancellationException?) = origin.cancel(cause)
+
+    override fun cancel(cause: Throwable?): Boolean {
+        cancel(cause as? CancellationException)
+        return true
+    }
 
     override fun close(cause: Throwable?): Boolean = origin.close(cause)
 

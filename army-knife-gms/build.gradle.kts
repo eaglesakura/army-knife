@@ -14,9 +14,9 @@ dependencies {
      * Firebase
      */
     "implementation"("com.google.firebase:firebase-core:16.0.8")
-    "implementation"("com.google.firebase:firebase-auth:16.2.0")
-    "implementation"("com.google.firebase:firebase-config:16.4.1")
-    "implementation"("com.google.firebase:firebase-iid:17.1.1")
+    "implementation"("com.google.firebase:firebase-auth:16.2.1")
+    "implementation"("com.google.firebase:firebase-config:16.5.0")
+    "implementation"("com.google.firebase:firebase-iid:17.1.2")
     "implementation"("com.google.firebase:firebase-firestore:18.2.0")
     "implementation"("com.google.firebase:firebase-storage:16.1.0")
     "implementation"("com.crashlytics.sdk.android:crashlytics:2.9.9")

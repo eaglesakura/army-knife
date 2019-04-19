@@ -50,7 +50,7 @@ dependencies {
      * Firebase
      */
     "compileOnly"("com.google.firebase:firebase-core:16.0.8")
-    "compileOnly"("com.google.firebase:firebase-auth:16.2.0")
-    "compileOnly"("com.google.firebase:firebase-config:16.4.1")
-    "compileOnly"("com.google.firebase:firebase-iid:17.1.1")
+    "compileOnly"("com.google.firebase:firebase-auth:16.2.1")
+    "compileOnly"("com.google.firebase:firebase-config:16.5.0")
+    "compileOnly"("com.google.firebase:firebase-iid:17.1.2")
 }

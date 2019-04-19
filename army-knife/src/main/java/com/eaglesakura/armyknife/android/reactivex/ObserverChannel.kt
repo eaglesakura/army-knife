@@ -3,6 +3,7 @@ package com.eaglesakura.armyknife.android.reactivex
 import com.eaglesakura.armyknife.runtime.coroutines.DelegateChannel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,12 +26,12 @@ internal class ObserverChannel<T>(private val dispatcher: CoroutineDispatcher = 
 
     override fun cancel() {
         dispose()
-        super.cancel()
+        super.cancel(null)
     }
 
-    override fun cancel(cause: Throwable?): Boolean {
+    override fun cancel(cause: CancellationException?) {
         dispose()
-        return super.cancel(cause)
+        super.cancel(cause)
     }
 
     override fun close(cause: Throwable?): Boolean {
@@ -43,7 +44,7 @@ internal class ObserverChannel<T>(private val dispatcher: CoroutineDispatcher = 
     }
 
     override fun onError(e: Throwable) {
-        cancel(e)
+        cancel(e as? CancellationException)
     }
 
     override fun onComplete() {

@@ -27,6 +27,8 @@ import com.eaglesakura.armyknife.android.hardware.camera.preview.CameraSurface
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CameraType
 import com.eaglesakura.armyknife.android.hardware.camera.spec.CaptureFormat
 import com.eaglesakura.armyknife.android.hardware.camera.spec.FocusMode
+import com.eaglesakura.armyknife.runtime.extensions.cancelByError
+import com.eaglesakura.armyknife.runtime.extensions.receiveOrError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.NonCancellable
@@ -121,11 +123,11 @@ internal class Camera2ControlManager(
 
                         override fun onError(cameraDevice: CameraDevice, error: Int) {
                             launch(Dispatchers.Main) {
-                                if (error == CameraDevice.StateCallback.ERROR_CAMERA_IN_USE) {
+                                if (error == ERROR_CAMERA_IN_USE) {
                                     // すでに使われている
                                     channel.send(cameraDevice)
                                 } else {
-                                    channel.cancel(CameraSecurityException("Error[$error]"))
+                                    channel.cancelByError(CameraSecurityException("Error[$error]"))
                                 }
                             }
                         }
@@ -133,7 +135,7 @@ internal class Camera2ControlManager(
                     UIHandler
                 )
 
-                camera = channel.receive()
+                camera = channel.receiveOrError()
             } catch (err: SecurityException) {
                 // haven't camera-permission
                 throw CameraAccessFailedException(err)
@@ -354,7 +356,7 @@ internal class Camera2ControlManager(
                     failure: CaptureFailure
                 ) {
                     GlobalScope.launch(Dispatchers.Main) {
-                        captureCompleted.cancel(PictureFailedException("Fail reason[${failure.reason}]"))
+                        captureCompleted.cancelByError(PictureFailedException("Fail reason[${failure.reason}]"))
                     }
                 }
             }
@@ -395,8 +397,8 @@ internal class Camera2ControlManager(
             session.capture(builder.build(), captureCallback, UIHandler)
 
             // receive all messages.
-            captureCompleted.receive()
-            return picture.receive()
+            captureCompleted.receiveOrError()
+            return picture.receiveOrError()
         } catch (e: CameraAccessException) {
             throw CameraAccessFailedException(e)
         } finally {

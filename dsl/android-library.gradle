@@ -37,6 +37,7 @@ android {
 
     packagingOptions {
         exclude 'META-INF/**_debug.kotlin_module'
+        pickFirst "META-INF/atomicfu.kotlin_module" // kotlinx.atomicfu
     }
 }
 

@@ -1,5 +1,6 @@
 package com.eaglesakura.armyknife.runtime.coroutines
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ChannelIterator
 import kotlinx.coroutines.channels.SendChannel
@@ -14,7 +15,10 @@ import kotlinx.coroutines.selects.SelectClause2
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
  */
-abstract class DelegateChannel<T>(@Suppress("MemberVisibilityCanBePrivate") protected val origin: Channel<T>) :
+abstract class DelegateChannel<T>(
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val origin: Channel<T>
+) :
     Channel<T> {
     override val isClosedForReceive: Boolean
         get() = origin.isClosedForReceive
@@ -26,7 +30,7 @@ abstract class DelegateChannel<T>(@Suppress("MemberVisibilityCanBePrivate") prot
         get() = origin.isEmpty
 
     override val isFull: Boolean
-        get() = origin.isFull
+        get() = false
 
     override val onReceive: SelectClause1<T>
         get() = origin.onReceive
@@ -39,7 +43,12 @@ abstract class DelegateChannel<T>(@Suppress("MemberVisibilityCanBePrivate") prot
 
     override fun cancel() = origin.cancel()
 
-    override fun cancel(cause: Throwable?): Boolean = origin.cancel(cause)
+    override fun cancel(cause: CancellationException?) = origin.cancel(cause)
+
+    override fun cancel(cause: Throwable?): Boolean {
+        cancel(cause as? CancellationException)
+        return true
+    }
 
     override fun close(cause: Throwable?): Boolean = origin.close(cause)
 

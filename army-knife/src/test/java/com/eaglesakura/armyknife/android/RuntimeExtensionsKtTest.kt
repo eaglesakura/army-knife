@@ -17,10 +17,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
-import org.junit.Assert.* // ktlint-disable no-wildcard-imports
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
@@ -100,23 +102,6 @@ class RuntimeExtensionsKtTest {
         }
 
         fail()
-    }
-
-    @Test(expected = IOException::class)
-    fun coroutine_withTimeout_withContext() = compatibleBlockingTest {
-        withContext(TestDispatchers.Default) {
-            val current = coroutineContext
-            // Cancel this job.
-            GlobalScope.launch {
-                delay(TimeUnit.MILLISECONDS.toMillis(10))
-                current.cancel(IOException("cancel by other thread"))
-            }
-
-            withTimeout(TimeUnit.MILLISECONDS.toMillis(1000)) {
-                delay(100)
-                yield()
-            }
-        }
     }
 
     @Test(expected = CancellationException::class)
