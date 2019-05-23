@@ -137,7 +137,6 @@ object Firebase {
         null
     }
 
-
     private val lock = ReentrantLock()
 
     private val storageCaches = mutableMapOf<String, FirebaseStorage>()

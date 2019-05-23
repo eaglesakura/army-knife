@@ -6,7 +6,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-
 /**
  * Launch with Lifecycle scope.
  *

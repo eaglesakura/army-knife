@@ -8,9 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.eaglesakura.armyknife.runtime.extensions.send
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
 
 /**
  * Observe data when Lifecycle alive.
