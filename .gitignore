@@ -21,3 +21,4 @@ google-services.json
 fastlane/report.xml
 *.hprof
 /artifacts
+/*.log

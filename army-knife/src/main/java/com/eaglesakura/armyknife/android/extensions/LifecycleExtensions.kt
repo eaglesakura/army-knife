@@ -1,15 +1,41 @@
 package com.eaglesakura.armyknife.android.extensions
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.*
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
+import kotlin.coroutines.CoroutineContext
+
+/**
+ * Launch with Lifecycle scope.
+ *
+ * e.g.)
+ * lifecycle.launch {
+ *      // do something in worker.
+ * }
+ */
+fun Lifecycle.launch(context: CoroutineContext, block: CoroutineScope.() -> Unit): Job {
+    val lifecycle = this
+    return GlobalScope.launch(context) {
+        coroutineContext.with(lifecycle)
+        block(this)
+    }
+}
+
+/**
+ * Launch with Lifecycle scope.
+ *
+ * e.g.)
+ * lifecycle.async {
+ *      // do something in worker.
+ * }
+ */
+fun <T> Lifecycle.async(context: CoroutineContext, block: CoroutineScope.() -> T): Deferred<T> {
+    val lifecycle = this
+    return GlobalScope.async(context) {
+        coroutineContext.with(lifecycle)
+        block(this)
+    }
+}
 
 /**
  * Subscribe lifecycle's event.

@@ -1,8 +1,10 @@
 package com.eaglesakura.armyknife.android.gms
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
@@ -119,6 +121,22 @@ object Firebase {
             null
         }
     }
+
+    /**
+     * Firebase analytics isinstance.
+     *
+     * Required Permissions)
+     *  1. android.permission.ACCESS_NETWORK_STATE
+     *  2. android.permission.INTERNET
+     *  3. android.permission.WAKE_LOCK
+     */
+    @SuppressLint("MissingPermission")
+    fun analytics(context: Context): FirebaseAnalytics? = try {
+        FirebaseAnalytics.getInstance(context)
+    } catch (e: Throwable) {
+        null
+    }
+
 
     private val lock = ReentrantLock()
 

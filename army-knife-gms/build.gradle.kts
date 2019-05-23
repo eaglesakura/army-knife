@@ -13,13 +13,13 @@ dependencies {
     /**
      * Firebase
      */
-    "implementation"("com.google.firebase:firebase-core:16.0.8")
-    "implementation"("com.google.firebase:firebase-auth:16.2.1")
+    "implementation"("com.google.firebase:firebase-core:16.0.9")
+    "implementation"("com.google.firebase:firebase-auth:17.0.0")
     "implementation"("com.google.firebase:firebase-config:16.5.0")
     "implementation"("com.google.firebase:firebase-iid:17.1.2")
-    "implementation"("com.google.firebase:firebase-firestore:18.2.0")
-    "implementation"("com.google.firebase:firebase-storage:16.1.0")
-    "implementation"("com.crashlytics.sdk.android:crashlytics:2.9.9")
+    "implementation"("com.google.firebase:firebase-firestore:19.0.0")
+    "implementation"("com.google.firebase:firebase-storage:17.0.0")
+    "implementation"("com.crashlytics.sdk.android:crashlytics:2.10.0")
 
     "testImplementation"(project(":army-knife-android-junit4"))
     "androidTestImplementation"(project(":army-knife-android-junit4"))
