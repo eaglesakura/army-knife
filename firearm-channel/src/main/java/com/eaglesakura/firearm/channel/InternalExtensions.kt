@@ -27,7 +27,7 @@ import kotlinx.coroutines.selects.SelectClause2
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
  */
-suspend fun <R, T> Channel<T>.use(block: suspend (channel: ReceiveChannel<T>) -> R): R {
+internal suspend fun <R, T> Channel<T>.use(block: suspend (channel: ReceiveChannel<T>) -> R): R {
     try {
         return block(this)
     } finally {
