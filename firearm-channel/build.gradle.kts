@@ -17,6 +17,7 @@ dependencies {
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
+    "api"("androidx.annotation:annotation:1.0.2")
     "api"("androidx.appcompat:appcompat:1.0.2")
     "implementation"("androidx.lifecycle:lifecycle-extensions:2.0.0")
     "implementation"("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
