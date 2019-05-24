@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 
@@ -13,6 +14,10 @@ interface ViewModelOwner {
     val context: Context
 
     val lifecycle: Lifecycle
+        get() = lifecycleOwner.lifecycle
+
+    val lifecycleOwner: LifecycleOwner
+        get() = (owner as LifecycleOwner)
 
     val owner: Any
 
@@ -24,6 +29,9 @@ interface ViewModelOwner {
 
                 override val lifecycle: Lifecycle
                     get() = activity.lifecycle
+
+                override val lifecycleOwner: LifecycleOwner
+                    get() = activity
 
                 override val owner: Any
                     get() = activity
@@ -40,6 +48,8 @@ interface ViewModelOwner {
                     get() = fragment.context!!
                 override val lifecycle: Lifecycle
                     get() = fragment.lifecycle
+                override val lifecycleOwner: LifecycleOwner
+                    get() = fragment
                 override val owner: Any
                     get() = fragment
 

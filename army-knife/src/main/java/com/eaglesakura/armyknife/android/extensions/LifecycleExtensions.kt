@@ -25,7 +25,7 @@ import kotlin.coroutines.CoroutineContext
  *      // do something in worker.
  * }
  */
-fun Lifecycle.launch(context: CoroutineContext, block: CoroutineScope.() -> Unit): Job {
+fun Lifecycle.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit): Job {
     val lifecycle = this
     return GlobalScope.launch(context) {
         coroutineContext.with(lifecycle)
@@ -41,7 +41,10 @@ fun Lifecycle.launch(context: CoroutineContext, block: CoroutineScope.() -> Unit
  *      // do something in worker.
  * }
  */
-fun <T> Lifecycle.async(context: CoroutineContext, block: CoroutineScope.() -> T): Deferred<T> {
+fun <T> Lifecycle.async(
+    context: CoroutineContext,
+    block: suspend CoroutineScope.() -> T
+): Deferred<T> {
     val lifecycle = this
     return GlobalScope.async(context) {
         coroutineContext.with(lifecycle)

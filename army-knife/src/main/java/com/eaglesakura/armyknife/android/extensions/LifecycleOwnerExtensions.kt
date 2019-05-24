@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
  *      // do something in worker.
  * }
  */
-fun LifecycleOwner.launch(context: CoroutineContext, block: CoroutineScope.() -> Unit): Job =
+fun LifecycleOwner.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit): Job =
     lifecycle.launch(context, block)
 
 /**
@@ -25,5 +25,5 @@ fun LifecycleOwner.launch(context: CoroutineContext, block: CoroutineScope.() ->
  *      // do something in worker.
  * }
  */
-fun <T> LifecycleOwner.async(context: CoroutineContext, block: CoroutineScope.() -> T): Deferred<T> =
+fun <T> LifecycleOwner.async(context: CoroutineContext, block: suspend CoroutineScope.() -> T): Deferred<T> =
     lifecycle.async(context, block)

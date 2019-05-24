@@ -100,6 +100,12 @@ jobs:
               echo "run -> ./gradlew format"
               exit 1
             fi
+      - store_artifacts:
+          destination: archive-artifacts
+          path: <<parameters.module>>/build/reports/
+      - store_test_results:
+          destination: archive-test-artifacts
+          path: <<parameters.module>>/build/test-results/
       - module-save-cache:
           module: << parameters.module >>
       - run:
