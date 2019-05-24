@@ -24,7 +24,7 @@ dependencies {
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    "compileOnly"("androidx.core:core-ktx:1.0.1")
+    "compileOnly"("androidx.core:core-ktx:1.0.2")
     "compileOnly"("androidx.appcompat:appcompat:1.0.2")
     "compileOnly"("androidx.lifecycle:lifecycle-extensions:2.0.0")
     "compileOnly"("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")

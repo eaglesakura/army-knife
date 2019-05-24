@@ -28,8 +28,8 @@ dependencies {
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
     "api"("androidx.annotation:annotation:1.0.2")
-    "api"("androidx.core:core:1.0.1")
-    "api"("androidx.core:core-ktx:1.0.1")
+    "api"("androidx.core:core:1.0.2")
+    "api"("androidx.core:core-ktx:1.0.2")
     "api"("androidx.collection:collection-ktx:1.0.0")
     "api"("androidx.fragment:fragment-ktx:1.0.0")
     "api"("androidx.appcompat:appcompat:1.0.2")
@@ -49,8 +49,8 @@ dependencies {
     /**
      * Firebase
      */
-    "compileOnly"("com.google.firebase:firebase-core:16.0.8")
-    "compileOnly"("com.google.firebase:firebase-auth:16.2.1")
+    "compileOnly"("com.google.firebase:firebase-core:16.0.9")
+    "compileOnly"("com.google.firebase:firebase-auth:17.0.0")
     "compileOnly"("com.google.firebase:firebase-config:16.5.0")
     "compileOnly"("com.google.firebase:firebase-iid:17.1.2")
 }

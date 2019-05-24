@@ -18,6 +18,6 @@ dependencies {
      * https://developer.android.com/topic/libraries/architecture/adding-components
      * https://developer.android.com/topic/libraries/support-library/refactor
      */
-    "api"("androidx.core:core-ktx:1.0.1")
+    "api"("androidx.core:core-ktx:1.0.2")
     "api"("androidx.appcompat:appcompat:1.0.2")
 }

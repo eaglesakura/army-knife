@@ -1,48 +1,16 @@
 version: 2.1
-aliases:
-- &depends-from-tests
-  requires:
-  - configure
-- &depends-from-deploy
-  requires:
-  - army-knife-test
-  - army-knife-android-junit4-test
-  - army-knife-camera-test
-  - army-knife-gms-test
-  - army-knife-junit-test
-  - army-knife-persistence-test
-  - army-knife-reactivex-test
-  - army-knife-timber-test
-  - army-knife-widgets-test
-  - firearm-test
-  - firearm-channel-test
-  - firearm-di-test
-  - firearm-event-test
-  - firearm-material-resources-test
-  - firearm-persistence-test
-  - firearm-rpc-test
-  - kerberus-test
-  - oneshotlivedata-test
-- &filter-for-assemble
-  filters:
-    branches:
-      only:
-      - /^v[0-9].*/
-      - /^feature\/id\/.*/
-    tags:
-      only:
-      - /^v[0-9].*/
+
 executors:
   gcloud:
     working_directory: /home/circleci/project
     docker:
-    - image: google/cloud-sdk
+      - image: google/cloud-sdk
     environment:
       TZ: Asia/Tokyo
   android-build:
     working_directory: /home/circleci/project
     docker:
-    - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-28-alpha
     environment:
       TZ: Asia/Tokyo
       _JAVA_OPTIONS: -Xmx4g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
@@ -50,46 +18,46 @@ executors:
 commands:
   internal-checkout:
     steps:
-    - checkout
-    - run:
-        name: generate-cache-key
-        command: |
-          echo "${CIRCLE_SHA1}-${CIRCLE_BRANCH:-nil}-${CIRCLE_TAG:-nil}-`date "+%Y%m%d"`" > .cachekey
-          cat .cachekey
+      - checkout
+      - run:
+          name: generate-cache-key
+          command: |
+            echo "${CIRCLE_SHA1}-${CIRCLE_BRANCH:-nil}-${CIRCLE_TAG:-nil}-`date "+%Y%m%d"`" > .cachekey
+            cat .cachekey
   module-checkout:
     parameters:
       module:
         type: string
     steps:
-    - internal-checkout
-    - restore_cache:
-        key: configs-{{ checksum ".cachekey" }}
-    - restore_cache:
-        key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "<< parameters.module >>/build.gradle.kts" }}
+      - internal-checkout
+      - restore_cache:
+          key: configs-{{ checksum ".cachekey" }}
+      - restore_cache:
+          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "<< parameters.module >>/build.gradle.kts" }}
   module-save-cache:
     parameters:
       module:
         type: string
     steps:
-    - save_cache:
-        paths:
-        - ~/.gradle
-        - ~/.m2
-        key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "<< parameters.module >>/build.gradle.kts" }}
+      - save_cache:
+          paths:
+            - ~/.gradle
+            - ~/.m2
+          key: gradle{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "<< parameters.module >>/build.gradle.kts" }}
 jobs:
   configure:
     executor:
       name: android-build
     steps:
-    - internal-checkout
-    - run:
-        name: snapshot-build-number
-        command: |
-          echo "$CIRCLE_BUILD_NUM" > .configs/secrets/build-number.env
-    - save_cache:
-        paths:
-        - .configs/secrets
-        key: configs-{{ checksum ".cachekey" }}
+      - internal-checkout
+      - run:
+          name: snapshot-build-number
+          command: |
+            echo "$CIRCLE_BUILD_NUM" > .configs/secrets/build-number.env
+      - save_cache:
+          paths:
+            - .configs/secrets
+          key: configs-{{ checksum ".cachekey" }}
   ##############################################
   # unit-test in parameters.module
   ##############################################
@@ -112,232 +80,140 @@ jobs:
     executor:
       name: android-build
     steps:
-    - module-checkout:
-        module: << parameters.module >>
-    - run:
-        name: local-test
-        command: ./gradlew ":<< parameters.module >>:<< parameters.localTestTask >>"
-    - run:
-        name: instrumentation
-        command: ./gradlew ":<< parameters.module >>:<< parameters.instrumentationTestTask >>"
-    - run:
-        name: lint
-        command: ./gradlew ":<< parameters.module >>:<< parameters.lintTask >>"
-    - run:
-        name: format
-        command: |
-          ./gradlew ":<< parameters.module >>:<< parameters.formatTask >>"
-          if [ "`git status | grep '.kt'`" != "" ]; then
-            echo "kotlin format error."
-            echo "run -> ./gradlew format"
-            exit 1
-          fi
-    - module-save-cache:
-        module: << parameters.module >>
-  ##############################################
-  # deploy in parameters.module
-  ##############################################
-  deploy-to-bintray:
-    parameters:
-      module:
-        type: string
-    executor:
-      name: android-build
-    steps:
-    - module-checkout:
-        module: << parameters.module >>
-    - run:
-        name: deploy
-        command: ./gradlew ":<< parameters.module >>:bintrayUpload"
+      - module-checkout:
+          module: << parameters.module >>
+      - run:
+          name: local-test
+          command: ./gradlew ":<< parameters.module >>:<< parameters.localTestTask >>"
+      - run:
+          name: instrumentation
+          command: ./gradlew ":<< parameters.module >>:<< parameters.instrumentationTestTask >>"
+      - run:
+          name: lint
+          command: ./gradlew ":<< parameters.module >>:<< parameters.lintTask >>"
+      - run:
+          name: format
+          command: |
+            ./gradlew ":<< parameters.module >>:<< parameters.formatTask >>"
+            if [ "`git status | grep '.kt'`" != "" ]; then
+              echo "kotlin format error."
+              echo "run -> ./gradlew format"
+              exit 1
+            fi
+      - module-save-cache:
+          module: << parameters.module >>
+      - run:
+          name: deploy
+          command: ./gradlew ":<< parameters.module >>:bintrayUpload"
+aliases:
+  - &depends-from-tests
+    requires:
+      - configure
+  - &filter-for-assemble
+    filters:
+      branches:
+        only:
+          - /^v[0-9].*/
+          - /^feature\/id\/.*/
+      tags:
+        only:
+          - /^v[0-9].*/
 workflows:
   assemble-flow:
     jobs:
-    - configure:
-        <<: *filter-for-assemble
-    ##############################################
-    # tests in army-knife
-    ##############################################
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife
-        name: army-knife-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-android-junit4
-        name: army-knife-android-junit4-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-camera
-        name: army-knife-camera-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-gms
-        name: army-knife-gms-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-junit
-        name: army-knife-junit-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-persistence
-        name: army-knife-persistence-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-reactivex
-        name: army-knife-reactivex-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-timber
-        name: army-knife-timber-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: army-knife-widgets
-        name: army-knife-widgets-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm
-        name: firearm-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm-channel
-        name: firearm-channel-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm-di
-        name: firearm-di-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm-event
-        name: firearm-event-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm-material-resources
-        name: firearm-material-resources-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm-persistence
-        name: firearm-persistence-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: firearm-rpc
-        name: firearm-rpc-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: kerberus
-        name: kerberus-test
-    - local-unit-test:
-        <<: *filter-for-assemble
-        <<: *depends-from-tests
-        module: oneshotlivedata
-        name: oneshotlivedata-test
-    ##############################################
-    # deploy in army-knife
-    ##############################################
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife
-        name: army-knife-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-android-junit4
-        name: army-knife-android-junit4-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-camera
-        name: army-knife-camera-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-gms
-        name: army-knife-gms-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-junit
-        name: army-knife-junit-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-persistence
-        name: army-knife-persistence-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-reactivex
-        name: army-knife-reactivex-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-timber
-        name: army-knife-timber-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: army-knife-widgets
-        name: army-knife-widgets-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm
-        name: firearm-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm-channel
-        name: firearm-channel-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm-di
-        name: firearm-di-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm-event
-        name: firearm-event-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm-material-resources
-        name: firearm-material-resources-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm-persistence
-        name: firearm-persistence-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: firearm-rpc
-        name: firearm-rpc-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: kerberus
-        name: kerberus-deploy
-    - deploy-to-bintray:
-        <<: *filter-for-assemble
-        <<: *depends-from-deploy
-        module: oneshotlivedata
-        name: oneshotlivedata-deploy
+      - configure:
+          <<: *filter-for-assemble
+      ##############################################
+      # tests in army-knife
+      ##############################################
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife
+          name: army-knife-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-android-junit4
+          name: army-knife-android-junit4-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-camera
+          name: army-knife-camera-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-gms
+          name: army-knife-gms-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-junit
+          name: army-knife-junit-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-persistence
+          name: army-knife-persistence-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-reactivex
+          name: army-knife-reactivex-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-timber
+          name: army-knife-timber-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: army-knife-widgets
+          name: army-knife-widgets-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm
+          name: firearm-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm-channel
+          name: firearm-channel-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm-di
+          name: firearm-di-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm-event
+          name: firearm-event-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm-material-resources
+          name: firearm-material-resources-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm-persistence
+          name: firearm-persistence-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: firearm-rpc
+          name: firearm-rpc-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: kerberus
+          name: kerberus-test
+      - local-unit-test:
+          <<: *filter-for-assemble
+          <<: *depends-from-tests
+          module: oneshotlivedata
+          name: oneshotlivedata-test
 # EOF
